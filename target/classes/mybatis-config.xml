@@ -2,13 +2,13 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 
-	<typeAliases>
+<!-- 	<typeAliases>
 	
-		<!-- 
+		
 			***********************************************
 				typeAliases 각자 지정한 model클래스 지정하여 작성
 			***********************************************
-		-->
+		
 	</typeAliases>
 	
 	<mappers>
@@ -19,6 +19,6 @@
 		<mapper resource="mappers/product-mapper.xml"/>
 		<mapper resource="mappers/service-mapper.xml"/>
 		
-		<!-- 쿼리문 저장할곳 설정 -->
-	</mappers>
+		쿼리문 저장할곳 설정
+	</mappers> -->
 </configuration>
