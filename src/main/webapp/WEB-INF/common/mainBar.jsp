@@ -81,7 +81,7 @@
 						<li><a href="#about">마이페이지</a></li>
 					</c:if>
 					<c:if test="${ empty sessionScope.loginInfo }">
-						<li><a href="#" onclick="open_pop();">로그인/회원가입</a></li>
+						<li><span><a href="" onclick="open_pop();">로그인/회원가입</a></span>
 					</c:if>
 					<c:url var="logout" value="logout.me"></c:url>
 					<c:if test="${ !empty sessionScope.loginInfo }">
