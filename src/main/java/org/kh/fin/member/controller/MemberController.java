@@ -17,15 +17,21 @@ public class MemberController {
 	@Autowired
 	private MemberService mService;
 	
-
+	//네이버 로그인하기
 	@RequestMapping(value="callback.me")
 	public String loginSuccess() {
 		return "callback";
 	}
 	
+	//로그인 창 띄우기
 	@RequestMapping(value="loginMain.me")
 	public String MemberNaverLogin() {
 		return "loginMain";
+	}
+	
+	@RequestMapping(value="resister.me")
+	public String MemberResister() {
+		return "resisterMember";
 	}
 	
 	
