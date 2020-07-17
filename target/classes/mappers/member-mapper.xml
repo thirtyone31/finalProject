@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+
+	<resultMap type="Member" id="memberResultSet">
+		<id property="userId" column="USERID"/>
+		<result property="password" column="PASSWORD" />
+		<result property="userName" column="USERNAME" />
+		<result property="email" column="EMAIL" />
+		<result property="gender" column="GENDER" />
+		<result property="age" column="AGE" />
+		<result property="phone" column="PHONE" />
+		<result property="address" column="ADDRESS" />
+		<result property="enrollDate" column="ENROLL_DATE" />
+		<result property="updateDate" column="UPDATE_DATE" />
+		<result property="mStatus" column="M_STATUS" />
+	</resultMap>
+	
+	<!-- 로그인용 쿼리 -->
+	 <select id="selectOne" parameterType="Member" 
+			resultMap="memberResultSet">
+		SELECT * FROM MEMBER
+		WHERE USERID = #{userId }
+		AND M_STATUS = 'Y'			
+	</select>
+	
+	<insert id="insertMember" parameterType="Member">
+		INSERT INTO MEMBER
+		VALUES(#{userId}, #{password}, #{userName}
+				, #{email}, #{gender}, #{age}, 
+				#{phone}, #{address},
+				SYSDATE, SYSDATE, DEFAULT)
+	</insert>
+	
+	<!-- 아이디를 넘겨서 검색할 때 검색한 갯수를 리턴 -->
+	<select id="checkIdDup" parameterType="string" 
+			resultType="_int">
+		SELECT COUNT(*) FROM MEMBER WHERE USERID = #{userId}		
+	</select>
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER
+		SET EMAIL = #{email}, AGE = #{age},
+		PHONE = #{phone}, ADDRESS = #{address },
+		UPDATE_DATE = SYSDATE
+		WHERE USERID = #{userId }
+	</update>
+	
+	<update id="deleteMember" parameterType="string">
+		UPDATE MEMBER
+		SET M_STATUS = 'N'
+		WHERE USERID = #{userId }
+	</update>
+	
+	<select id="memberList" resultMap="memberResultSet" parameterType="Member">
+	 <!-- select일때는 resultMap가 필요함 update,insert,delete는 생략가능 -->
+	 SELECT * FROM MEMBER
+	 ORDER BY ENROLL_DATE DESC
+	</select>
+	
+	<update id="blackMember" parameterType="string">
+		UPDATE MEMBER
+		SET M_STATUS= 'B',UPDATE_DATE=SYSDATE
+		WHERE USERID= #{userId }
+	</update>
+	<update id="outMember" parameterType="string">
+		UPDATE MEMBER
+		SET M_STATUS= 'Y',UPDATE_DATE=SYSDATE
+		WHERE USERID= #{userId }
+	</update>
+	<select id="searchList" parameterType="Search" resultMap="memberResultSet">
+		SELECT * FROM MEMBER
+		<where>
+			<choose>
+				<when test="searchCondition == 'userid'">
+					USERID LIKE '%' || #{searchValue } || '%'
+				</when>
+				<when test="searchCondition == 'mStatus'">
+					AND M_STATUS LIKE '%' || #{searchValue } || '%'
+				</when>
+				<when test="searchCondition == 'all'">
+					AND USERID LIKE '%' || #{searchValue } || '%'
+					OR M_STATUS LIKE '%' || #{searchValue } || '%'
+				</when>
+			</choose>
+		</where>
+		ORDER BY UPDATE_DATE DESC
+	</select>
+	<!-- 댓글 관련된거 같음 -->
+	  <select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE M_STATUS='Y'
+	</select> 
+	<!-- 페이징처리관련 -->
+	<select id="selectList" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		ORDER BY USERID DESC
+	</select>
+	 <!-- 아이디찾기 -->
+<select id ="find_id" parameterType="string" resultType="string">
+	SELECT USERID FROM MEMBER WHERE EMAIL = #{email}
+</select>
+</mapper>
+
