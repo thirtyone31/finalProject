@@ -45,13 +45,18 @@ public class NoticeServiceImpl {
 		return nStore.deleteNotice(boardNo);
 	}
 
-	public ArrayList<NoticeBoard> searchList(Search search) {
+	public ArrayList<NoticeBoard> searchList(Search search,PageInfo pi) {
 		
-		return nStore.searchList(search);
+		return nStore.searchList(search,pi);
 	}
 
 	public int getListCount() {
 		return nStore.getListCount();
 	}
+	//검색후 페이징 처리 
+	public int getListSearchCount(Search search) {
+		return nStore.getListSearchCount(search);
+	}
+		
 
 }

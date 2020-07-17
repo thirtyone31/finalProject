@@ -113,7 +113,7 @@
 									<a href="${after }">[다음]</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								</c:if> <!-- 게시물 검색하기 -->
 								<div id="searchArea" align="center">
-									<form action="nsearch.do" name="searchForm" method="get">
+									<form action="listsearchView.do" name="searchForm" method="get">
 										<select id="searchCondition" name="searchCondition">
 											<option value="all"
 												<c:if test="${search.searchCondition == 'all' }">selected</c:if>>전체</option>

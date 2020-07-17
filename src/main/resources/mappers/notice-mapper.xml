@@ -64,7 +64,7 @@
 
 	<!-- WHERE 태그 -->
 
-	<select id="searchList" parameterType="Search"
+	<select id="searchList" parameterType="nSearch"
 		resultMap="noticeResultSet">
 		SELECT 	* 
 		FROM 	NOTICE_BOARD
@@ -82,7 +82,7 @@
 				<otherwise>
 					AND (MEMBER_ID LIKE '%' || #{searchValue } || '%'
 					OR TITLE LIKE '%' || #{searchValue } || '%'
-					OR CONTNET LIKE '%' || #{searchValue } || '%')
+					OR CONTENT LIKE '%' || #{searchValue } || '%')
 				</otherwise>
 			</choose>
 		</where>
@@ -118,6 +118,29 @@
 	<select id="getListCount" resultType="_int">
 		SELECT 	COUNT(*)
 		FROM 	NOTICE_BOARD
+	</select>
+	
+	<select id="getListSearchCount" parameterType="nSearch" resultType="_int">
+	SELECT 	COUNT(*)
+		FROM 	NOTICE_BOARD
+		<where>
+			<choose>
+				<when test="searchCondition == 'title'">
+					TITLE LIKE '%' || #{searchValue } || '%'
+				</when>
+				<when test="searchCondition == 'writer'">
+					AND MEMBER_ID LIKE '%' || #{searchValue } || '%'
+				</when>
+				<when test="searchCondition == 'content'">
+					AND CONTENT LIKE '%' || #{searchValue } || '%'
+				</when>
+				<otherwise>
+					AND (MEMBER_ID LIKE '%' || #{searchValue } || '%'
+					OR TITLE LIKE '%' || #{searchValue } || '%'
+					OR CONTENT LIKE '%' || #{searchValue } || '%')
+				</otherwise>
+			</choose>
+		</where>
 	</select>
 </mapper>
 

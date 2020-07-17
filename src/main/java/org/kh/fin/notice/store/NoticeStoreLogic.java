@@ -36,8 +36,18 @@ public class NoticeStoreLogic {
 
 	}
 	
-	public ArrayList<NoticeBoard> searchList(Search search){
-		return(ArrayList)sqlSession.selectList("noticeMapper.searchList",search);
+	public ArrayList<NoticeBoard> searchList(Search search,PageInfo pi){
+		 int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		   //mybatis의 RowBounds 클래스 사용
+		   //off : 5, boardLimit :10
+		   //off: 얼마나 건너 뛸것인가, 증가값
+		   //limit : 고정된 값, 내가 가져오고 싶은 갯수
+		   //단점 : 데이터가 많아지면 느려질 수 있음"
+		   //10건의 0건 만큼 건너뛰고 결과값을 가져옴 => 10개
+		   // 15건의 5건 만큼 건너뛰고 결과값을 가져옴
+		   //20건의 10건 만큼 건너뛰고 결과값을 가져옴
+		   RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return(ArrayList)sqlSession.selectList("noticeMapper.searchList",search,rowBounds);
 	}
 	
 	public NoticeBoard selectOne(int boardNo) {
@@ -57,6 +67,10 @@ public class NoticeStoreLogic {
 	}
 	public int getListCount() {
 		return sqlSession.selectOne("noticeMapper.getListCount");
+	}
+	public int getListSearchCount(Search search) {
+		System.out.println(search.getSearchValue());
+		return sqlSession.selectOne("noticeMapper.getListSearchCount",search);
 	}
 	
 }

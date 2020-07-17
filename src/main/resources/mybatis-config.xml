@@ -15,7 +15,7 @@
 		<typeAlias type="org.kh.fin.mypage.domain.OrderInfo" alias="OrderInfo"/>
 		<typeAlias type="org.kh.fin.notice.domain.NoticeBoard" alias="NoticeBoard" />
 		<typeAlias type="org.kh.fin.notice.domain.NoticeCategory" alias="NoticeCategory"/>
-		<typeAlias type="org.kh.fin.notice.domain.Search" alias="Search"/>
+		<typeAlias type="org.kh.fin.notice.domain.Search" alias="nSearch"/>
 		<!-- *********************************************** typeAliases 각자 지정한 
 			model클래스 지정하여 작성 *********************************************** -->
 
