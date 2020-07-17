@@ -1,5 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper>
-  <cache-ref namespace=""/>
+
+<mapper namespace="orderMapper">
+
+	<resultMap type="OrderDetail" id="orderDetailResultSet">
+	<id property="productNum" column="PRODUCT_NUM"></id>
+	<result property="orderNum" column="ORDER_NUM"></result>
+	<result property="orderQty" column="ORDER_QTY"></result>
+	<result property="productPrice" column="PRODCT_PRICE"></result>
+	</resultMap>
+
+	<resultMap type="Order" id="orderResultSet">
+	<id property="orderNum" column="ORDER_NUM"></id>
+	<result property="memberId" column="MEMBER_ID"></result>
+	<result property="orderName" column="ORDER_NAME"></result>
+	<result property="orderPhone" column="ORDER_PHONE"></result>
+	<result property="orderPost" column="ORDER_POST"></result>
+	<result property="orderAddress" column="ORDER_ADDRESS"></result>
+	<result property="orderAddressDetail" column="ORDER_ADDRESS_DETAIL"></result>
+	<result property="statusNum" column="STATUS_NUM"></result>
+	<result property="purchaseType" column="PURCHASE_TYPE"></result>
+	<result property="purchaseNum" column="PURCHASE_NUM"></result>
+	<result property="cdt" column="CDT"></result>
+	</resultMap>
+		
+	<insert id="insertOrderDetail" parameterType="OrderDetail">
+		INSERT INTO ORDER_DETAIL
+		VALUES(#{productNum},#{orderNum},#{orderQty},#{productPrice})
+	</insert>
+
+	<insert id="insertOrder" parameterType="Order">
+    	INSERT INTO ORDER_TB
+    	VALUES(#{orderNum},#{memberId},#{orderName},#{orderPhone},#{orderPost},#{orderAddress},
+    	#{orderAddressDetail},#{statusNum},#{purchaseType},#{purchaseNum},SYSDATE)
+	</insert>
+	
+	
+	<select id="getOrderNum" resultType="String">
+		SELECT	FN_GET_ORDER_NO AS ORDER_NUM
+		FROM	DUAL
+	</select>
+    
+	
+	
+	<select id="selectOrderDetail" parameterType="OrderDetail" resultMap="orderDetailResultSet">
+	SELECT *
+	FROM ORDER_DETAIL
+	WHERE ORDER_NUM='#{orderNum}'
+	</select>
+	
+
 </mapper>
+
+

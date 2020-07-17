@@ -130,7 +130,7 @@
 										.replace(
 												'editor1',
 												{
-													filebrowserUploadUrl : '${pageContext.request.contextPath}/fileupload.do'
+													filebrowserUploadUrl : 'nfileupload.do'
 												});
 							});
 						</script>

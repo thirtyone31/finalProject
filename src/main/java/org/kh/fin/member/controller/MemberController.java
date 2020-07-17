@@ -123,8 +123,8 @@ public class MemberController {
 			mv.addObject("loginInfo", loginInfo);
 			mv.setViewName("loginSuccess");
 		} else {
-			mv.addObject("실패");
-			mv.setViewName("http://www.naver.com");
+			mv.addObject("msg", "로그인 실패");
+			mv.setViewName("errorPage");
 		}
 
 		return mv;

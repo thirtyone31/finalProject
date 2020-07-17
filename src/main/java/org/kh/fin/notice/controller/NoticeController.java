@@ -176,7 +176,7 @@ public class NoticeController {
 	}
 */
 	// 자유게시판 사진 저장 서비스
-	@RequestMapping(value = "fileupload.do")
+	@RequestMapping(value = "nfileupload.do")
 	@ResponseBody
 	public String fileUpload(HttpServletRequest request, HttpServletResponse response,
 			MultipartHttpServletRequest multiFile) throws Exception {

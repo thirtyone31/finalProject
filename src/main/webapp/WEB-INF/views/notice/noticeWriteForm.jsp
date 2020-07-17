@@ -116,7 +116,7 @@
 
 							$(function() {
 								CKEDITOR.replace('editor1', {
-									filebrowserUploadUrl : "fileupload.do"
+									filebrowserUploadUrl : "nfileupload.do"
 								});
 							});
 						</script>

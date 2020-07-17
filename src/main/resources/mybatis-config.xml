@@ -15,7 +15,13 @@
 		<typeAlias type="org.kh.fin.mypage.domain.OrderInfo" alias="OrderInfo"/>
 		<typeAlias type="org.kh.fin.notice.domain.NoticeBoard" alias="NoticeBoard" />
 		<typeAlias type="org.kh.fin.notice.domain.NoticeCategory" alias="NoticeCategory"/>
-		<typeAlias type="org.kh.fin.notice.domain.Search" alias="Search"/>
+		<typeAlias type="org.kh.fin.notice.domain.Search" alias="nSearch"/>
+		<typeAlias type="org.kh.fin.freeboard.domain.FreeBoard" alias="FreeBoard"/>
+		<typeAlias type="org.kh.fin.freeboard.domain.FreeComment" alias="FreeComment"/>
+		<typeAlias type="org.kh.fin.freeboard.domain.Search" alias="fSearch"/>
+		<typeAlias type="org.kh.fin.product.domain.Product" alias="Product"/>
+		<typeAlias type="org.kh.fin.order.domain.Order" alias="Order"/>
+		<typeAlias type="org.kh.fin.order.domain.OrderDetail" alias="OrderDetail"/>
 		<!-- *********************************************** typeAliases 각자 지정한 
 			model클래스 지정하여 작성 *********************************************** -->
 
@@ -23,11 +29,12 @@
 
 	<mappers>
 		<mapper resource="mappers/mypage-mapper.xml"/>
-		<!-- <mapper resource="mappers/freeBoard-mapper.xml"/> -->
+		<mapper resource="mappers/freeBoard-mapper.xml"/>
 		<mapper resource="mappers/log-mapper.xml" />
 		<mapper resource="mappers/notice-mapper.xml" />
-		<!-- <mapper resource="mappers/order-mapper.xml"/> <mapper resource="mappers/orderReview-mapper.xml"/> 
-			<mapper resource="mappers/product-mapper.xml"/> <mapper resource="mappers/service-mapper.xml"/> -->
+		<mapper resource="mappers/product-mapper.xml"/>
+		<mapper resource="mappers/order-mapper.xml"/>
+		<!-- <mapper resource="mappers/orderReview-mapper.xml"/>  -->
 
 		<!-- 쿼리문 저장할곳 설정 -->
 	</mappers>

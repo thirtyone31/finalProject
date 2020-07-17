@@ -64,7 +64,7 @@
 
 	<!-- WHERE 태그 -->
 
-	<select id="searchList" parameterType="Search"
+	<select id="searchList" parameterType="nSearch"
 		resultMap="noticeResultSet">
 		SELECT 	* 
 		FROM 	NOTICE_BOARD
