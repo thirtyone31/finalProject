@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mypageMapper">
+	<resultMap type="WriteBoard" id="writeBoardResultSet">
+		<!-- <id property="bId" column="BID" /> -->
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="boardNum" column="BOARD_NUM" />
+		<result property="grpNum" column="GRP_NUM" />
+		<result property="categoryNum" column="CATEGORY_NUM" />
+		<result property="categoryName" column="CATEGORY_NAME" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="thumbNailFile" column="THUMBNAIL_FILE" />
+		<result property="cdt" column="CDT" />
+		<result property="mdt" column="MDT" />
+	</resultMap>
+	<resultMap type="OrderInfo" id="orderInfoResultSet">
+		<result property="orderNum" column="ORDER_NUM"/>
+		<result property="statusNum" column="STATUS_NUM"/>
+		<result property="statusName" column="STATUS_NAME"/>
+		<result property="productName" column="PRODUCT_NAME"/>
+		<result property="totalPrice" column="TOTAL_PRICE"/>
+		<result property="thumbNailFile" column="THUMBNAIL_FILE"/>
+		<result property="cdt" column="CDT"/>
+	</resultMap>
+
+
+	<select id="selectWriteList" parameterType="String" resultMap="writeBoardResultSet">
+		SELECT  *
+		FROM    TABLE(FN_GET_MY_WRITE_BOARD(#{memberId}))
+	</select>
+	<select id="writeCount" parameterType="String" resultType="_int">
+		SELECT  COUNT(0) AS CNT
+		FROM    TABLE(FN_GET_MY_WRITE_BOARD(#{memberId}))
+	</select>
+	<select id="selectOrderList" parameterType="String" resultMap="orderInfoResultSet">
+		SELECT  A.ORDER_NUM, A.STATUS_NUM, D.STATUS_NAME,
+		        MAX(C.PRODUCT_NAME) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_PATH IS NOT NULL AND C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END)) || (CASE WHEN COUNT(0) > 1 THEN ' 외 ' ||(COUNT(0)-1) || '건' END) AS PRODUCT_NAME,
+		        SUM(NVL(B.PRODUCT_QTY,0) * NVL(B.PRODUCT_PRICE, 0)) AS TOTAL_PRICE,
+		        (CASE WHEN MAX(C.PRODUCT_MAIN_PATH) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_PATH IS NOT NULL AND C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END)) IS NOT NULL
+		               AND MAX(C.PRODUCT_MAIN_NAME) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_PATH IS NOT NULL AND C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END)) IS NOT NULL THEN MAX(C.PRODUCT_MAIN_PATH) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_PATH IS NOT NULL AND C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END)) || MAX(C.PRODUCT_MAIN_NAME) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_PATH IS NOT NULL AND C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END))
+		                                                  ELSE NULL
+		                                                  END) AS THUMBNAIL_FILE,
+		        MAX(A.CDT) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_PATH IS NOT NULL AND C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END)) AS CDT
+		FROM    ORDER_TB   A
+		JOIN    ORDER_DETAIL B ON A.ORDER_NUM = B.ORDER_NUM
+		LEFT JOIN PRODUCT C ON B.PRODUCT_NUM = C.PRODUCT_NUM
+		LEFT JOIN STATUS_TB D ON A.STATUS_NUM = D.STATUS_NUM
+		WHERE   A.MEMBER_ID = #{memberId}
+		GROUP BY A.ORDER_NUM, A.STATUS_NUM, D.STATUS_NAME
+		ORDER BY A.ORDER_NUM DESC
+	</select>
+	<select id="orderCount" parameterType="String" resultType="_int">
+		SELECT	COUNT(0) AS CNT
+		FROM    ORDER_TB   A
+		WHERE   A.MEMBER_ID = #{memberId}
+	</select>
+	
+</mapper>

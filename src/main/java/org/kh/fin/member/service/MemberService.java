@@ -1,5 +1,7 @@
 package org.kh.fin.member.service;
 
+import java.util.Map;
+
 import org.kh.fin.member.domain.Member;
 
 public interface MemberService {
@@ -12,11 +14,22 @@ public interface MemberService {
 		 */
 		public Member loginMember(Member mem);
 		
-		public int checkIdDup(String userId);
+		public String checkIdDup(String userId);
 		
+		
+		/**
+		 * 회원가입..
+		 * @param mem
+		 * @return mem
+		 */
 		public int insertMember(Member mem);
 		
 		public int updateMember(Member mem);
 		
 		public int deleteMember(String id);
+
+		public String checkNickDup(String nickName);
+
+		public String findId(Map<String, String> params);
+
 }

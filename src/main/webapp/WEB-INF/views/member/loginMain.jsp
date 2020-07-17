@@ -31,19 +31,26 @@
 		<div class="txtb">
 			<input type="password" name="memberPwd"> <span data-placeholder="패스워드"></span>
 		</div>
+		
+		<center><a href="findIdPwd.me">아이디/비밀번호 찾기</a><br></center>
 
 		<input type="submit" class="logbtn" value="로그인">
 	<br>
 	<!-- 네이버아이디로로그인 버튼 노출 영역 -->
 	<div id="naverIdLogin"></div>
-	<div class="bottom-text">
-		계정이 없으신가요? <a href="resister.me">가입하기</a>
+	<div class="bottom-text">	
+		계정이 없으신가요? <a href="resister.me" onclick="closeWindows();">가입하기</a>
 
 	</div>
 	</form>
 
 
 	<script type="text/javascript">
+		function closeWindows(){
+			opener.location.href="agree.me";
+			window.close();
+		}
+	
 		$(".txtb input").on("focus", function() {
 			$(this).addClass("focus");
 		});
@@ -60,7 +67,7 @@
 			callbackUrl : "http://localhost:8989/callback.me",
 			isPopup : false, /* 팝업을 통한 연동처리 여부 */
 			loginButton : {
-				color : "green",
+				color : "green ",
 				type : 3,
 				height : 60
 			}

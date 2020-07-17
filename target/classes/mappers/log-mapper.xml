@@ -2,48 +2,61 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="memberMapper">
 
-
-
 	<resultMap type="Member" id="resultMemberSet">
-		<id property="memberId" column="MEMBER_ID"/>
-		<result property="memberPwd" column="MEMBER_PWD"/>
-		<result property="memberName" column="MEMBER_NAME"/>
-		<result property="nickName" column="MEMBER_NICKNAME"/>
-		<result property="gender" column="MEMBER_GENDER"/>
-		<result property="email" column="MEMBER_EMAIL"/>
-		<result property="birthDay" column="MEMBER_BIRTHDAY"/>
-		<result property="phone" column="MEMBER_PHONE"/>
-		<result property="post" column="MEMBER_POST"/>
-		<result property="address" column="MEMBER_ADDRESS"/>
-		<result property="addressDetail" column="MEMBER_ADDRESS_DETAIL"/>
-		<result property="status" column="STATUS"/>
-		<result property="gradeNum" column="GRADE_NUM"/>
-		<result property="cdt" column="CDT"/>
-		<result property="mdt" column="MDT"/>
+		<id property="memberId" column="MEMBER_ID" />
+		<result property="memberPwd" column="MEMBER_PWD" />
+		<result property="memberName" column="MEMBER_NAME" />
+		<result property="nickName" column="MEMBER_NICKNAME" />
+		<result property="gender" column="MEMBER_GENDER" />
+		<result property="email" column="MEMBER_EMAIL" />
+		<result property="birthDay" column="MEMBER_BIRTHDAY" />
+		<result property="phone" column="MEMBER_PHONE" />
+		<result property="post" column="MEMBER_POST" />
+		<result property="address" column="MEMBER_ADDRESS" />
+		<result property="addressDetail" column="MEMBER_ADDRESS_DETAIL" />
+		<result property="status" column="STATUS" />
+		<result property="gradeNum" column="GRADE_NUM" />
+		<result property="cdt" column="CDT" />
+		<result property="mdt" column="MDT" />
 	</resultMap>
-	
-	
-	<select id="loginUser" parameterType="Member" resultMap="resultMemberSet">
-		SELECT * 
-	FROM MEMBER
-	WHERE MEMBER_ID = #{memberId}
-	AND MEMBER_PWD = PKG_CRYPTO.encrypt(#{memberPwd})
-	AND STATUS = '1'
+
+	<select id="loginUser" parameterType="Member"
+		resultMap="resultMemberSet">
+		SELECT *
+		FROM MEMBER
+		WHERE MEMBER_ID = #{memberId}
+		AND MEMBER_PWD = FN_ENCRYPT_MD5(#{memberPwd})
+		AND STATUS = '1'
 	</select>
 
+	<insert id="insertMem" parameterType="Member">
+		INSERT INTO MEMBER
+		VALUES(#{memberId},FN_ENCRYPT_MD5(#{memberPwd}),#{memberName},#{nickName},#{gender},#{email},#{birthDay},#{phone},#{post},#{address},#{addressDetail},DEFAULT,DEFAULT,SYSDATE,SYSDATE)
+	</insert>
 
+	<select id="checkIdDup" parameterType="String" resultType="int">
+		select COUNT(MEMBER_ID) from MEMBER
+		WHERE MEMBER_ID = #{value}
+	</select>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<select id="findId_phone" parameterType="String"
+		resultType="String">
+		SELECT MEMBER_ID FROM MEMBER
+		WHERE MEMBER_PHONE = #{value}
+	</select>
+	<select id="findId_email" parameterType="String"
+		resultType="String">
+		SELECT MEMBER_ID FROM MEMBER
+		WHERE MEMBER_EMAIL = #{value}
+	</select>
+	<select id="findId_birth" parameterType="String"
+		resultType="String">
+		SELECT MEMBER_ID FROM MEMBER
+		WHERE BIRTHDAY = #{value}
+	</select>
+	<select id="checkNick" parameterType="String" resultType="int">
+		SELECT
+		COUNT(MEMBER_NICKNAME) FROM MEMBER
+		WHERE MEMBER_NICKNAME = #{value}
+	</select>
 </mapper>

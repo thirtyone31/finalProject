@@ -49,12 +49,13 @@
 
 			<div class="logo float-left">
 				<h1 class="text-light">
-					<a href="index.html"><span>어부바 ${loginInfo.memberName }</span></a>
+					<a href="/"><span>어부바 ${loginInfo.memberName }</span></a>
 				</h1>
 				<!-- Uncomment below if you prefer to use an image logo -->
 				<!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 			</div>
-
+			<c:url var="nlist" value="nlist.do"/>
+			
 			<nav class="nav-menu float-right d-none d-lg-block">
 				<ul>
 					<li class="active"><a href="index.html">홈</a></li>
@@ -75,10 +76,18 @@
 						</ul></li>
 
 					<li><a href="#services">커뮤니티</a></li>
-					<li><a href="#portfolio">자유게시판</a></li>
-					<li><a href="#team">고객센터</a></li>
+					<li><a href="#portfolio">자유게시판</a></li>			
+					<li><a href="${nlist }">고객센터</a></li>
+					
 					<c:if test="${ !empty sessionScope.loginInfo }">
-						<li><a href="#about">마이페이지</a></li>
+						<li class="drop-down"><a href="">마이페이지</a>
+							<ul>
+								<li><a href="myWriteList.do">내가 쓴 게시물</a></li>
+								<li><a href="myOrderList.do">구매내역</a></li>
+								<li><a href="#">장바구니</a></li>
+								<li><a href="#">관심상품</a></li>
+							</ul>
+						</li>
 					</c:if>
 					<c:if test="${ empty sessionScope.loginInfo }">
 						<li><a href="#" onclick="open_pop();">로그인/회원가입</a></li>

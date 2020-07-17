@@ -1,5 +1,7 @@
 package org.kh.fin.member.store.logic;
 
+import java.util.Map;
+
 import org.kh.fin.member.domain.Member;
 import org.kh.fin.member.store.MemberStore;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -21,13 +23,12 @@ public class MemberStoreLogic implements MemberStore{
 	@Override
 	public int insertMember(Member mem) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.insert("memberMapper.insertMem",mem);
 	}
 
 	@Override
 	public int checkIdDup(String userId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.selectOne("memberMapper.checkIdDup", userId);
 	}
 
 	@Override
@@ -40,6 +41,45 @@ public class MemberStoreLogic implements MemberStore{
 	public int deleteMember(String userId) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public String findId(Map<String, String> params) {
+		String result = "";
+		String findType = params.get("findType");
+		String key = params.get("key");
+		System.out.println("findType : " + findType);
+		System.out.println("key : " + key);
+		if("phone".equals(findType)) {
+			result = sqlSession.selectOne("memberMapper.findId_phone", key);
+		} else if ("email".equals(findType)) {
+			result = sqlSession.selectOne("memberMapper.findId_email", key);
+		} else if ("birth".equals(findType)) {
+			result = sqlSession.selectOne("memberMapper.findId_birth", key);
+		}
+		System.out.println("result : " + result);
+		
+		if(!"".equals(result) && result != null) {
+			StringBuffer sb = new StringBuffer();
+			
+			for(int i=0; i<result.length(); i++) {
+				if(i<3) {
+					sb.append(result.substring(i, i+1));
+				}else {
+					sb.append("*");
+				}
+			}
+			result = sb.toString();
+			
+		}
+		return result;
+		//return sqlSession.selectOne("memberMapper.findId", params);
+	}
+	
+	@Override
+	public int checkNick(String nick) {
+		
+		return sqlSession.selectOne("memberMapper.checkNick",nick);
 	}
 
 }
