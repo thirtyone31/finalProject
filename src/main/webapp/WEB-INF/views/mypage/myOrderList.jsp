@@ -38,7 +38,7 @@
 	<section id="portfolio" class="portfolio section-bg">
 		<div class="container" data-aos="fade-up" data-aos-delay="100">
 			<div class="row portfolio-container">
-				<div class="col-lg-4 col-md-6 portfolio-item filter-app">
+				<!-- <div class="col-lg-4 col-md-6 portfolio-item filter-app">
 					<div class="portfolio-wrap">
 						<img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid"
 							alt="">
@@ -53,7 +53,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<c:forEach var="orderInfo" items="${oList}" varStatus="i">
 					<div class="col-lg-4 col-md-6 portfolio-item filter-app">
 						<div class="portfolio-wrap">

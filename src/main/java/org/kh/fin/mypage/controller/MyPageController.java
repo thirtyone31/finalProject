@@ -32,14 +32,17 @@ public class MyPageController {
 		int boardLimit = 4; // 한 페이지에 보여질 게시글 갯수
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, pageLimit, boardLimit);
 		ArrayList<WriteBoard> wList = mypageService.selectWriteList(member.getMemberId(), pi);
-		if(!wList.isEmpty()) {
+		/*if(!wList.isEmpty()) {
 			mv.addObject("wList", wList);
 			mv.addObject("pi", pi);
 			mv.setViewName("mypage/myWriteList");
 		}else {
 			mv.addObject("msg", "내가 쓴 게시글 조회 실패");
 			mv.setViewName("common/errorPage");
-		}
+		}*/
+		mv.addObject("wList", wList);
+		mv.addObject("pi", pi);
+		mv.setViewName("mypage/myWriteList");
 		return mv;
 	}
 	
@@ -53,14 +56,17 @@ public class MyPageController {
 		int boardLimit = 6; // 한 페이지에 보여질 게시글 갯수
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, pageLimit, boardLimit);
 		ArrayList<OrderInfo> oList = mypageService.selectOrderList(member.getMemberId(), pi);
-		if(!oList.isEmpty()) {
+		/*if(!oList.isEmpty()) {
 			mv.addObject("oList", oList);
 			mv.addObject("pi", pi);
 			mv.setViewName("mypage/myOrderList");
 		}else {
 			mv.addObject("msg", "내가 쓴 게시글 조회 실패");
 			mv.setViewName("common/errorPage");
-		}
+		}*/
+		mv.addObject("oList", oList);
+		mv.addObject("pi", pi);
+		mv.setViewName("mypage/myOrderList");
 		return mv;
 	}
 }

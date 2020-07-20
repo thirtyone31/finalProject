@@ -65,7 +65,7 @@
 					<li><a href="${nlist }">고객센터</a></li>
 					
 					<c:if test="${ !empty sessionScope.loginInfo }">
-						<li class="drop-down"><a href="">마이페이지</a>
+						<li class="drop-down"><a href="/">마이페이지</a>
 							<ul>
 								<li><a href="myWriteList.do">내가 쓴 게시물</a></li>
 								<li><a href="myOrderList.do">구매내역</a></li>

@@ -14,10 +14,11 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </head>
 <body>
+   <jsp:include page="../common/mainBar.jsp"/>
    <section class="page-section bg-light" id="portfolio">
    
    <br style="clear:both">
-   <c:import url="../common/menuBar.jsp" />
+   
    <h1 align="center">${freeboard.boardNo }번 상세 보기</h1>
    
    <br><br>
@@ -49,7 +50,7 @@
    </tr>
    
                   
-   <c:if test="${loginUser.memberId eq freeboard.memberId or loginUser.memberId == 'admin'}">
+   <c:if test="${loginInfo.memberId eq freeboard.memberId or loginInfo.memberId == 'admin'}">
    <tr>
       <td colspan="2" align="center">
       <c:url var="fupdate" value="fupdateView.do">
@@ -158,7 +159,7 @@
 									$tr.append($cWriter);
 									$tr.append($cContent);
 									$tr.append($y);
-									if('${loginUser.memberId}' == data[i].memberId){
+									if('${loginInfo.memberId}' == data[i].memberId){
  										$tr.append($cChoice);
  										}else {
  										} 	
@@ -234,5 +235,6 @@
    </p>
    <br><br><br><br><br><br><br><br><br><br>
     </section>
+   <jsp:include page="../common/footer.jsp"/> 
 </body>
 </html>

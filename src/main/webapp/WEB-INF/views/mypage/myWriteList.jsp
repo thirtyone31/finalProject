@@ -37,7 +37,8 @@
 		<tbody>
 			<c:forEach var="wBoard" items="${wList}" varStatus="i">
 				<tr>
-					<td align="center"><c:choose>
+					<td align="center">
+						<c:choose>
 							<c:when test="${wBoard.grpNum eq 1}">${wBoard.categoryName}</c:when>
 							<c:when test="${wBoard.grpNum eq 2}">자유게시판</c:when>
 							<c:when test="${wBoard.grpNum eq 3}">${wBoard.categoryName}</c:when>
@@ -47,10 +48,20 @@
 						</c:if> <c:if test="${empty wBoard.thumbNailFile}">
 							<img alt="" src="/resources/images/common/thumbnail.svg">
 						</c:if></td>
-					<td align="left"><c:url var="bdetail" value="bdetail.kh">
-							<c:param name="bId" value="${wBoard.boardNum }" />
-							<c:param name="page" value="${pi.currentPage}" />
-						</c:url> <a href="${bdetail}">${wBoard.title}</a></td>
+					<td align="left">
+						<c:choose>
+							<c:when test="${wBoard.grpNum eq 1}">${wBoard.title}</c:when>
+							<c:when test="${wBoard.grpNum eq 2}">
+								<c:url var="fdetail" value="fdetail.do">
+									<c:param name="boardNo" value="${wBoard.boardNum}" />
+								</c:url><a href="${fdetail}">${wBoard.title}</a>
+							</c:when>
+							<c:when test="${wBoard.grpNum eq 3}">						
+								<c:url var="ndetail" value="ndetail.do">
+									<c:param name="boardNo" value="${wBoard.boardNum}" />
+								</c:url><a href="${ndetail}">${wBoard.title}</a>
+							</c:when>
+						</c:choose>
 					<td align="center">${wBoard.content}</td>
 					<td align="center">${wBoard.cdt}</td>
 				</tr>

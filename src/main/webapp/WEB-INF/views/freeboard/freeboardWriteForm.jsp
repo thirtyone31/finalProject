@@ -22,12 +22,12 @@
    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
    crossorigin="anonymous"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath }/ckeditor/ckeditor.js"></script>
+	src="/resources/ckeditor/ckeditor.js"></script>
 </head>
 
 <body id="page-top">
    <!-- 상단바-->
-   <c:import url="../common/menuBar.jsp" />
+   <c:import url="../common/mainBar.jsp" />
    <%-- <jsp:include page="../common/mainBar.jsp"></jsp:include> --%>
    <br>
    <br>
@@ -53,7 +53,7 @@
                
                
                <div class="form-group">
-                  <input type="text" name="memberId" value="${loginUser.memberId }"
+                  <input type="text" name="memberId" value="${loginInfo.memberId }"
                      readonly>
 
                </div>
@@ -87,7 +87,7 @@
             </form>
             
             <p align="center">
-		<c:url var="home" value="home.do" />
+		<c:url var="home" value="/" />
 		<a href="${ home }">시작페이지로 이동</a>&nbsp;
 		<c:url var="flist" value="flist.do" />
 		<a href="${ flist }">목록 전체보기</a>
@@ -99,7 +99,7 @@
          <br>
       </div>
    </section>
-   <%-- <jsp:include page="../common/footer.jsp"></jsp:include> --%>
+   <jsp:include page="../common/footer.jsp"></jsp:include>
    <!-- Bootstrap core JS-->
    <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

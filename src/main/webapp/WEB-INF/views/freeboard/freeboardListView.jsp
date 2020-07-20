@@ -32,7 +32,7 @@ src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <title>오더리뷰</title>
 </head>
 <body>
-<c:import url="../common/menuBar.jsp" />
+<c:import url="../common/mainBar.jsp" />
 <jsp:include page="/WEB-INF/common/mainBar.jsp"></jsp:include>
    <div class="container">
       <h2>자유게시판 <small>어부바</small></h2>	
@@ -62,7 +62,7 @@ src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 								</tr>
 
 
-								<c:if test="${loginUser.memberId eq item.memberId }">
+								<c:if test="${loginInfo.memberId eq item.memberId }">
 			<tr>
 			<c:url var="fupdate" value="fupdateView.do">
 			<c:param name="boardNo" value="${item.boardNo }"/>
@@ -81,7 +81,7 @@ src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 									<td colspan="2" align="center"><c:url var="flist"
 											value="flist.do">
 											<c:param name="page" value="${currentPage }" />
-										</c:url> <c:if test="${loginUser.memberId eq freeboard.memberId }">
+										</c:url> <c:if test="${loginInfo.memberId eq freeboard.memberId }">
 										
 										</c:if>
 										<a href="fupdateView.do">수정하기</a> &nbsp; <a href="fdelete.do">삭제하기</a> &nbsp;</td>
@@ -117,9 +117,9 @@ src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
 	  //자유게시판 게시글 펼치기  
       function showContent(num){		 
-    	     if(${empty loginUser }){
+    	     if(${empty loginInfo }){
     		alert  ("로그인 해 주세요");
-    	  }else if(${!empty loginUser }){        
+    	  }else if(${!empty loginInfo }){        
          if($("#content"+num).css("display")=="none"){
          $("#content"+num).css("display","block");
          getReplyList();
@@ -153,7 +153,7 @@ src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
  								for ( var i in data) {
  									//console.log(data)
  									//console.log(${'data[i].commentNum'});
- 									//console.log('${loginUser.memberId}');
+ 									//console.log('${loginInfo.memberId}');
  									$tr=$("<tr>");
  									//$li = $("<li>"); 
  									//$table = $("<table align='center' width='500' border='1' cellspacing='0' id='p' style='display:none'>");
@@ -164,7 +164,7 @@ src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
  									$y = $("<tr style='float:right'>").html("<td align='right'><button onclick='cDelete("+data[i].commentNum+")' >삭제</button></td><td align='right'><a href='${cupdate }'>수정</a></td><td align='right'><a href='#'>댓글</a></td>");
  									$n = $("<tr style='float:right'>").html("<td align='right'><a href='#'>댓글</a></td>");
  									//console.log(data[i].memberId);
- 									//console.log('${loginUser.memberId}' == data[i].memberId);
+ 									//console.log('${loginInfo.memberId}' == data[i].memberId);
  													
  									$cContent = $("<div class='contents'>").text(decodeURIComponent(data[i].cContent.replace(/\+/g, " ")));
  									//$rTable = $("<tr>").html("<td><textarea cols='55' rows='1' id='cContent'></textarea></td><td><button id='rSubmit'>등록하기</button></td>");
@@ -175,7 +175,7 @@ src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
  									$div.append($rWriter);
  									$div.append($rCreateDate);
  									//$div.append($result);
- 									 if('${loginUser.memberId}' == data[i].memberId){
+ 									 if('${loginInfo.memberId}' == data[i].memberId){
  										$div.append($y);
  										}else {
  											$div.append($n);
@@ -255,7 +255,7 @@ src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 검색쿼리 --> 
 <div id="searchArea" align="center">
 <!-- 글쓰기 버튼  -->
-			<c:if test="${loginUser.status != null }">
+			<c:if test="${loginInfo.status != null }">
 			<button onclick="location.href='fWriteView.do'">글쓰기</button>
 			</c:if>
 		<form action="fsearch.do" name="searchForm" method="get">

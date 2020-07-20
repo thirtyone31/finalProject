@@ -195,8 +195,8 @@ public class FreeBoardController {
 	@RequestMapping("cinsert.do")
 	@ResponseBody
 	public String addReply(FreeComment fc, HttpSession session) {
-		Member loginUser =(Member)session.getAttribute("loginUser");
-		String memberId = loginUser.getMemberId();
+		Member loginInfo =(Member)session.getAttribute("loginInfo");
+		String memberId = loginInfo.getMemberId();
 		fc.setMemberId(memberId);
 		int result = fService.insertFreeComment(fc);
 		if(result > 0) {
@@ -209,8 +209,8 @@ public class FreeBoardController {
 	@RequestMapping("cupdate.do")
 	@ResponseBody
 	public String updateComment(FreeComment fc, HttpSession session) {
-		Member loginUser =(Member)session.getAttribute("loginUser");
-		String memberId = loginUser.getMemberId();
+		Member loginInfo =(Member)session.getAttribute("loginInfo");
+		String memberId = loginInfo.getMemberId();
 		fc.setMemberId(memberId);
 		int result = fService.updateFreeComment(fc);
 		if(result > 0) {
