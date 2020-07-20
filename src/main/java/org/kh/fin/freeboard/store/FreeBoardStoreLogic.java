@@ -2,6 +2,7 @@ package org.kh.fin.freeboard.store;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.RowBounds;
 import org.kh.fin.common.PageInfo;
@@ -11,6 +12,7 @@ import org.kh.fin.freeboard.domain.Search;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Repository("fStore")
 public class FreeBoardStoreLogic implements FreeBoardStore {
@@ -46,9 +48,11 @@ public class FreeBoardStoreLogic implements FreeBoardStore {
 	}
 
 	@Override
-	public ArrayList<FreeBoard> searchList(Search search) {
+	public ArrayList<FreeBoard> searchList(Search search, PageInfo pi) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlsession.selectList("fBoardMapper.searchList", search);
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowbounds =new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlsession.selectList("fBoardMapper.searchList", search, rowbounds);
 	}
 
 	
@@ -74,6 +78,18 @@ public class FreeBoardStoreLogic implements FreeBoardStore {
 	public int deleteFreeComment(int commentNum) {
 		// TODO Auto-generated method stub
 		return sqlsession.delete("fBoardMapper.deleteComment", commentNum);
+	}
+
+	@Override
+	public FreeBoard selectFreeBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return sqlsession.selectOne("fBoardMapper.selectOne", boardNo);
+	}
+
+	@Override
+	public int updateFreeComment(FreeComment freecomment) {
+		// TODO Auto-generated method stub
+		return sqlsession.update("fBoardMapper.updateComment", freecomment);
 	}
 
 }

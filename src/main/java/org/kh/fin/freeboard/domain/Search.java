@@ -3,15 +3,15 @@ package org.kh.fin.freeboard.domain;
 public class Search {
 	
 	private String searchCondition;
-	private String serchValue;
+	private String searchValue;
 	
 	public Search() {
 	}
 
-	public Search(String searchCondition, String serchValue) {
+	public Search(String searchCondition, String searchValue) {
 		super();
 		this.searchCondition = searchCondition;
-		this.serchValue = serchValue;
+		this.searchValue = searchValue;
 	}
 
 	public String getSearchCondition() {
@@ -22,17 +22,17 @@ public class Search {
 		this.searchCondition = searchCondition;
 	}
 
-	public String getSerchValue() {
-		return serchValue;
+	public String getsearchValue() {
+		return searchValue;
 	}
 
-	public void setSerchValue(String serchValue) {
-		this.serchValue = serchValue;
+	public void setsearchValue(String searchValue) {
+		this.searchValue = searchValue;
 	}
 
 	@Override
 	public String toString() {
-		return "Search [searchCondition=" + searchCondition + ", serchValue=" + serchValue + "]";
+		return "Search [searchCondition=" + searchCondition + ", searchValue=" + searchValue + "]";
 	}
 	
 	

@@ -71,6 +71,7 @@
 								<li><a href="myOrderList.do">구매내역</a></li>
 								<li><a href="#">장바구니</a></li>
 								<li><a href="#">관심상품</a></li>
+								<li><a href="myPage.me">내 정보</a>
 							</ul>
 						</li>
 					</c:if>

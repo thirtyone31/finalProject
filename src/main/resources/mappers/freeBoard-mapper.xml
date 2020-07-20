@@ -43,20 +43,52 @@
 		FREE_BOARD
 		WHERE BOARD_STATUS = 'Y'
 	</select>
+	
+	<!-- 자유게시판 상세조회 쿼리 -->
+	<select id="selectOne" parameterType="_int" resultMap="freeboardResultSet">
+	SELECT *
+	FROM FREE_BOARD
+	WHERE BOARD_NO = #{boardNo} AND BOARD_STATUS = 'Y'
+	</select>
 
 	<!-- 자유게시판 검색용 쿼리 (마이바티스 동적 쿼리 사용) -->
+	<select id="searchList" parameterType="Search"
+		resultMap="freeboardResultSet">
+		SELECT * FROM FREE_BOARD
+		<where>
+			<choose>
+				<when test="searchCondition == 'title'">
+					TITLE LIKE '%' || #{searchValue } || '%'
+				</when>
+				<when test="searchCondition == 'writer'">
+					AND MEMBER_ID LIKE '%' || #{searchValue } || '%'
+				</when>
+				<when test="searchCondition == 'content'">
+					AND B_CONTENT LIKE '%' || #{searchValue } || '%'
+				</when>
+				<otherwise>
+					AND (MEMBER_ID LIKE '%' || #{searchValue } || '%'
+					OR TITLE
+					LIKE '%' || #{searchValue } || '%'
+					OR B_CONTENT LIKE '%' ||
+					#{searchValue } || '%')
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY MDT DESC
+	</select>
+	
 	<!-- 자유게시판 등록 쿼리 -->
 	<insert id="insertFreeboard" parameterType="FreeBoard">
 		INSERT INTO FREE_BOARD
-		VALUES(SEQ_FREE_BOARD.NEXTVAL, #{memberId}, #{title}, #{bContent}, SYSDATE, SYSDATE, DEFAULT)
+		VALUES(SEQ_BOARD_NO.NEXTVAL, #{memberId}, #{title}, #{bContent}, SYSDATE, SYSDATE, DEFAULT)
 	</insert>
 	
 	<!-- 자유게시판 수정 쿼리 -->
 	<update id="updateFreeboard" parameterType="FreeBoard">
 		UPDATE FREE_BOARD
-		SET
-		TITLE = #{title}, B_CONTENT = #{bContent}, MDT = SYSDATE
-		WHERE MEMBER_ID = #{memberId}
+		SET	TITLE = #{title}, B_CONTENT = #{bContent}, MDT = SYSDATE
+		WHERE BOARD_NO = #{boardNo}
 	</update>
 	
 	<!-- 자유게시판 삭제 쿼리 -->
@@ -69,7 +101,7 @@
 	<!-- 댓글 등록 쿼리 -->
 	<insert id="insertComment" parameterType="FreeComment">
 		INSERT INTO FREE_COMMENT
-		VALUES(SEQ_FREE_COMMENT.NEXTVAL, #{boardNo}, #{memberId}, #{cContent}, SYSDATE, SYSDATE,
+		VALUES(SEQ_COMMENT_NUM.NEXTVAL, #{boardNo}, #{memberId}, #{cContent}, SYSDATE, SYSDATE,
 		DEFAULT, DEFAULT, DEFAULT, DEFAULT)
 	</insert>
 	
@@ -88,5 +120,11 @@
 		SET COMMENT_STATUS = 'N'
 		WHERE COMMENT_NUM = #{commentNum}
 	</update>
-
+	
+	<!-- 댓글 수정 쿼리 -->
+	<update id="updateComment" parameterType="FreeComment">
+		UPDATE FREE_COMMENT
+		SET C_CONTENT = #{cContent}, MDT = SYSDATE
+		WHERE COMMENT_NUM = #{commentNum}
+	</update>
 </mapper>

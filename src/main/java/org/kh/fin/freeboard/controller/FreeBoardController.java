@@ -54,29 +54,62 @@ public class FreeBoardController {
 		int pageLimit = 10; // 한 페이지에서 보여질 페이징 수
 		int boardLimit = 5; // 한 페이지에 보여질 게시글 갯수
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, pageLimit, boardLimit);
+
 		ArrayList<FreeBoard> list = fService.freeBoardList(pi);
-		mv.addObject("list", list);
-		mv.addObject("pi", pi);
-		mv.setViewName("freeboard/freeboardListView");
-		/*if (!list.isEmpty()) {
+		
+		if (!list.isEmpty()) {
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
-			mv.setViewName("freeboard/freeboardListView");
+			mv.setViewName("freeboard/freeboardListViews");
 		} else {
 			mv.addObject("msg", "자유게시판 전체조회 실패");
 			mv.setViewName("common/errorPage");
-		}*/
+		}
 		return mv;
+	}
+	
+	// 자유게시판 상세 조회 서비스
+	@RequestMapping("fdetail.do")
+	public String noticeDetail(int boardNo, Model model) {
+		FreeBoard freeboard = fService.selectBoard(boardNo);
+		if (freeboard != null) {
+			model.addAttribute("freeboard", freeboard);
+			return "freeboard/freeboardDetailViews";
+		} else {
+			model.addAttribute("msg", "공지사항 상세조회 실패");
+			return "common/errorPage";
+		}
 	}
 
 	// 자유게시판 검색 서비스
 	@RequestMapping("fsearch.do")
-	public String freeboardSearch(Search search, Model model) {
+	/*public String freeboardSearch(Search search, Model model) {
 		ArrayList<FreeBoard> searchList = fService.searchList(search);
 
 		model.addAttribute("list", searchList);
 		model.addAttribute("search", search);
-		return "freeboard/freeboardListView";
+		return "freeboard/freeboardListViews";
+	}*/
+	public ModelAndView freeBoardSearch(Search search, ModelAndView mv, @RequestParam(value = "page", required = false) Integer page) {
+
+		int currentPage = (page != null) ? page : 1;
+		int listCount = fService.getListCount();
+		int pageLimit = 10; // 한 페이지에서 보여질 페이징 수
+		int boardLimit = 5; // 한 페이지에 보여질 게시글 갯수
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, pageLimit, boardLimit);
+
+		ArrayList<FreeBoard> searchList = fService.searchList(search, pi);
+		
+		if (!searchList.isEmpty()) {
+			mv.addObject("list", searchList);
+			mv.addObject("pi", pi);
+			mv.addObject("search", search);
+			mv.setViewName("freeboard/freeboardListViews");
+		} else {
+			mv.addObject("msg", "자유게시판 전체조회 실패");
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
 	}
 
 
@@ -104,20 +137,26 @@ public class FreeBoardController {
 	}
 
 	// 자유게시판 수정페이지 화면
-	/*@RequestMapping("fupdateView.do")
+	@RequestMapping("fupdateView.do")
 	public String updateFreeBoardView(int boardNo, Model model) {
-		model.addAttribute("freeboard", fService.);
-		return "freeboard/freeboardUpdateForm";
-	}*/
+		FreeBoard freeboard = fService.selectBoard(boardNo);
+		if (freeboard != null) {
+			model.addAttribute("freeboard", freeboard);
+			return "freeboard/freeboardUpdateForm";
+		} else {
+			model.addAttribute("msg", "공지사항 상세조회 실패");
+			return "common/errorPage";
+		}
+	}
 
-	// 자유게시판 수정[미완]
+	// 자유게시판 수정
 	@RequestMapping(value = "fupdate.do", method = RequestMethod.POST)
 	public String updateFreeBoard(FreeBoard freeboard, Model model, HttpServletRequest request) {
 		int result = 0;
 		String path = null;
 		System.out.println(model.toString());
 		System.out.println(freeboard.toString());
-		result = fService.insertFreeBoard(freeboard, request);
+		result = fService.updateFreeBoard(freeboard, request);
 		if (result > 0) {
 			path = "redirect:flist.do";
 		} else {
@@ -140,35 +179,46 @@ public class FreeBoardController {
 		}
 	}
 	// 자유게시판 댓글 조회 서비스
-	@RequestMapping(value="clist.do",method=RequestMethod.POST)
-	public void commentList(HttpServletResponse response, int boardNo) throws JsonIOException, IOException{
+	@RequestMapping("clist.do")
+	public void getReplyList(HttpServletResponse response, int boardNo) throws JsonIOException, IOException {
 		ArrayList<FreeComment> cList = fService.selectFreeCommentList(boardNo);
+		
 		for(FreeComment fc : cList) {
 			fc.setcContent(URLEncoder.encode(fc.getcContent(), "utf-8"));
 		}
-		Gson gson =new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(cList, response.getWriter());
 	}
+
 	// 자유게시판 댓글 등록 서비스
 	@RequestMapping("cinsert.do")
 	@ResponseBody
-	public String selectFreeCommentList(FreeComment fc, HttpSession session) {
-		//System.out.println("3"+fc);
-		Member loginInfo = (Member)session.getAttribute("loginInfo");
-		String memberId = loginInfo.getMemberId();
+	public String addReply(FreeComment fc, HttpSession session) {
+		Member loginUser =(Member)session.getAttribute("loginUser");
+		String memberId = loginUser.getMemberId();
 		fc.setMemberId(memberId);
 		int result = fService.insertFreeComment(fc);
-		System.out.println(memberId);
-		System.out.println(loginInfo);
-		System.out.println(result);
 		if(result > 0) {
 			return "success";
 		}else {
-			return "common/errorPage";
+			return "fail";
 		}
 	}
 	// 자유게시판 댓글 수정 서비스
-	// @RequestMapping("cupdate.do")
+	@RequestMapping("cupdate.do")
+	@ResponseBody
+	public String updateComment(FreeComment fc, HttpSession session) {
+		Member loginUser =(Member)session.getAttribute("loginUser");
+		String memberId = loginUser.getMemberId();
+		fc.setMemberId(memberId);
+		int result = fService.updateFreeComment(fc);
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 	// 자유게시판 댓글 삭제 서비스
 	@RequestMapping("cdelete.do")
 	@ResponseBody

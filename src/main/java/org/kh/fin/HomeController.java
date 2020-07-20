@@ -40,7 +40,8 @@ public class HomeController {
 			JSONObject jObject = new JSONObject();
 			response.setContentType("application/json");
 			response.setCharacterEncoding("utf-8");
-			
+			String APIKEY = "f5d561883458bced03bfe6b4283bd3b9";
+			//String APIKEY = "3321c6e817ec067d4099feef829b4fb7";
 			
 			//place 정보 추출
 			String url = request.getParameter("url").replace("http", "https");
@@ -68,7 +69,7 @@ public class HomeController {
 	        
 	        url 	= "http://api.openweathermap.org/data/2.5/weather?lat="
 					+ request.getParameter("lat")+"&lon="
-					+ request.getParameter("lon")+"&units=metric&appid=3321c6e817ec067d4099feef829b4fb7";
+					+ request.getParameter("lon")+"&units=metric&appid="+APIKEY;
 			
 	        infoURL = new URL(url);
 			
@@ -92,7 +93,7 @@ public class HomeController {
 	        //weather Daily 정보 추출
 	        url 	= "https://api.openweathermap.org/data/2.5/onecall?lat="
 					+ request.getParameter("lat")+"&lon="
-					+ request.getParameter("lon")+"&units=metric&%20exclude=daily&appid=3321c6e817ec067d4099feef829b4fb7";
+					+ request.getParameter("lon")+"&units=metric&%20exclude=daily&appid="+APIKEY;
 			
 	        infoURL = new URL(url);
 			

@@ -33,7 +33,7 @@ public class FreeBoardServicImpl implements FreeboardService {
 	}
 	
 	@Override
-	public int updateFreeBoard(FreeBoard freeboard) {
+	public int updateFreeBoard(FreeBoard freeboard, HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		return fStore.updateFreeBoard(freeboard);
 	}
@@ -45,9 +45,9 @@ public class FreeBoardServicImpl implements FreeboardService {
 	}
 
 	@Override
-	public ArrayList<FreeBoard> searchList(Search search) {
+	public ArrayList<FreeBoard> searchList(Search search, PageInfo pi) {
 		// TODO Auto-generated method stub
-		return fStore.searchList(search);
+		return fStore.searchList(search, pi);
 	}
 
 	@Override
@@ -73,6 +73,18 @@ public class FreeBoardServicImpl implements FreeboardService {
 	public int deleteFreeComment(int commentNum) {
 		// TODO Auto-generated method stub
 		return fStore.deleteFreeComment(commentNum);
+	}
+
+	@Override
+	public FreeBoard selectBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return fStore.selectFreeBoard(boardNo);
+	}
+
+	@Override
+	public int updateFreeComment(FreeComment freeComment) {
+		// TODO Auto-generated method stub
+		return fStore.updateFreeComment(freeComment);
 	}
 
 

@@ -1,5 +1,6 @@
 package org.kh.fin.freeboard.service;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import org.kh.fin.common.PageInfo;
 import org.kh.fin.freeboard.domain.FreeBoard;
 import org.kh.fin.freeboard.domain.FreeComment;
 import org.kh.fin.freeboard.domain.Search;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface FreeboardService {
 
@@ -28,7 +30,7 @@ public interface FreeboardService {
 	 * @param freeboard
 	 * @return result
 	 */
-	public int updateFreeBoard(FreeBoard freeboard);
+	public int updateFreeBoard(FreeBoard freeboard, HttpServletRequest request);
 	/** 자유게시판 삭제 서비스
 	 * 
 	 * @param boardNo
@@ -40,7 +42,7 @@ public interface FreeboardService {
 	 * @param search
 	 * @return searchList
 	 */
-	public ArrayList<FreeBoard> searchList(Search search);
+	public ArrayList<FreeBoard> searchList(Search search, PageInfo pi);
 	/** 자유게시판 댓글 조회
 	 * 
 	 * @param boardNo
@@ -59,5 +61,19 @@ public interface FreeboardService {
 	 * @return result
 	 */
 	public int deleteFreeComment(int commentNum);
+	
+	/** 자유게시판 댓글 등록 서비스
+	 * 
+	 * @param freeComment
+	 * @return result
+	 */
+	public int updateFreeComment(FreeComment freeComment);
+
+	/** 자유게시판 상세 조회
+	 * 
+	 * @param boardNo
+	 * @return
+	 */
+	public FreeBoard selectBoard(int boardNo);
 	
 }
