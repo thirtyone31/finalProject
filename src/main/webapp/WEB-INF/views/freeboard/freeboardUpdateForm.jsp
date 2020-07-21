@@ -68,7 +68,7 @@
                      id="exampleFormControlInput1" value="${freeboard.title}">
                </div>
                <div class="form-group">
-                  <textarea name="bContent" id="editor1" rows="10"  value="${freeboard.bContent}"></textarea>
+                  <textarea name="bContent" id="editor1" rows="10"  >${freeboard.bContent}</textarea>
                   <script type="text/javascript">
                      // Replace the <textarea id="editor1"> with a CKEditor 4
                      // instance, using default configuration.

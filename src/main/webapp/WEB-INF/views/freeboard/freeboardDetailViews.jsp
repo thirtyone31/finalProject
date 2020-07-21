@@ -12,6 +12,30 @@
    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+<style type="text/css">
+.btn-custom {
+  background-color: #52768D !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#768FA6", endColorstr="#768FA6");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#768FA6), to(#768FA6));
+  background-image: -moz-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -ms-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #768FA6), color-stop(100%, #768FA6));
+  background-image: -webkit-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -o-linear-gradient(top, #768FA6, #768FA6);
+  background-image: linear-gradient(#768FA6, #768FA6);
+  border-color: #768FA6 #768FA6 #52768D;
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.16);
+  -webkit-font-smoothing: antialiased;
+  margin :1px;
+}
+.table{
+width: 80%;
+}
+</style>
+
 </head>
 <body>
    <jsp:include page="../common/mainBar.jsp"/>
@@ -19,7 +43,7 @@
    
    <br style="clear:both">
    
-   <h1 align="center">${freeboard.boardNo }번 상세 보기</h1>
+   <h1 align="center">${freeboard.boardNo }번 자유 게시글</h1>
    
    <br><br>
    
@@ -27,9 +51,11 @@
 
             
    <br><br>
-   <table align="center" width="450" border="1" cellspacing="0" class="table">
+   <div width="1200px" align="center" class="container">
+   <table align="center" border="0" cellspacing="0" class="table table-bordered">
+   <tbody>
    <tr >
-      <td width="80">번호</td>
+      <td width="90">번호</td>
       <td>${freeboard.boardNo }</td>
    </tr>
    <tr >
@@ -48,7 +74,7 @@
       <td>내용</td>
       <td>${freeboard.bContent }</td>
    </tr>
-   
+   </tbody>
                   
    <c:if test="${loginInfo.memberId eq freeboard.memberId or loginInfo.memberId == 'admin'}">
    <tr>
@@ -66,10 +92,11 @@
    </tr>
    </c:if>
 </table>
+</div>
 
 
 <!-- 댓글 목록  -->
-	<table id="ctb" align="center" width="1000" border="1" cellspacing="0">
+	<table id="ctb" align="center" width="1000" border="0" cellspacing="0">
 		<thead>
 			<tr>
 				<td colspan="4"><b id="cCount"></b></td>
@@ -77,14 +104,16 @@
 		</thead>
 		<tbody></tbody>
 	</table>
-
+<br>
 <!-- 댓글 등록  -->
-	<table align="center" width="1000" border="1" cellspacing="0">
+	<table align="center" width="1000" border="0" cellspacing="0">
 		<tr>
-			<td><textarea cols="125" rows="3" id="cContent"></textarea></td>
+			<td><textarea cols="100" rows="5" id="cContent"></textarea></td>
+			
 			<td>
-				<button id="cSubmit">등록하기</button>
+				<button id="cSubmit" class="btn btn-custom">등록</button>
 			</td>
+			
 		</tr>
 	</table>
 
@@ -109,9 +138,11 @@
 					data : {cContent:cContent, boardNo:boardNo},
 					type : "post",
 					success : function(data) { // data를 String으로 받아옴, 이전에는 json
-						if(data == "success") { 
+						if(data == "success") {
+							alert("댓글이 등록 되었습니다.");
 							getReplyList();
 							$("#cContent").val("");
+							
 						}
 					}
 				});
@@ -144,15 +175,15 @@
 							if (data.length > 0) {
 								for ( var i in data) {
 									/* console.log(data[i].commentNum); */
-									$tr = $("<tr>"); // 자동으로 닫힘
-									 $y=$("<td id='inputComment("+data[i].commentNum+")'style='display:none' >").html("<input type='text' id='inComment("+data[i].commentNum+")'  placeholder="+decodeURIComponent(data[i].cContent.replace(/\+/g, ""))+"><button onclick='cUpdate("+data[i].commentNum+")'>확인</button><button onclick='cCancel("+data[i].commentNum+")'>취소</button>");
+									$tr = $("<tr style='border-bottom: 1px solid #dddddd;'>"); // 자동으로 닫힘									
+									 $y=$("<td id='inputComment("+data[i].commentNum+")'style='display:none' >").html("<input type='text' id='inComment("+data[i].commentNum+")'  placeholder="+decodeURIComponent(data[i].cContent.replace(/\+/g, ""))+"><button onclick='cUpdate("+data[i].commentNum+")' class='btn btn-custom btn-sm'>확인</button> <button onclick='cCancel("+data[i].commentNum+")' class='btn btn-custom btn-sm'>취소</button>");
 									$cWriter = $("<td width='100'>").text(
 											data[i].memberId);
 									$cContent = $("<td id='mainComment("+data[i].commentNum+")'>").text(
 											decodeURIComponent(data[i].cContent
 													.replace(/\+/g, " ")));
 									/* $y=$("<input type='text' placeholder="+decodeURIComponent(data[i].cContent)+">"); */
-									$cChoice = $("<td width='100'>").html("<button onclick='cDelete("+data[i].commentNum+")' >삭제</button><button onclick='cUpdatelist("+data[i].commentNum+")'>수정</button>");
+									$cChoice = $("<td width='110'>").html("<button onclick='cDelete("+data[i].commentNum+")' class='btn btn-custom btn-sm' >삭제</button> <button onclick='cUpdatelist("+data[i].commentNum+")' class='btn btn-custom btn-sm'>수정</button>");
 									$cCreateDate = $("<td width='100'>").text(
 											data[i].cdt);
 
@@ -161,16 +192,16 @@
 									$tr.append($y);
 									if('${loginInfo.memberId}' == data[i].memberId){
  										$tr.append($cChoice);
- 										}else {
- 										} 	
-									$tr.append($cCreateDate);
-									$tableBody.append($tr);
+ 										}else{
+ 											$tr.append("<td width='110'>");
+ 										}	
+									$tr.append($cCreateDate);									
+									$tableBody.append($tr);					
 								}
 							} else {
-								$tr = $("<tr>");
+								$tr = $("<tr style='border-bottom: 1px solid #dddddd;'>");
 								$cContent = $("<td colspan='3'>").text(
 										"등록된 댓글이 없습니다.");
-
 								$tr.append($cContent);
 								$tableBody.append($tr);
 							}
@@ -186,6 +217,7 @@
 				type : "get",
 				success : function(data) { // data를 String으로 받아옴, 이전에는 json
 					if(data == "success") {
+						alert("댓글이 삭제 되었습니다.");
 						location.reload(true);
 					}
 				}		
@@ -215,6 +247,7 @@
 					type : "post",
 					success : function(data) { // data를 String으로 받아옴, 이전에는 json
 						if(data == "success") {
+							alert("댓글이 수정 되었습니다.");
 							getReplyList();
 							
 						}
