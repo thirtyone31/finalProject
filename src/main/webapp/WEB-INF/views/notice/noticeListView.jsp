@@ -27,27 +27,27 @@
 		<div class="container">
 			<!--메인 콘텐츠 위치-->
 			<div class="row">
-
 				<!--제목 위치-->
-				<div class="col-11 col-md-9">
+				 <div class="col-11 col-md-5">
 					<span class="h2">고객센터</span>
 
 				</div>
 				<!--글쓰기 버튼-->
-				<div class="col-md-2 d-flex justify-content-end">
+				<div class="col-md-7 d-flex justify-content-end">
 					<c:if test="${!empty loginInfo }">
 						<c:url var="writer" value="nWriterView.do" />
 						<a href="${writer }" type="button">글 작성</a>&nbsp;&nbsp;&nbsp;&nbsp;
      				</c:if>
 					<c:url var="home" value="/" />
-					<a href="${home }" type="button">시작페이지로 이동</a>&nbsp;&nbsp;&nbsp;
+					<a href="${home }"   type="button">시작페이지로</a>&nbsp;&nbsp;&nbsp;
 					<c:url var="nlist" value="nlist.do" />
-					<a href="${nlist }" type="button">목록 전체보기</a>
+					<a href="${nlist }" type="button" type="button">전체목록</a>
 				</div>
-			</div>
+				</div>
 			<hr>
-			<br>
+			<br> 
 			<!--콘텐츠 페이지 내용 위치-->
+			
 			<div>
 				<table class="table table-hover">
 					<thead>
@@ -79,7 +79,10 @@
 								<td>${n.cdt}</td>
 							</tr>
 						</c:forEach>
-						<!-- 페이징 처리 -->
+						</table>
+						
+						<%--  <!-- 페이징 처리 -->
+						<nav aria-label="Page navigation example">
 						<tr align="center" height="20">
 							<td colspan="6">
 								<!-- [이전] --> 
@@ -111,7 +114,62 @@
 										<c:param name="page" value="${pi.currentPage + 1 }" />
 									</c:url>
 									<a href="${after }">[다음]</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								</c:if> <!-- 게시물 검색하기 -->
+								</c:if> 
+								</nav>	 --%>
+ 					
+ 					
+ 					<!-- 페이징 처리 -->
+                  <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-center">
+                         <li class="page-item">
+                           <!-- [이전] -->
+                           <c:if test="${pi.currentPage <= 1 }">
+                                    <li class="page-item disabled">
+                              <a class="page-link" href="#" tabindex="-1"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a>
+                            </li>
+                              </c:if>
+                              <c:if test="${pi. currentPage > 1 }">
+                           <c:url var="before" value="flist.do">
+                              <c:param name="page" value="${pi.currentPage - 1 }" />
+                           </c:url>
+                           <a class="page-link" href="${before }" aria-label="Previous">
+                               <span aria-hidden="true">&laquo;</span>
+                             <span class="sr-only">Previous</span>
+                              </a>
+                              </c:if> 
+                            </li>
+                  <c:forEach var="p"   begin="${pi.startPage }" end="${pi.endPage }">
+                        <c:if test="${p eq pi.currentPage }">
+                           <li class="page-item active"><a class="page-link" href="${pagination }">${p }<span class="sr-only">(current)</span></a></li>
+                        </c:if>
+                        <c:if test="${p ne pi.currentPage }">
+                           <c:url var="pagination" value="flist.do">
+                              <c:param name="page" value="${p }" />
+                           </c:url>                     
+                            <li class="page-item"><a class="page-link" href="${pagination }">${p }</a></li>
+                              </c:if>
+                  </c:forEach>
+                         <li class="page-item">
+                         <!-- [다음] -->
+                         <c:if test="${pi.currentPage >= pi.maxPage }">
+                                 <li class="page-item disabled">
+                           <a class="page-link" href="#" tabindex="-1"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a>
+                         </li>
+                              </c:if>
+                              <c:if test="${pi. currentPage < pi.maxPage }">
+                           <c:url var="after" value="flist.do">
+                              <c:param name="page" value="${pi.currentPage + 1 }" />
+                           </c:url>
+                           <a class="page-link" href="${after }" aria-label="Next">
+                             <span aria-hidden="true">&raquo;</span>
+                             <span class="sr-only">Next</span>
+                              </a>
+                              </c:if>
+                         </li>
+                       </ul>
+                  </nav>								
+								
+								<!-- 게시물 검색하기 -->
 								<div id="searchArea" align="center">
 									<form action="listsearchView.do" name="searchForm" method="get">
 										<select id="searchCondition" name="searchCondition">
@@ -132,10 +190,35 @@
 							</td>
 						</tr>
 					</tbody>
-				</table>
+				
 				<br>
 			</div>
 		</div>
 	</section>
     <jsp:include page="../common/footer.jsp"/>
 </body></html>
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
