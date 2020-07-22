@@ -24,6 +24,7 @@
 		<typeAlias type="org.kh.fin.product.domain.ProductInCart" alias="ProductInCart"/>
 		<typeAlias type="org.kh.fin.order.domain.Order" alias="Order"/>
 		<typeAlias type="org.kh.fin.order.domain.OrderDetail" alias="OrderDetail"/>
+
 		<!-- *********************************************** typeAliases 각자 지정한 
 			model클래스 지정하여 작성 *********************************************** -->
 

@@ -62,20 +62,45 @@ public class NoticeController {
 		}*/
 		return mv;
 	}
+	
+	//검색후 페이징 처리
+		@RequestMapping("listsearchView.do")
+		public ModelAndView noticeSearchList(Search search,ModelAndView mv, 
+				@RequestParam(value="page",required= false)Integer page) {
+			int currentPage = (page != null ) ? page : 1 ;
+			System.out.println(currentPage);
+			int listCount = nService.getListSearchCount(search);
+			//검색했을때 #{searchValue }의 갯수만큼 카운터 할수 있도록 처리 
+			int pageLimit = 10;//한 페이지에서 보여질 페이징수
+			int boardLimit = 5;//한 페이지에서 보여질 게시글의 갯수
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, pageLimit, boardLimit);
+			
+			ArrayList<NoticeBoard> list = nService.searchList(search,pi);
+			
+			mv.addObject("list",list);
+			mv.addObject("pi",pi);
+			mv.setViewName("notice/noticeListView");
+			//검색하고 해당 내용이 없을때 오류 페이지가 아니라 해당페이지에 
+			//그냥 그대로 남을수 있도록 한다 
+			return mv;
+		}
+		
 
-	@RequestMapping("nsearch.do")
+			
+
+	/*@RequestMapping("nsearch.do")
 	public String noticeSearch(Search search, Model model,
 			@RequestParam(value = "page", required = false) Integer page) {
-		/*
+		
 		 * integer : 정수 -Wrapper 클래스(객체) -null 값을 처리할 수 있다 -null 값을 처리할 수 있기 때문에 SQL과
 		 * 연동할 경우 처리가 용이하다 -DB에서 자료형이 정수형이지만 null값이 필요할 경우 사용한다
-		 */
+		 
 		ArrayList<NoticeBoard> searchList = nService.searchList(search);
 
 		model.addAttribute("list", searchList);
 		model.addAttribute("search", search);
 		return "notice/noticeListView";
-	}
+	}*/
 
 	// 상세보기
 	@RequestMapping("ndetail.do")
