@@ -156,7 +156,7 @@
                     </tbody>
                     <tfoot>
                     	<tr>
-                    		<td><input type="button" value="선택삭제" class="btn btn-danger"></td>
+                    		<td><input type="button" value="선택삭제" class="btn btn-danger" onclick="javascript:chkDel()"></td>
                     		<td colspan="5" align = "right">배송비 : </td>
                     		<td align="center">2500원</td>
                     		<td align="center">총액 : </td>
@@ -173,12 +173,27 @@
 		<script type="text/javascript">
 			var flag="true";
 			function chkAll(){
-				if(flag == "true")
+				if(flag == "true"){
+					for(var i=0; i<$("input[name^='chk']").length; i++){
+						$("input[name^='chk']")[i].checked = true;
+					}
 					flag = "false";
-				else{
+				}else{
+					for(var i=0; i<$("input[name^='chk']").length; i++){
+						$("input[name^='chk']")[i].checked = false;
+					}
 					flag = "true";
 				}
 			}
+			
+			function chkDel(){
+				for(var i=$("input[name^='chk']").length-1; i>=0; i--){
+					$($("input[name^='chk']")[i]).parent().parent().remove();
+				}
+				calcTotalPrice();
+			}
+			
+			
 			function calcTotalPrice(){
 				var regexp = /\B(?=(\d{3})+(?!\d))/g;
 				var sum = 0;
