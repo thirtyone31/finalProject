@@ -88,4 +88,11 @@ public class ProductInCart {
 				+ ", productPrice=" + productPrice + ", productSize=" + productSize + ", productColor=" + productColor
 				+ ", orderQty=" + orderQty + "]";
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		ProductInCart product = (ProductInCart)obj;
+		return this.productNum == product.getProductNum();
+	}
 }

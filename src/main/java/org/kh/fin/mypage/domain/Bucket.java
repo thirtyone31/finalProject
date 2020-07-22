@@ -36,5 +36,10 @@ public class Bucket {
 	public String toString() {
 		return "Bucket [productNum=" + productNum + ", cnt=" + cnt + "]";
 	}
-	
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		Bucket bucket = (Bucket)obj;
+		return this.productNum == bucket.getProductNum();
+	}
 }

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.kh.fin.member.domain.Member;
 import org.kh.fin.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,8 +134,9 @@ public class MemberController {
 
 	// 로그아웃
 	@RequestMapping("logout.me")
-	public String MemberLogout(SessionStatus status) {
+	public String MemberLogout(SessionStatus status, HttpSession session) {
 		status.setComplete();
-		return "redirect:index.jsp";
+		session.invalidate();
+		return "redirect:/";
 	}
 }

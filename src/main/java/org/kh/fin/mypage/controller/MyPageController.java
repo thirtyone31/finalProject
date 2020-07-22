@@ -24,9 +24,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import sun.net.www.content.text.plain;
+
 @Controller
+@SessionAttributes({"pList"})
 public class MyPageController {
 	
 	@Autowired
@@ -165,5 +169,33 @@ public class MyPageController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="delCart.do")
+	public void delCart(HttpServletRequest request, HttpServletResponse response, 
+			@RequestParam(value="list", required = false) ArrayList<Integer> list){
+		HttpSession session = request.getSession();
+		
+		ArrayList<ProductInCart> pList = (ArrayList<ProductInCart>) session.getAttribute("pList");
+		ArrayList<Bucket> cart = (ArrayList<Bucket>) session.getAttribute("cart");
+		
+		for (ProductInCart productInCart : pList) {
+			for (Integer pNum : list) {
+				if(productInCart.getProductNum() == pNum) {
+					pList.remove(pList.indexOf(productInCart));
+				}
+			}
+		}
+		
+		for(Bucket bucket : cart) {
+			for (Integer pNum : list) {
+				if(bucket.getProductNum() == pNum) {
+					cart.remove(cart.indexOf(bucket));
+				}
+			}
+		}
+		session.setAttribute("pList", pList);
+		session.setAttribute("cart", cart);
 	}
 }

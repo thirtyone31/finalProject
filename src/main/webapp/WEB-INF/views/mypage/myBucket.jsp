@@ -133,21 +133,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                    	<c:forEach var="product" items="${pList}">
+                    	<c:forEach var="product" items="${pList}" varStatus="i">
                         <tr>
-                        	<input type="hidden" name="productNum" value="${product.productNum}">
-                        	<td><input type="checkbox" name="chk${product.productNum}"></td>
+                        	<input type="hidden" name="productNum${i.index}" value="${product.productNum}">
+                        	<td><input type="checkbox" name="chk${i.index}"></td>
                             <td><img src="/resources/images/productImg/${product.productMainName}" width="100px;" height="100px;"><br></td>
-                            <td><input type="hidden" name="prodcutNum${product.productNum}" value="${product.productName}">${product.productName}</td>
+                            <td><input type="hidden" name="prodcutNum${i.index}" value="${product.productName}">${product.productName}</td>
                             <td>${product.productSize}</td>
                             <td>${product.productColor}</td>
-                            <td><input type="number" id="${product.productNum}" name="orderQty${product.productNum}" min="1" max="100" step="1" value="${product.orderQty}"></td>
-                            <td><input type="hidden" name="productPrice${product.productNum}" value="${product.productPrice}">
+                            <td><input type="number" id="${i.index}" name="orderQty${i.index}" min="1" max="100" step="1" value="${product.orderQty}"></td>
+                            <td><input type="hidden" name="productPrice${i.index}" value="${product.productPrice}">
                             <fmt:formatNumber value="${product.productPrice}" pattern="#,###"/>원</td>
                             <td><input type="hidden" name="dcRate" value="${dcRate}">${dcRate}%</td>
                             <!-- 이부분 토탈이라서 확인해야됨 -->
-                            <td id = "calcPrice${product.productNum}">
-                            	<input 	type="hidden" name="sumPrice${product.productNum}" 
+                            <td id = "calcPrice${i.index}">
+                            	<input 	type="hidden" name="sumPrice${i.index}" 
                     					value=<fmt:formatNumber value="${product.productPrice*((100-dcRate)/100)*product.orderQty}" type="number"/>>
                     			<fmt:formatNumber value="${product.productPrice*((100-dcRate)/100)*product.orderQty}" type="number"/>원
                     		</td>
@@ -187,17 +187,31 @@
 			}
 			
 			function chkDel(){
+				var list = new Array();
 				for(var i=$("input[name^='chk']").length-1; i>=0; i--){
-					$($("input[name^='chk']")[i]).parent().parent().remove();
+					if($("input[name^='chk']")[i].checked){
+						$($("input[name^='chk']")[i]).parent().parent().remove();
+						list.push($("input[name='productNum"+$("input[name^='chk']")[i].name.replace("chk", "")+"']").val());
+					}
 				}
 				calcTotalPrice();
+				
+				$.ajax({
+					url : "delCart.do",
+					type : "get",
+					success : function(data) {
+						$("#icon"+num)[0].className = data.src;
+						$("#fCnt"+num)[0].innerHTML = "좋아요 : " + data.cnt;
+					},
+					error : function() {
+						console.log("실패");
+					}
+				}); 
 			}
-			
 			
 			function calcTotalPrice(){
 				var regexp = /\B(?=(\d{3})+(?!\d))/g;
 				var sum = 0;
-				
 				for(var i = 0; i < $("input[name^='sumPrice']").length; i++){
 					sum =  sum + parseInt($($("input[name^='sumPrice']")[i]).val().replace(",", ""));
 				}
@@ -223,8 +237,6 @@
 				$("#calcPrice"+id).html(txt);
 				calcTotalPrice();
 			});
-			
-
 		</script>
 	</body>
 </html>
