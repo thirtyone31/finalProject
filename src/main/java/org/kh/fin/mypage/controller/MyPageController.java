@@ -196,6 +196,7 @@ public class MyPageController {
 				}
 			}
 		}
+		
 		session.setAttribute("pList", pList);
 		session.setAttribute("cart", cart);
 	}

@@ -202,9 +202,6 @@
 					url : "delCart.do",
 					type : "POST",
 					data : {"pNumList" : list},
-					success : function(data) {
-						
-					},
 					error : function() {
 						console.log("실패");
 					}
