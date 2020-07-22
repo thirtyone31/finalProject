@@ -75,5 +75,7 @@ public interface FreeboardService {
 	 * @return
 	 */
 	public FreeBoard selectBoard(int boardNo);
+
+	public int getSearchListCount(Search search);
 	
 }

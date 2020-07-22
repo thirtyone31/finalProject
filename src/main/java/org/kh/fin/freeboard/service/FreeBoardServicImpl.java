@@ -87,5 +87,11 @@ public class FreeBoardServicImpl implements FreeboardService {
 		return fStore.updateFreeComment(freeComment);
 	}
 
+	@Override
+	public int getSearchListCount(Search search) {
+		// TODO Auto-generated method stub
+		return fStore.getSearchListCount(search);
+	}
+
 
 }

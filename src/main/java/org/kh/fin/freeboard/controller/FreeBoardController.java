@@ -68,6 +68,25 @@ public class FreeBoardController {
 		return mv;
 	}
 	
+	// 자유게시판 검색 서비스
+	@RequestMapping("fsearch.do")
+	public ModelAndView freeBoardSearch(Search search, ModelAndView mv, @RequestParam(value = "page", required = false) Integer page) {
+		
+		int currentPage = (page != null) ? page : 1;
+		int listCount = fService.getSearchListCount(search);
+		int pageLimit = 10; // 한 페이지에서 보여질 페이징 수
+		int boardLimit = 5; // 한 페이지에 보여질 게시글 갯수
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, pageLimit, boardLimit);
+		
+		ArrayList<FreeBoard> searchList = fService.searchList(search, pi);
+		
+			mv.addObject("list", searchList);
+			mv.addObject("pi", pi);
+			mv.addObject("search", search);
+			mv.setViewName("freeboard/freeboardListViews");
+		return mv;
+	}
+	
 	// 자유게시판 상세 조회 서비스
 	@RequestMapping("fdetail.do")
 	public String noticeDetail(int boardNo, Model model) {
@@ -81,36 +100,6 @@ public class FreeBoardController {
 		}
 	}
 
-	// 자유게시판 검색 서비스
-	@RequestMapping("fsearch.do")
-	/*public String freeboardSearch(Search search, Model model) {
-		ArrayList<FreeBoard> searchList = fService.searchList(search);
-
-		model.addAttribute("list", searchList);
-		model.addAttribute("search", search);
-		return "freeboard/freeboardListViews";
-	}*/
-	public ModelAndView freeBoardSearch(Search search, ModelAndView mv, @RequestParam(value = "page", required = false) Integer page) {
-
-		int currentPage = (page != null) ? page : 1;
-		int listCount = fService.getListCount();
-		int pageLimit = 10; // 한 페이지에서 보여질 페이징 수
-		int boardLimit = 5; // 한 페이지에 보여질 게시글 갯수
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, pageLimit, boardLimit);
-
-		ArrayList<FreeBoard> searchList = fService.searchList(search, pi);
-		
-		if (!searchList.isEmpty()) {
-			mv.addObject("list", searchList);
-			mv.addObject("pi", pi);
-			mv.addObject("search", search);
-			mv.setViewName("freeboard/freeboardListViews");
-		} else {
-			mv.addObject("msg", "자유게시판 전체조회 실패");
-			mv.setViewName("common/errorPage");
-		}
-		return mv;
-	}
 
 
 	// 자유게시판 작성페이지 화면
@@ -157,7 +146,7 @@ public class FreeBoardController {
 		System.out.println(model.toString());
 		System.out.println(freeboard.toString());
 		result = fService.updateFreeBoard(freeboard, request);
-		if (result > 0) {
+		if (result > 0) {			 
 			path = "redirect:flist.do";
 		} else {
 			model.addAttribute("msg", "게시글 등록 실패");
@@ -270,8 +259,9 @@ public class FreeBoardController {
 						String callback = request.getParameter("CKEditorFuncNum");
 						System.out.println(callback);
 						System.out.println(fileUrl);
-						printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("
-								+ callback + ",'" + fileUrl + "','이미지를 업로드 하였습니다.'" + ")</script>");
+						/*printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("
+								+ callback + ",'" + fileUrl + "','이미지를 업로드 하였습니다.'" + ")</script>");*/
+						printWriter.println(json);
 					} catch (IOException e) {
 						e.printStackTrace();
 					} finally {

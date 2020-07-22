@@ -92,4 +92,10 @@ public class FreeBoardStoreLogic implements FreeBoardStore {
 		return sqlsession.update("fBoardMapper.updateComment", freecomment);
 	}
 
+	@Override
+	public int getSearchListCount(Search search) {
+		// TODO Auto-generated method stub
+		return sqlsession.selectOne("fBoardMapper.getSearchListCount", search);
+	}
+
 }

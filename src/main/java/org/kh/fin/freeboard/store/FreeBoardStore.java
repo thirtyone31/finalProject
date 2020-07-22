@@ -33,5 +33,7 @@ public interface FreeBoardStore {
 	public FreeBoard selectFreeBoard(int boardNo);
 	
 	public int updateFreeComment(FreeComment freecomment);
+
+	public int getSearchListCount(Search search);
 	
 }
