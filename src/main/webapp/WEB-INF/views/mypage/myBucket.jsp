@@ -190,23 +190,25 @@
 				var list = new Array();
 				for(var i=$("input[name^='chk']").length-1; i>=0; i--){
 					if($("input[name^='chk']")[i].checked){
+						list.push(parseInt($("input[name='productNum"+$("input[name^='chk']")[i].name.replace("chk", "")+"']").val()));
 						$($("input[name^='chk']")[i]).parent().parent().remove();
-						list.push($("input[name='productNum"+$("input[name^='chk']")[i].name.replace("chk", "")+"']").val());
 					}
 				}
 				calcTotalPrice();
 				
+				$.ajaxSettings.traditional = true;
+				
 				$.ajax({
 					url : "delCart.do",
-					type : "get",
+					type : "POST",
+					data : {"pNumList" : list},
 					success : function(data) {
-						$("#icon"+num)[0].className = data.src;
-						$("#fCnt"+num)[0].innerHTML = "좋아요 : " + data.cnt;
+						
 					},
 					error : function() {
 						console.log("실패");
 					}
-				}); 
+				});  
 			}
 			
 			function calcTotalPrice(){

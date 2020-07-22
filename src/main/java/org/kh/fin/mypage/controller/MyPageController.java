@@ -173,25 +173,26 @@ public class MyPageController {
 	
 	@ResponseBody
 	@RequestMapping(value="delCart.do")
-	public void delCart(HttpServletRequest request, HttpServletResponse response, 
-			@RequestParam(value="list", required = false) ArrayList<Integer> list){
+	public void delCart(HttpServletRequest request, HttpServletResponse response, int[] pNumList){
 		HttpSession session = request.getSession();
 		
 		ArrayList<ProductInCart> pList = (ArrayList<ProductInCart>) session.getAttribute("pList");
 		ArrayList<Bucket> cart = (ArrayList<Bucket>) session.getAttribute("cart");
-		
-		for (ProductInCart productInCart : pList) {
-			for (Integer pNum : list) {
-				if(productInCart.getProductNum() == pNum) {
-					pList.remove(pList.indexOf(productInCart));
+				
+		for(int i=pList.size()-1; i>=0; i--) {
+			for (Integer pNum : pNumList) {
+				if(((ProductInCart)pList.get(i)).getProductNum() == pNum) {
+					pList.remove(pList.indexOf(((ProductInCart)pList.get(i))));
+					break;
 				}
 			}
 		}
 		
-		for(Bucket bucket : cart) {
-			for (Integer pNum : list) {
-				if(bucket.getProductNum() == pNum) {
-					cart.remove(cart.indexOf(bucket));
+		for(int i=cart.size()-1; i>=0; i--) {
+			for (Integer pNum : pNumList) {
+				if(((Bucket)cart.get(i)).getProductNum() == pNum) {
+					cart.remove(cart.indexOf(((Bucket)cart.get(i))));
+					break;
 				}
 			}
 		}
