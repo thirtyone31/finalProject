@@ -10,9 +10,5 @@ public interface OrderService {
 	public String getOrderNum();
 	public int insertOrderDetail(OrderDetail orderDetail);
 	public int insertOrder(Order order);
-
-
-	
-
-
+	public int updateProductCnt(OrderDetail orderDetail);
 }

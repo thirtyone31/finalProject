@@ -1,5 +1,3 @@
-<%@page import="org.kh.fin.mypage.domain.Bucket"%>
-<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -87,33 +85,55 @@ border-top:0px;
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
 
-	</head>
+	<!-- 부트스트랩  4.5.0 -->
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+</head>
 	<jsp:include page="../common/mainBar.jsp"></jsp:include>
 	<body data-brackets-id='1236'>
 		
 	<div data-brackets-id='1237' class="fh5co-loader"></div>
 	
-
-
-
-	
 	<div data-brackets-id='1290' id="fh5co-product">
+	
 		<div data-brackets-id='1291' class="container">
 			<div data-brackets-id='1292' class="row">
+									<c:set var="name" value="${loginInfo.memberName }"></c:set>
+							<c:if test="${name eq '김대홍'}">
+								<c:url var="deleteProduct" value="deleteProduct.do">
+									<c:param name="pNum" value="${p.productNum }" />
+								</c:url>
+								<c:url var="updateProduct" value="updateInfoProduct.do">
+									<c:param name="pNum" value="${p.productNum }" />
+								</c:url>
+								<a href="${updateProduct}"><h2>상품수정</h2></a><h2>/</h2> <a href="${deleteProduct}"><h2>상품삭제</h2></a>
+								
+							</c:if>
+			
 				<div data-brackets-id='1293' class="col-md-10 col-md-offset-1 animate-box">
 			
 					<div class="row" id="topcontent" class="portfolio section-bg">
+					
 			<div class="col-md-6" id="imgcontent" >
-			<div  style="height: 250px; width: 300px">
-				<img src="/resources/images/productImg/${p.productMainName }" style="width:100%";>
+			<div  style="height: 300px;width: 300px;">
+				<img src="/resources/images/productImg/${p.productMainName }" style="height:100%; width:100%;">
 				
 			</div>
 			</div>
 			
-		
+	
 			<div class="col-md-6" id="productContent">
-				<form action="buyInfoProduct.do" method="post">
+			
+				<form action="buyInfoProduct.do" onsubmit="return check()"method="post">
 					<table class="table" class="portfolio section-bg">
+						<tr>
+						</tr>
 						<tr>
 							<c:set var="category" value="${p.categoryNum }" />
 							<c:choose>
@@ -174,7 +194,7 @@ border-top:0px;
 						</tr>
 						<tr>
 						<td>수량 : </td>
-							<td><input class="noneBorder" type="number" name="orderQty"
+							<td><input class="noneBorder" id="orderQty" type="number" name="orderQty"
 								min="1" max="100" step="1" value="1"></td>
 						</tr>
 						<tr>
@@ -182,18 +202,29 @@ border-top:0px;
 							
 							<td colspan="2" align="center">
 							<br>
-							<button data-brackets-id='1405' type="submit" value="submit" class="btn btn-default btn-block">구매하기</button>
+							
+							<button data-brackets-id='1405' onclick="check()" type="submit" value="submit" class="btn btn-default btn-block">구매하기</button>
 							<br>
 							<button data-brackets-id='1405' type="button" onclick="javascript:addCart(${p.productNum})" class="btn btn-default btn-block">장바구니</button>
 							</td>
 						</tr>
-		<%-- 	<c:param name="pNum" value="${p.productNum }"/> --%>		
-		<%-- 		<c:param name="oQty" value="orderNum"/> --%>
-				
-						
 				</table>
 				</form>
+				
+		
+<script>
+//제고 부족한거 확인
+function check(){
+	var Stock=${p.productStock};
+	var Buy=$("#orderQty").val();
+	if(Stock-Buy<0){
+		alert("재고가 부족합니다.");
+		return false;
+	}
 
+}
+
+</script>
 			</div>
 		</div>
 			

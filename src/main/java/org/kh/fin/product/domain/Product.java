@@ -43,7 +43,8 @@ public class Product {
 		this.cdt = cdt;
 		this.mdt = mdt;
 	}
-
+	
+	
 	public Product(int productNum, int categoryNum, String productMainName, String productMainPath, String productName,
 			int productStock, int productPrice, String productInfo, String productSize, String productColor,
 			int productShowCnt, String productStatus, Date cdt, Date mdt, int fCnt, String fStat) {
@@ -64,15 +65,6 @@ public class Product {
 		this.mdt = mdt;
 		this.fCnt = fCnt;
 		this.fStat = fStat;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [productNum=" + productNum + ", categoryNum=" + categoryNum + ", productMainName="
-				+ productMainName + ", productMainPath=" + productMainPath + ", productName=" + productName
-				+ ", productStock=" + productStock + ", productPrice=" + productPrice + ", productInfo=" + productInfo
-				+ ", productSize=" + productSize + ", productColor=" + productColor + ", productShowCnt="
-				+ productShowCnt + ", productStatus=" + productStatus + ", cdt=" + cdt + ", mdt=" + mdt + "]";
 	}
 	public int getProductNum() {
 		return productNum;
@@ -170,4 +162,13 @@ public class Product {
 	public void setfStat(String fStat) {
 		this.fStat = fStat;
 	}
+	@Override
+	public String toString() {
+		return "Product [productNum=" + productNum + ", categoryNum=" + categoryNum + ", productMainName="
+				+ productMainName + ", productMainPath=" + productMainPath + ", productName=" + productName
+				+ ", productStock=" + productStock + ", productPrice=" + productPrice + ", productInfo=" + productInfo
+				+ ", productSize=" + productSize + ", productColor=" + productColor + ", productShowCnt="
+				+ productShowCnt + ", productStatus=" + productStatus + ", cdt=" + cdt + ", mdt=" + mdt + ", fCnt="
+				+ fCnt + ", fStat=" + fStat + "]";
+	}	
 }

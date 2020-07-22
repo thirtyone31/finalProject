@@ -141,11 +141,10 @@ input {
 	<div class="section-title">
 				<h2>판매상품등록</h2>
 			</div>
-		<form action="insertProduct.do" id="myForm" method="post"
-			enctype="Multipart/form-data">
+		<form action="insertUpdate.do" method="post"	enctype="Multipart/form-data">
   <div width="1200px" align="center" class="container">
    <table align="center" border="0" cellspacing="0" class="table table-bordered">
-
+	<input type="hidden" name="productNum" value="${pNum }">
 				<tr>
 					<td>카테고리</td>
 					<td><select class="custom-select custom-select-lg mb-3" name="categoryNum" >
@@ -189,7 +188,7 @@ input {
 					<td colspan="2" align="center">
 					
 				
-					<input type="button" value="등록" onclick="validationInfo();">&nbsp;
+					<input type="submit" value="등록" onclick="validationInfo();">&nbsp;
 						&nbsp;</td>
 					
 				</tr>

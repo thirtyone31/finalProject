@@ -3,19 +3,17 @@ package org.kh.fin.product.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.kh.fin.member.domain.Member;
-import org.kh.fin.mypage.domain.Bucket;
 import org.kh.fin.order.domain.OrderDetail;
 import org.kh.fin.product.domain.Product;
+import org.kh.fin.product.domain.ProductSearch;
 import org.kh.fin.product.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,7 +29,9 @@ import com.google.gson.JsonArray;
 
 @Controller
 public class ProductController {
-
+	@Autowired
+	ProductService pService;
+	
 	// 상품 등록 페이지
 	@RequestMapping("insertShowProduct.do")
 	public String insertShowProduct() {
@@ -45,6 +44,7 @@ public class ProductController {
 			@RequestParam(value = "uploadFileInfo", required = false) MultipartFile uploadMainInfoFile,
 			@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
 			HttpServletRequest request) {
+		System.out.println("컨트롤러"+product);
 
 		if (!uploadMainInfoFile.getOriginalFilename().equals("") && !uploadFile.getOriginalFilename().equals("")) {
 			String filePath1 = saveMainInfoFile(uploadMainInfoFile, request);
@@ -66,7 +66,7 @@ public class ProductController {
 		if (result > 0) {
 			return "product/insertProduct";
 		} else {
-			return "실패페이지로";
+			return "common/errorPage";
 		}
 	}
 
@@ -122,19 +122,33 @@ public class ProductController {
 
 	// 등록된 상품보여주기 관리자만
 	@RequestMapping("listAdminProduct.do")
-	public ModelAndView modifyListProduct(ModelAndView mv, HttpServletRequest request) {
-		HttpSession session =  request.getSession();
-		Member mem = (Member)session.getAttribute("loginInfo");
-		ArrayList<Product> list = pService.productSelectList(mem.getMemberId());
-		mv.addObject("list", list);
-		mv.setViewName("product/showAdminProduct");
+	public ModelAndView modifyListProduct(ModelAndView mv, HttpSession session) {
+		Member member = (Member)session.getAttribute("loginInfo");
+		String memberId;
+		
+		if(member!=null) {
+			memberId = member.getMemberId();
+		}else {
+			memberId = null;
+		}
+		
+		ArrayList<Product> list = pService.productSelectList(memberId);
+		if (!list.isEmpty()) {
+
+			mv.addObject("list", list);
+			mv.setViewName("product/showAdminProduct");
+		} else {
+			
+			mv.setViewName("common/errorPage");
+
+		}
 		return mv;
 	}
 
 	// 상품 삭제하기
 	@RequestMapping("deleteProduct.do")
-	public String deleteProduct(int pId) {
-		int result = pService.productDelete(pId);
+	public String deleteProduct(int pNum) {
+		int result = pService.productDelete(pNum);
 		if (result > 0) {
 			return "redirect:productMain.do";
 		} else {
@@ -142,30 +156,78 @@ public class ProductController {
 
 		}
 	}
+	
+	// 상품정보 productNumber 보내주기
+	@RequestMapping("updateInfoProduct.do")
+	public ModelAndView updateInfoProduct(int pNum, ModelAndView mv) {
+		
+			mv.addObject("pNum", pNum);
+			mv.setViewName("product/updateProduct");
+		return mv;
+	}
+		
+	@RequestMapping(value="insertUpdate.do" , method = { RequestMethod.POST, RequestMethod.GET })
+	public String updateProduct(Product product,
+			@RequestParam(value = "uploadFileInfo", required = false) MultipartFile uploadMainInfoFile,
+			@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
+			HttpServletRequest request) {
+		System.out.println(product);
+		System.out.println(uploadMainInfoFile);
+		System.out.println(uploadFile);
 
-	@Autowired
-	ProductService pService;
+		if (!uploadMainInfoFile.getOriginalFilename().equals("") && !uploadFile.getOriginalFilename().equals("")) {
+			String filePath1 = saveMainInfoFile(uploadMainInfoFile, request);
+			String filePath2 = saveFile(uploadFile, request);
+			if (filePath1 != null && filePath2 != null) {
+				product.setProductInfo(uploadMainInfoFile.getOriginalFilename());
+				product.setProductMainName(uploadFile.getOriginalFilename());
+
+				product.setProductMainPath(filePath2);
+			}
+		}
+		// 데이터를 디비에 저장하는 작업
+		int result = 0;
+		String path = null;
+		System.out.println(product);
+		System.out.println(uploadFile);
+		System.out.println(request);
+		result = pService.updateProduct(product, uploadFile, request);
+		System.out.println("디비에 박고왔는데");
+		if (result > 0) {
+			return "product/insertProduct";
+		} else {
+			return "common/errorPage";
+		}
+	}
+
+
+
+
+
 
 	// 낚시용품 메인화면으로 이동
 	@RequestMapping("productMain.do")
-	public ModelAndView allProduct(ModelAndView mv, HttpServletRequest request) {
-		HttpSession session =  request.getSession();
-		try {
-			request.setCharacterEncoding("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Member mem = (Member)session.getAttribute("loginInfo");
+	public ModelAndView allProduct(ModelAndView mv, HttpSession session) {
+		
+		Member member = (Member)session.getAttribute("loginInfo");
 		String memberId;
-		if(mem==null) {
-			memberId = null;
+		
+		if(member!=null) {
+			memberId = member.getMemberId();
 		}else {
-			memberId = mem.getMemberId();
+			memberId = null;
 		}
+		
 		ArrayList<Product> list = pService.productSelectList(memberId);
-		mv.addObject("list", list);
-		mv.setViewName("product/productMain");
+
+		if (!list.isEmpty()) {
+			mv.addObject("list", list);
+
+			mv.setViewName("product/productMain");
+		} else {
+			mv.setViewName("common/errorPage");
+
+		}
 		return mv;
 	}
 
@@ -179,7 +241,7 @@ public class ProductController {
 			model.addAttribute("p", product);
 			return "product/selectDetailProduct";
 		} else {
-			return "에러페이지로";
+			return "common/errorPage";
 		}
 
 	}
@@ -189,50 +251,38 @@ public class ProductController {
 	public ModelAndView buyAndCartProduct(int productNum, int orderQty, ModelAndView mv) {
 		Product product = pService.productSelectOne(productNum);
 		if (product != null && orderQty != 0) {
-
 			mv.addObject("product", product);
 			mv.addObject("orderQty", orderQty);
-
 			mv.setViewName("product/buyAndCartProduct");
 		} else {
-			mv.setViewName("error");
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	//이거 새로했음
+	@RequestMapping(value="searchProduct.do", method= {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView searchProduct(String productName, ModelAndView mv, HttpSession session) {
+		System.out.println(productName);
+		Member member = (Member)session.getAttribute("loginInfo");
+		String memberId;
+		
+		if(member!=null) {
+			memberId = member.getMemberId();
+		}else {
+			memberId = null;
+		}
+		ProductSearch productsearch = new ProductSearch(memberId, productName);
+		ArrayList<Product> list = pService.searchName(productsearch);
+		if (!list.isEmpty()) {
+
+			mv.addObject("list", list);
+			mv.setViewName("product/productMain");
+		} else {
+			
+			mv.setViewName("common/errorPage");
 
 		}
 		return mv;
-
 	}
-	
-	@ResponseBody
-	@RequestMapping(value="insertCart.do", method=RequestMethod.GET)
-	public String insertCart(HttpServletResponse response, HttpServletRequest request, 
-			@RequestParam(value="pNum") int pNum, @RequestParam(value="cnt") int cnt) {
-		HttpSession session = request.getSession();
-		ArrayList<Bucket> cart = (ArrayList<Bucket>) session.getAttribute("cart");
-		if(cart == null) {
-			cart = new ArrayList<Bucket>();
-		}
-		
-		for (Bucket bucket : cart) {
-			if(bucket.getProductNum() == pNum) {
-				return "fail";
-			}
-		}
-		
-		cart.add(new Bucket(pNum, cnt));
-		session.setAttribute("cart", cart);
-		return "success";
-	}
-	/*
-	 * //등록된 상품보여주기 관리자만
-	 * 
-	 * @RequestMapping("showAdinProduct.do") public ModelAndView showAdinProduct() {
-	 * return null; } //등록된 상품 수정하기
-	 * 
-	 * @RequestMapping("modifyProduct.do") public String modifyProduct() { return
-	 * null; }
-	 * 
-	 * 
-	 * 
-	 */
 
 }

@@ -15,6 +15,7 @@ public class OrderStoreLogic {
 
 	public int insertOrderDetail(OrderDetail orderDetail) {
 		return sqlSession.insert("orderMapper.insertOrderDetail",orderDetail);
+	
 		
 	}
 	public int insertOrder(Order order) {
@@ -23,6 +24,10 @@ public class OrderStoreLogic {
 	
 	public String getOrderNum() {
 		return sqlSession.selectOne("orderMapper.getOrderNum");
+	}
+	public int updateProductCnt(OrderDetail orderDetail) {
+		
+		return sqlSession.update("orderMapper.updateProductCnt",orderDetail);
 	}
 
 	

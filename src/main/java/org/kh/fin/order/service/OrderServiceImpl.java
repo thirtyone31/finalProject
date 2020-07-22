@@ -29,6 +29,12 @@ public class OrderServiceImpl implements OrderService {
 		return oStore.insertOrder(order);
 	}
 
+	@Override
+	public int updateProductCnt(OrderDetail orderDetail) {
+	
+		return oStore.updateProductCnt(orderDetail);
+	}
+
 
 
 }
