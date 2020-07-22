@@ -38,32 +38,16 @@
 	<section id="portfolio" class="portfolio section-bg">
 		<div class="container" data-aos="fade-up" data-aos-delay="100">
 			<div class="row portfolio-container">
-				<!-- <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-					<div class="portfolio-wrap">
-						<img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid"
-							alt="">
-						<div class="portfolio-info">
-							<h4>App 1</h4>
-							<p>App</p>
-							<div class="portfolio-links">
-								<a href="assets/img/portfolio/portfolio-1.jpg"
-									data-gall="portfolioGallery" class="venobox" title="App 1"><i
-									class="icofont-eye"></i></a> <a href="portfolio-details.html"
-									title="More Details"><i class="icofont-external-link"></i></a>
-							</div>
-						</div>
-					</div>
-				</div> -->
 				<c:forEach var="orderInfo" items="${oList}" varStatus="i">
 					<div class="col-lg-4 col-md-6 portfolio-item filter-app">
 						<div class="portfolio-wrap">
-							<img src="${orderInfo.thumbNailFile}" class="img-fluid"	width="350px">
+							<img src="/resources/images/productImg/${orderInfo.thumbNailFile}" class="img-fluid"	width="350px">
 							<div class="portfolio-info">
 								<h4>${orderInfo.productName}</h4>
 								<p>${orderInfo.statusName}</p>
 								<p><fmt:setLocale value="ko_KR"/><fmt:formatNumber type="currency" value="${orderInfo.totalPrice}"/></p>
 								<div class="portfolio-links">
-									<a href="${orderInfo.thumbNailFile}"
+									<a href="/resources/images/productImg/${orderInfo.thumbNailFile}"
 										data-gall="portfolioGallery" class="venobox" title="App 1"><i
 										class="icofont-eye"></i></a> <a href="portfolio-details.html"
 										title="More Details"><i class="icofont-external-link"></i></a>

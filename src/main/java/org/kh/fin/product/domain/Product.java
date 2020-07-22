@@ -18,6 +18,8 @@ public class Product {
 	private String productStatus;
 	private Date cdt;
 	private Date mdt;
+	private int fCnt;
+	private String fStat;
 	
 	public Product() {}
 	
@@ -41,6 +43,29 @@ public class Product {
 		this.cdt = cdt;
 		this.mdt = mdt;
 	}
+
+	public Product(int productNum, int categoryNum, String productMainName, String productMainPath, String productName,
+			int productStock, int productPrice, String productInfo, String productSize, String productColor,
+			int productShowCnt, String productStatus, Date cdt, Date mdt, int fCnt, String fStat) {
+		super();
+		this.productNum = productNum;
+		this.categoryNum = categoryNum;
+		this.productMainName = productMainName;
+		this.productMainPath = productMainPath;
+		this.productName = productName;
+		this.productStock = productStock;
+		this.productPrice = productPrice;
+		this.productInfo = productInfo;
+		this.productSize = productSize;
+		this.productColor = productColor;
+		this.productShowCnt = productShowCnt;
+		this.productStatus = productStatus;
+		this.cdt = cdt;
+		this.mdt = mdt;
+		this.fCnt = fCnt;
+		this.fStat = fStat;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [productNum=" + productNum + ", categoryNum=" + categoryNum + ", productMainName="
@@ -133,9 +158,16 @@ public class Product {
 	public void setMdt(Date mdt) {
 		this.mdt = mdt;
 	}
-	
-	
-	
-	
-	
+	public int getfCnt() {
+		return fCnt;
+	}
+	public void setfCnt(int fCnt) {
+		this.fCnt = fCnt;
+	}
+	public String getfStat() {
+		return fStat;
+	}
+	public void setfStat(String fStat) {
+		this.fStat = fStat;
+	}
 }

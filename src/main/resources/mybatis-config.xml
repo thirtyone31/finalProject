@@ -13,6 +13,7 @@
 		<typeAlias type="org.kh.fin.member.domain.Member" alias="Member" />
 		<typeAlias type="org.kh.fin.mypage.domain.WriteBoard" alias="WriteBoard"/>
 		<typeAlias type="org.kh.fin.mypage.domain.OrderInfo" alias="OrderInfo"/>
+		<typeAlias type="org.kh.fin.mypage.domain.Favorite" alias="Favorite"/>
 		<typeAlias type="org.kh.fin.notice.domain.NoticeBoard" alias="NoticeBoard" />
 		<typeAlias type="org.kh.fin.notice.domain.NoticeCategory" alias="NoticeCategory"/>
 		<typeAlias type="org.kh.fin.notice.domain.Search" alias="nSearch"/>
@@ -20,6 +21,7 @@
 		<typeAlias type="org.kh.fin.freeboard.domain.FreeComment" alias="FreeComment"/>
 		<typeAlias type="org.kh.fin.freeboard.domain.Search" alias="fSearch"/>
 		<typeAlias type="org.kh.fin.product.domain.Product" alias="Product"/>
+		<typeAlias type="org.kh.fin.product.domain.ProductInCart" alias="ProductInCart"/>
 		<typeAlias type="org.kh.fin.order.domain.Order" alias="Order"/>
 		<typeAlias type="org.kh.fin.order.domain.OrderDetail" alias="OrderDetail"/>
 		<!-- *********************************************** typeAliases 각자 지정한 

@@ -23,8 +23,35 @@
 		<result property="thumbNailFile" column="THUMBNAIL_FILE"/>
 		<result property="cdt" column="CDT"/>
 	</resultMap>
-
-
+	<resultMap type="Product" id="productResultMap">
+		<id property="productNum" column="PRODUCT_NUM"></id>
+		<result property="categoryNum" column="CATEGORY_NUM"></result>
+		<result property="productMainName" column="PRODUCT_MAIN_NAME"></result>
+		<result property="productMainPath" column="PRODUCT_MAIN_PATH"></result>
+		<result property="productName" column="PRODUCT_NAME"></result>
+		<result property="productStock" column="PRODUCT_STOCK"></result>
+		<result property="productPrice" column="PRODUCT_PRICE"></result>
+		<result property="productInfo" column="PRODUCT_INFO"></result>
+		<result property="productSize" column="PRODUCT_SIZE"></result>
+		<result property="productColor" column="PRODUCT_COLOR"></result>
+		<result property="productShowCnt" column="PRODUCT_SHOW_CNT"></result>
+		<result property="productStatus" column="PRODUCT_STATUS"></result>
+		<result property="cdt" column="CDT"></result>	
+		<result property="mdt" column="MDT"></result>
+		<result property="fCnt" column="F_CNT"></result>
+		<result property="fStat" column="F_STAT"></result>	
+	</resultMap>
+	<resultMap type="ProductInCart" id="ProductInCartMap">
+		<id property="productNum" column="PRODUCT_NUM"></id>
+		<result property="categoryNum" column="CATEGORY_NUM"></result>
+		<result property="productMainName" column="PRODUCT_MAIN_NAME"></result>
+		<result property="productName" column="PRODUCT_NAME"></result>
+		<result property="productStock" column="PRODUCT_STOCK"></result>
+		<result property="productPrice" column="PRODUCT_PRICE"></result>
+		<result property="productSize" column="PRODUCT_SIZE"></result>
+		<result property="productColor" column="PRODUCT_COLOR"></result>
+	</resultMap>
+	
 	<select id="selectWriteList" parameterType="String" resultMap="writeBoardResultSet">
 		SELECT  *
 		FROM    TABLE(FN_GET_MY_WRITE_BOARD(#{memberId}))
@@ -37,11 +64,8 @@
 		SELECT  A.ORDER_NUM, A.STATUS_NUM, D.STATUS_NAME,
 		        MAX(C.PRODUCT_NAME) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_PATH IS NOT NULL AND C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END)) || (CASE WHEN COUNT(0) > 1 THEN ' 외 ' ||(COUNT(0)-1) || '건' END) AS PRODUCT_NAME,
 		        SUM(NVL(B.PRODUCT_QTY,0) * NVL(B.PRODUCT_PRICE, 0)) AS TOTAL_PRICE,
-		        (CASE WHEN MAX(C.PRODUCT_MAIN_PATH) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_PATH IS NOT NULL AND C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END)) IS NOT NULL
-		               AND MAX(C.PRODUCT_MAIN_NAME) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_PATH IS NOT NULL AND C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END)) IS NOT NULL THEN MAX(C.PRODUCT_MAIN_PATH) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_PATH IS NOT NULL AND C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END)) || MAX(C.PRODUCT_MAIN_NAME) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_PATH IS NOT NULL AND C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END))
-		                                                  ELSE NULL
-		                                                  END) AS THUMBNAIL_FILE,
-		        MAX(A.CDT) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_PATH IS NOT NULL AND C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END)) AS CDT
+                MAX(C.PRODUCT_MAIN_NAME) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END)) AS THUMBNAIL_FILE,
+                MAX(A.CDT) KEEP(DENSE_RANK FIRST ORDER BY (CASE WHEN C.PRODUCT_MAIN_NAME IS NOT NULL THEN 0 ELSE 1 END)) AS CDT
 		FROM    ORDER_TB   A
 		JOIN    ORDER_DETAIL B ON A.ORDER_NUM = B.ORDER_NUM
 		LEFT JOIN PRODUCT C ON B.PRODUCT_NUM = C.PRODUCT_NUM
@@ -54,6 +78,51 @@
 		SELECT	COUNT(0) AS CNT
 		FROM    ORDER_TB   A
 		WHERE   A.MEMBER_ID = #{memberId}
+	</select>
+	<select id="selectFavoriteList" parameterType="String" resultMap="productResultMap">
+		SELECT 	A.PRODUCT_NUM, A.CATEGORY_NUM, A.PRODUCT_MAIN_NAME, A.PRODUCT_MAIN_PATH, A.PRODUCT_NAME, A.PRODUCT_STOCK, A.PRODUCT_PRICE, A.PRODUCT_INFO, A.PRODUCT_SIZE, A.PRODUCT_COLOR, A.PRODUCT_SHOW_CNT, A.PRODUCT_STATUS,
+		        SUM(CASE WHEN T1.MEMBER_ID IS NOT NULL THEN 1 ELSE 0 END) AS F_CNT, (CASE WHEN T2.MEMBER_ID IS NULL THEN 'F' ELSE 'T' END) AS F_STAT, A.CDT, A.MDT
+		FROM 	PRODUCT A
+		JOIN FAVORITE T2 ON A.PRODUCT_NUM = T2.PRODUCT_NUM AND T2.MEMBER_ID = #{memberId}
+		LEFT JOIN FAVORITE T1 ON A.PRODUCT_NUM = T1.PRODUCT_NUM
+		WHERE	A.PRODUCT_STATUS = 'Y'
+		GROUP BY A.PRODUCT_NUM, A.CATEGORY_NUM, A.PRODUCT_MAIN_NAME, A.PRODUCT_MAIN_PATH, A.PRODUCT_NAME, A.PRODUCT_STOCK, A.PRODUCT_PRICE, A.PRODUCT_INFO, 
+		         A.PRODUCT_SIZE, A.PRODUCT_COLOR, A.PRODUCT_SHOW_CNT, A.PRODUCT_STATUS, (CASE WHEN T2.MEMBER_ID IS NULL THEN 'F' ELSE 'T' END), A.CDT, A.MDT
+		ORDER BY A.CDT DESC
+	</select>
+	<select	id="favoriteCount" parameterType="String" resultType="_int">
+		SELECT	COUNT(0) AS CNT
+		FROM	FAVORITE
+		WHERE	MEMBER_ID = #{memberId}
+	</select>
+	<insert id="insertFavorite" parameterType="Favorite">
+		INSERT INTO FAVORITE
+		VALUES(#{memberId}, #{productNum})
+	</insert>
+	<delete id="deleteFavorite" parameterType="Favorite">
+		DELETE
+		FROM	FAVORITE
+		WHERE	PRODUCT_NUM = #{productNum}
+		AND		MEMBER_ID = #{memberId}  
+	</delete>
+	<select id="getFavoriteCnt" resultType="_int" parameterType="Favorite">
+		SELECT	SUM(CASE WHEN B.MEMBER_ID IS NOT NULL THEN 1 ELSE 0 END) AS CNT
+		FROM	PRODUCT A
+		LEFT JOIN FAVORITE B ON A.PRODUCT_NUM = B.PRODUCT_NUM
+		WHERE	A.PRODUCT_NUM = #{productNum}
+	</select>
+	<select id="selectProduct" parameterType="_int" resultMap="ProductInCartMap">
+		SELECT	PRODUCT_NUM, CATEGORY_NUM, PRODUCT_MAIN_NAME, PRODUCT_NAME, PRODUCT_STOCK, 
+				PRODUCT_PRICE, PRODUCT_SIZE, PRODUCT_COLOR
+		FROM	PRODUCT
+		WHERE	PRODUCT_NUM = #{productNum}
+		AND		PRODUCT_STATUS = 'Y'
+	</select>
+	<select id="getdcRate" parameterType="String" resultType="_int">
+		SELECT	NVL(B.GRADE_DC_RATE, 0) AS DC_RATE
+		FROM    MEMBER A
+		LEFT JOIN   GRADE B ON A.GRADE_NUM = B.GRADE_NUM
+		WHERE   MEMBER_ID = #{memberId}
 	</select>
 	
 </mapper>

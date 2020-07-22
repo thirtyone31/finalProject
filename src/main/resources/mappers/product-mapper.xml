@@ -16,7 +16,9 @@
 	<result property="productShowCnt" column="PRODUCT_SHOW_CNT"></result>
 	<result property="productStatus" column="PRODUCT_STATUS"></result>
 	<result property="cdt" column="CDT"></result>	
-	<result property="mdt" column="MDT"></result>	
+	<result property="mdt" column="MDT"></result>
+	<result property="fCnt" column="F_CNT"></result>
+	<result property="fStat" column="F_STAT"></result>	
 	</resultMap>
 	
 	<!-- 상품등록입력 -->
@@ -28,11 +30,16 @@
 		#{productShowCnt},DEFAULT,SYSDATE,SYSDATE)
 	</insert>
 	
-	<select id="selectList" resultMap="productResultSet">
-		SELECT 	* 
-		FROM 	PRODUCT
-		WHERE	PRODUCT_STATUS = 'Y'
-		ORDER BY PRODUCT_NUM
+	<select id="selectList" parameterType="string" resultMap="productResultSet">
+		SELECT 	A.PRODUCT_NUM, A.CATEGORY_NUM, A.PRODUCT_MAIN_NAME, A.PRODUCT_MAIN_PATH, A.PRODUCT_NAME, A.PRODUCT_STOCK, A.PRODUCT_PRICE, A.PRODUCT_INFO, A.PRODUCT_SIZE, A.PRODUCT_COLOR, A.PRODUCT_SHOW_CNT, A.PRODUCT_STATUS,
+		        SUM(CASE WHEN T1.MEMBER_ID IS NOT NULL THEN 1 ELSE 0 END) AS F_CNT, (CASE WHEN T2.MEMBER_ID IS NULL THEN 'F' ELSE 'T' END) AS F_STAT, A.CDT, A.MDT
+		FROM 	PRODUCT A
+		LEFT JOIN FAVORITE T1 ON A.PRODUCT_NUM = T1.PRODUCT_NUM
+		LEFT JOIN FAVORITE T2 ON A.PRODUCT_NUM = T2.PRODUCT_NUM AND T2.MEMBER_ID = #{memberId}
+		WHERE	A.PRODUCT_STATUS = 'Y'
+		GROUP BY A.PRODUCT_NUM, A.CATEGORY_NUM, A.PRODUCT_MAIN_NAME, A.PRODUCT_MAIN_PATH, A.PRODUCT_NAME, A.PRODUCT_STOCK, A.PRODUCT_PRICE, A.PRODUCT_INFO, 
+		         A.PRODUCT_SIZE, A.PRODUCT_COLOR, A.PRODUCT_SHOW_CNT, A.PRODUCT_STATUS, (CASE WHEN T2.MEMBER_ID IS NULL THEN 'F' ELSE 'T' END), A.CDT, A.MDT
+		ORDER BY A.CDT DESC
 	</select>
 
 	<select id="selectOne" parameterType="_int" resultMap="productResultSet">

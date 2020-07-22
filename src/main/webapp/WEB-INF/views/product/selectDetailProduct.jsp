@@ -1,3 +1,5 @@
+<%@page import="org.kh.fin.mypage.domain.Bucket"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -182,7 +184,7 @@ border-top:0px;
 							<br>
 							<button data-brackets-id='1405' type="submit" value="submit" class="btn btn-default btn-block">구매하기</button>
 							<br>
-							<button data-brackets-id='1405' type="submit" value="submit" class="btn btn-default btn-block">장바구니</button>
+							<button data-brackets-id='1405' type="button" onclick="javascript:addCart(${p.productNum})" class="btn btn-default btn-block">장바구니</button>
 							</td>
 						</tr>
 		<%-- 	<c:param name="pNum" value="${p.productNum }"/> --%>		
@@ -341,6 +343,34 @@ border-top:0px;
 	<!-- Main -->
 	<script data-brackets-id='1480' src="resources/hongs/js/main.js"></script>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<script type="text/javascript">
+		function addCart(num) {
+			if($("input[name=orderQty]").val() < 1){
+				alert("장바구니에는 1개 이상만 담을 수 있습니다.");
+				return;
+			}else{
+				var url = "/insertCart.do?pNum="+num+"&cnt="+parseInt($("input[name=orderQty]").val());							
+				$.ajax({
+					url : url,
+					type : "get",
+					success : function(data) {
+						if(data=="fail"){
+							alert("이미 등록된 제품입니다.");
+						}
+						if(data=="success"){
+							alert("등록 완료");
+						}
+						
+						console.log(data);
+					},
+					error : function() {
+						console.log("실패");
+					}
+				}); 
+			}
+			
+		}
+	</script>
 	</body>
 </html>
 

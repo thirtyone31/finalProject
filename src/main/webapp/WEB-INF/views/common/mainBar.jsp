@@ -69,8 +69,8 @@
 							<ul>
 								<li><a href="myWriteList.do">내가 쓴 게시물</a></li>
 								<li><a href="myOrderList.do">구매내역</a></li>
-								<li><a href="#">장바구니</a></li>
-								<li><a href="#">관심상품</a></li>
+								<li><a href="myCartList.do">장바구니</a></li>
+								<li><a href="myFavoriteList.do">관심상품</a></li>
 								<li><a href="myPage.me">내 정보</a>
 							</ul>
 						</li>

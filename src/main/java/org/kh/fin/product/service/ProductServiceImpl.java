@@ -30,12 +30,6 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ArrayList<Product> productSearchAll(int categoryNum) {
-		// TODO Auto-generated method stub
-		return pStore.selectList();
-	}
-
-	@Override
 	public Product productSelectOne(int productNum) {
 		return pStore.selectOne(productNum);
 	}
@@ -55,8 +49,8 @@ public class ProductServiceImpl implements ProductService {
 
 
 	@Override
-	public ArrayList<Product> productSelectList() {
-		return pStore.selectList();
+	public ArrayList<Product> productSelectList(String memberId) {
+		return pStore.selectList(memberId);
 	
 	}
 

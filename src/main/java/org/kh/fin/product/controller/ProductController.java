@@ -3,12 +3,17 @@ package org.kh.fin.product.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.kh.fin.member.domain.Member;
+import org.kh.fin.mypage.domain.Bucket;
 import org.kh.fin.order.domain.OrderDetail;
 import org.kh.fin.product.domain.Product;
 import org.kh.fin.product.service.ProductService;
@@ -19,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -116,17 +122,12 @@ public class ProductController {
 
 	// 등록된 상품보여주기 관리자만
 	@RequestMapping("listAdminProduct.do")
-	public ModelAndView modifyListProduct(ModelAndView mv) {
-		ArrayList<Product> list = pService.productSelectList();
-		if (!list.isEmpty()) {
-
-			mv.addObject("list", list);
-			mv.setViewName("product/showAdminProduct");
-		} else {
-			mv.addObject("실패");
-			mv.setViewName("조짐스키");
-
-		}
+	public ModelAndView modifyListProduct(ModelAndView mv, HttpServletRequest request) {
+		HttpSession session =  request.getSession();
+		Member mem = (Member)session.getAttribute("loginInfo");
+		ArrayList<Product> list = pService.productSelectList(mem.getMemberId());
+		mv.addObject("list", list);
+		mv.setViewName("product/showAdminProduct");
 		return mv;
 	}
 
@@ -147,17 +148,24 @@ public class ProductController {
 
 	// 낚시용품 메인화면으로 이동
 	@RequestMapping("productMain.do")
-	public ModelAndView allProduct(ModelAndView mv) {
-		ArrayList<Product> list = pService.productSelectList();
-
-		if (!list.isEmpty()) {
-			mv.addObject("list", list);
-
-			mv.setViewName("product/productMain");
-		} else {
-			mv.setViewName("조짐스키");
-
+	public ModelAndView allProduct(ModelAndView mv, HttpServletRequest request) {
+		HttpSession session =  request.getSession();
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		Member mem = (Member)session.getAttribute("loginInfo");
+		String memberId;
+		if(mem==null) {
+			memberId = null;
+		}else {
+			memberId = mem.getMemberId();
+		}
+		ArrayList<Product> list = pService.productSelectList(memberId);
+		mv.addObject("list", list);
+		mv.setViewName("product/productMain");
 		return mv;
 	}
 
@@ -193,7 +201,27 @@ public class ProductController {
 		return mv;
 
 	}
-
+	
+	@ResponseBody
+	@RequestMapping(value="insertCart.do", method=RequestMethod.GET)
+	public String insertCart(HttpServletResponse response, HttpServletRequest request, 
+			@RequestParam(value="pNum") int pNum, @RequestParam(value="cnt") int cnt) {
+		HttpSession session = request.getSession();
+		ArrayList<Bucket> cart = (ArrayList<Bucket>) session.getAttribute("cart");
+		if(cart == null) {
+			cart = new ArrayList<Bucket>();
+		}
+		
+		for (Bucket bucket : cart) {
+			if(bucket.getProductNum() == pNum) {
+				return "fail";
+			}
+		}
+		
+		cart.add(new Bucket(pNum, cnt));
+		session.setAttribute("cart", cart);
+		return "success";
+	}
 	/*
 	 * //등록된 상품보여주기 관리자만
 	 * 

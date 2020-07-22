@@ -13,15 +13,13 @@ public interface ProductService {
 	
 	public int productDelete(int productNum);
 	
-	public ArrayList<Product> productSearchAll(int categoryNum);
-	
 	public Product productSelectOne(int productNum);
 	
 	public int productModify(int productNum);
 
 	public int insertProduct(Product product, MultipartFile uploadFile, HttpServletRequest request);
 
-	public ArrayList<Product> productSelectList();
+	public ArrayList<Product> productSelectList(String memberId);
 
 	public int updateViewCnt(int pNum);
 

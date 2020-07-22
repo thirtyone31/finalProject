@@ -32,25 +32,36 @@
 	
 	<!-- Template Main CSS File -->
 	<link href="assets/css/style.css" rel="stylesheet">
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	<style type="text/css">
+		.portfolio-links{
+			display: flex;
+			flex-direction: row;
+		}
+	</style>
 </head>
 <body>
 	<jsp:include page="../common/mainBar.jsp"></jsp:include>
 	<section id="portfolio" class="portfolio section-bg">
 		<div class="container" data-aos="fade-up" data-aos-delay="100">
 			<div class="row portfolio-container">
-				<c:forEach var="favoriteProduct" items="${fList}" varStatus="i">
+				<c:forEach var="Product" items="${pList}" varStatus="i">
 					<div class="col-lg-4 col-md-6 portfolio-item filter-app">
 						<div class="portfolio-wrap">
-							<img src="${orderInfo.thumbNailFile}" class="img-fluid"	width="350px">
+							<img src="/resources/images/productImg/${Product.productMainName}" class="img-fluid" width="350px">
 							<div class="portfolio-info">
-								<h4>${orderInfo.productName}</h4>
-								<p>${orderInfo.statusName}</p>
-								<p><fmt:setLocale value="ko_KR"/><fmt:formatNumber type="currency" value="${orderInfo.totalPrice}"/></p>
+								<h4>상품명 : ${Product.productName }</h4>
+								<p>가격 : <fmt:setLocale value="ko_KR"/><fmt:formatNumber type="currency" value="${Product.productPrice}"/></p>
+								<p>조회수 : ${Product.productShowCnt}</p>
+								<p id="fCnt${Product.productNum}">좋아요 : ${Product.fCnt}</p>
 								<div class="portfolio-links">
-									<a href="${orderInfo.thumbNailFile}"
-										data-gall="portfolioGallery" class="venobox" title="App 1"><i
-										class="icofont-eye"></i></a> <a href="portfolio-details.html"
-										title="More Details"><i class="icofont-external-link"></i></a>
+									<a href="/resources/images/productImg/${Product.productMainName}"
+										data-gall="portfolioGallery" class="venobox">
+										<i class="icofont-eye"></i></a> 
+									<a href="ProductDetailView.do?pNum=${Product.productNum}" title="More Details">
+										<i class="icofont-external-link"></i></a>
+									<a href="javascript:chg(${Product.productNum})">
+										<i class='fas fa-star' style='font-size:20px' id="icon${Product.productNum}"></i></a>
 								</div>
 							</div>
 						</div>
@@ -61,7 +72,7 @@
 				<c:if test="${pi.currentPage <= 1 }">
 					[이전] &nbsp;
 				</c:if> <c:if test="${pi. currentPage > 1 }">
-					<c:url var="before" value="myOrderList.do">
+					<c:url var="before" value="myFavoriteList.do">
 						<c:param name="page" value="${pi.currentPage - 1 }" />
 					</c:url>
 					<a href="${before }">[이전]</a> &nbsp;
@@ -71,7 +82,7 @@
 						<font color="red" size="4"><b>[${p }]</b></font>
 					</c:if>
 					<c:if test="${p ne currentPage }">
-						<c:url var="pagenation" value="myOrderList.do">
+						<c:url var="pagenation" value="myFavoriteList.do">
 							<c:param name="page" value="${p }" />
 						</c:url>
 						<a href="${pagenation }">${p }</a> &nbsp;
@@ -79,7 +90,7 @@
 				</c:forEach> <!-- [다음] --> <c:if test="${pi.currentPage >= pi.maxPage }">
 					[다음] &nbsp;
 				</c:if> <c:if test="${pi. currentPage < pi.maxPage }">
-					<c:url var="after" value="myOrderList.do">
+					<c:url var="after" value="myFavoriteList.do">
 						<c:param name="page" value="${pi.currentPage + 1 }" />
 					</c:url>
 					<a href="${after }">[다음]</a> &nbsp;
@@ -87,5 +98,27 @@
 		</div>
 	</section>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<script type="text/javascript">
+		function chg(num) {			
+			var url = "";
+			if($("#icon"+num)[0].className == "fas fa-star"){
+				url = "/deleteFavorite.do?page=${pi.currentPage}&pNum="+num;
+			}else if($("#icon"+num)[0].className == "far fa-star"){
+				url = "/insertFavorite.do?page=${pi.currentPage}&pNum="+num;
+			}
+			
+			$.ajax({
+				url : url,
+				type : "get",
+				success : function(data) {
+					$("#icon"+num)[0].className = data.src;
+					$("#fCnt"+num)[0].innerHTML = "좋아요 : " + data.cnt;
+				},
+				error : function() {
+					console.log("실패");
+				}
+			}); 
+		}
+	</script>
 </body>
 </html>

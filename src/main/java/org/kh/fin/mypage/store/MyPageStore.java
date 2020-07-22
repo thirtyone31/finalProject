@@ -5,8 +5,11 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.session.RowBounds;
 import org.kh.fin.common.PageInfo;
+import org.kh.fin.mypage.domain.Favorite;
 import org.kh.fin.mypage.domain.OrderInfo;
 import org.kh.fin.mypage.domain.WriteBoard;
+import org.kh.fin.product.domain.Product;
+import org.kh.fin.product.domain.ProductInCart;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -52,5 +55,50 @@ public class MyPageStore {
 		// 20건의 10건만큼 건너뛰고 결과값을 가져옴
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("mypageMapper.selectOrderList", memberId, rowBounds);
+	}
+	
+	public ArrayList<Product> selectFavoriteList(String memberId, PageInfo pi){
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		// mybatis의 RowBounds 클래스 사용
+		// off : 10, boardLimit : 10
+		// 10건의 0건만큼 건너뛰고 결과값을 가져옴
+		// 15건의 5건만큼 건너뛰고 결과값을 가져옴
+		// 20건의 10건만큼 건너뛰고 결과값을 가져옴
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectFavoriteList", memberId, rowBounds);
+	}
+
+	public ArrayList<Integer> insertFavorite(Favorite favorite) {
+		// TODO Auto-generated method stub
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		int result = 0;
+		int cnt = 0;
+		result = sqlSession.insert("mypageMapper.insertFavorite", favorite);
+		cnt = sqlSession.selectOne("mypageMapper.getFavoriteCnt", favorite);
+		list.add(result);
+		list.add(cnt);
+		return list;
+	}
+
+	public ArrayList<Integer> deleteFavorite(Favorite favorite) {
+		// TODO Auto-generated method stub
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		int result = 0;
+		int cnt = 0;
+		result = sqlSession.delete("mypageMapper.deleteFavorite", favorite);
+		cnt = sqlSession.selectOne("mypageMapper.getFavoriteCnt", favorite);
+		list.add(result);
+		list.add(cnt);
+		return list;
+	}
+
+	public ProductInCart selectOneProduct(int productNum) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mypageMapper.selectProduct", productNum);
+	}
+
+	public int getdcRate(String memberId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mypageMapper.getdcRate", memberId);
 	}
 }

@@ -71,35 +71,15 @@
 
 			<div class="row portfolio-container">
 				<c:forEach items="${list }" var="p">
-					<c:if test="${p.categoryNum eq 1}">
-						<div class="col-lg-4 col-md-6 portfolio-item filter-fishingRod">
-							<div class="portfolio-wrap">
-
-								<img src="/resources/images/productImg/${p.productMainName }"
-									class="img-fluid" alt="">
-								<c:url var="detailView" value="ProductDetailView.do">
-									<c:param name="pNum" value="${p.productNum }" />
-									<%-- <c:param name="pViewCtn" value="${p.productShowCnt }" /> --%>
-
-								</c:url>
-
-								<div class="portfolio-info">
-									<h4>상품명 : ${p.productName }</h4>
-									<p>가격 : ${p.productPrice }원</p>
-									<p>조회수 : ${p.productShowCnt}</p>
-									<div class="portfolio-links">
-										<a href="ProductDetailView.do?pNum=${p.productNum }"
-											title="More Details" value="${p.productNum }"><i
-											class="icofont-external-link"></i></a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</c:if>
-
-
-					<c:if test="${p.categoryNum eq 2}">
-						<div class="col-lg-4 col-md-6 portfolio-item filter-fishingReel">
+						<div class="col-lg-4 col-md-6 portfolio-item 
+							<c:choose>
+								<c:when test="${p.categoryNum eq 1}">filter-fishingRod</c:when>
+								<c:when test="${p.categoryNum eq 2}">filter-fishingReel</c:when>
+								<c:when test="${p.categoryNum eq 3}">filter-fishingBag</c:when>
+								<c:when test="${p.categoryNum eq 4}">filter-fishingFeed</c:when>
+								<c:when test="${p.categoryNum eq 5}">filter-fishingLine</c:when>					
+							</c:choose> 
+						">
 							<div class="portfolio-wrap">
 
 								<img src="/resources/images/productImg/${p.productMainName }"
@@ -107,6 +87,7 @@
 								<c:url var="detailView" value="ProductDetailView.do">
 									<c:param name="pNum" value="${p.productNum }" />
 								</c:url>
+
 								<div class="portfolio-info">
 									<h4>상품명 : ${p.productName }</h4>
 									<p>가격 : ${p.productPrice }원</p>
@@ -119,79 +100,6 @@
 								</div>
 							</div>
 						</div>
-					</c:if>
-
-
-					<c:if test="${p.categoryNum eq 3}">
-						<div class="col-lg-4 col-md-6 portfolio-item filter-fishingBag">
-							<div class="portfolio-wrap">
-
-								<img src="/resources/images/productImg/${p.productMainName }"
-									class="img-fluid" alt="">
-								<c:url var="detailView" value="ProductDetailView.do">
-									<c:param name="pNum" value="${p.productNum }" />
-
-								</c:url>
-								<div class="portfolio-info">
-									<h4>상품명 : ${p.productName }</h4>
-									<p>가격 : ${p.productPrice }원</p>
-									<p>조회수 : ${p.productShowCnt}</p>
-									<div class="portfolio-links">
-										<a href="ProductDetailView.do?pNum=${p.productNum }"
-											title="More Details" value="${p.productNum }"><i
-											class="icofont-external-link"></i></a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</c:if>
-
-					<c:if test="${p.categoryNum eq 4}">
-						<div class="col-lg-4 col-md-6 portfolio-item filter-fishingFeed">
-							<div class="portfolio-wrap">
-
-								<img src="/resources/images/productImg/${p.productMainName }"
-									class="img-fluid" alt="">
-								<c:url var="detailView" value="ProductDetailView.do">
-									<c:param name="pNum" value="${p.productNum }" />
-								</c:url>
-								<div class="portfolio-info">
-									<h4>상품명 : ${p.productName }</h4>
-									<p>가격 : ${p.productPrice }원</p>
-									<p>조회수 : ${p.productShowCnt}</p>
-									<div class="portfolio-links">
-										<a href="ProductDetailView.do?pNum=${p.productNum }"
-											title="More Details" value="${p.productNum }"><i
-											class="icofont-external-link"></i></a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</c:if>
-
-
-					<c:if test="${p.categoryNum eq 5}">
-						<div class="col-lg-4 col-md-6 portfolio-item filter-fishingLine">
-							<div class="portfolio-wrap">
-
-								<img src="/resources/images/productImg/${p.productMainName}"
-									class="img-fluid" alt="">
-								<c:url var="detailView" value="ProductDetailView.do">
-									<c:param name="pNum" value="${p.productNum }" />
-								</c:url>
-								<div class="portfolio-info">
-									<h4>상품명 : ${p.productName }</h4>
-									<p>가격 : ${p.productPrice }원</p>
-									<p>조회수 : ${p.productShowCnt}</p>
-									<div class="portfolio-links">
-										<a href="ProductDetailView.do?pNum=${p.productNum }"
-											title="More Details" value="${p.productNum }"><i
-											class="icofont-external-link"></i></a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</c:if>
 				</c:forEach>
 			</div>
 
