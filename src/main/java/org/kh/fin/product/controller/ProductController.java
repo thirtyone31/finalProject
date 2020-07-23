@@ -136,13 +136,10 @@ public class ProductController {
 		
 		ArrayList<Product> list = pService.productSelectList(memberId);
 		if (!list.isEmpty()) {
-
 			mv.addObject("list", list);
 			mv.setViewName("product/showAdminProduct");
 		} else {
-			
 			mv.setViewName("common/errorPage");
-
 		}
 		return mv;
 	}
@@ -286,25 +283,24 @@ public class ProductController {
 		}
 		return mv;
 	}
-	
 	@ResponseBody
-	@RequestMapping(value="insertCart.do", method=RequestMethod.GET)
-	public String insertCart(HttpServletResponse response, HttpServletRequest request, 
-			@RequestParam(value="pNum") int pNum, @RequestParam(value="cnt") int cnt) {
-		HttpSession session = request.getSession();
-		ArrayList<Bucket> cart = (ArrayList<Bucket>) session.getAttribute("cart");
-		if(cart == null) {
-			cart = new ArrayList<Bucket>();
-		}
-		
-		for (Bucket bucket : cart) {
-			if(bucket.getProductNum() == pNum) {
-				return "fail";
-			}
-		}
-		
-		cart.add(new Bucket(pNum, cnt));
-		session.setAttribute("cart", cart);
-		return "success";
-	}
+	   @RequestMapping(value="insertCart.do", method=RequestMethod.GET)
+	   public String insertCart(HttpServletResponse response, HttpServletRequest request, 
+	         @RequestParam(value="pNum") int pNum, @RequestParam(value="cnt") int cnt) {
+	      HttpSession session = request.getSession();
+	      ArrayList<Bucket> cart = (ArrayList<Bucket>) session.getAttribute("cart");
+	      if(cart == null) {
+	         cart = new ArrayList<Bucket>();
+	      }
+	      
+	      for (Bucket bucket : cart) {
+	         if(bucket.getProductNum() == pNum) {
+	            return "fail";
+	         }
+	      }
+	      
+	      cart.add(new Bucket(pNum, cnt));
+	      session.setAttribute("cart", cart);
+	      return "success";
+	   }
 }
