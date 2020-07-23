@@ -62,4 +62,32 @@ public class MemberServiceImple implements MemberService {
 		return resultCode;
 	}
 
+	
+	
+	@Override
+	public String findPwView(Map<String, String> params) {
+		
+		return this.mStore.findPwView(params);
+	}
+
+	@Override
+	public int changePw(Map<String, String> params) {
+		return this.mStore.changePw(params);
+	}
+
+	
+	//비밀번호 찾기
+	@Override
+	public String find_passCheck(Member mem) {
+		String pass = mStore.find_passCheck(mem);
+        return pass;
+	}
+
+	@Override
+	public int passchange(Map<String, String> params) {
+		System.out.println("service params : " + params.toString());
+		return mStore.passchange(params);
+	}
+
+	
 }

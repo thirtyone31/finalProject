@@ -19,4 +19,12 @@ public interface MemberStore {
 	public int checkNick(String nickName);
 
 	public String findId(Map<String, String> params);
+
+	public String findPwView(Map<String, String> params);
+
+	public int changePw(Map<String, String> params);
+
+	public String find_passCheck(Member mem);
+
+	public int passchange(Map<String, String> params);
 }

@@ -5,35 +5,30 @@
 <html lang="en">
 
 <head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<title>어부바 메인페이지</title>
-<meta content="" name="descriptison">
-<meta content="낚시, 구매, 상품" name="keywords">
+    <title>어부바 메인페이지</title>
+    <meta content="" name="descriptison">
+    <meta content="낚시, 구매, 상품" name="keywords">
 
 
-<!-- Google Fonts -->
-<link
-	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i,900"
-	rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i,900" rel="stylesheet">
 
-<!-- Vendor CSS Files -->
-<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-<link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
-<link href="assets/vendor/boxicons/css/boxicons.min.css"
-	rel="stylesheet">
-<link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-<link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
-<link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css"
-	rel="stylesheet">
-<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
+    <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 
-<!-- Template Main CSS File -->
-<link href="assets/css/style.css" rel="stylesheet">
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
 
-<!-- =======================================================
+    <!-- =======================================================
   * Template Name: Mamba - v2.3.0
   * Template URL: https://bootstrapmade.com/mamba-one-page-bootstrap-template-free/
   * Author: BootstrapMade.com
@@ -43,69 +38,91 @@
 
 <body>
 
-	<!-- ======= Header ======= -->
-	<header id="header">
-		<div class="container">
+    <!-- ======= Header ======= -->
+    <header id="header">
+        <div class="container">
 
-			<div class="logo float-left">
-				<h1 class="text-light">
-					<a href="/"><span>어부바 ${loginInfo.memberName }</span></a>
-				</h1>
-				<!-- Uncomment below if you prefer to use an image logo -->
-				<!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-			</div>
-			<c:url var="nlist" value="nlist.do"/>
-			<c:url var="flist" value="flist.do"/>
-			<nav class="nav-menu float-right d-none d-lg-block">
-				<ul>
-					<li class="active"><a href="/">홈</a></li>
-					<li><a href="productMain.do">낚시용품</a>
-					<li><a href="#services">커뮤니티</a></li>
-					<li><a href="${flist }">자유게시판</a></li>			
+            <div class="logo float-left">
+                <h1 class="text-light">
+                    <a href="/"><span>어부바 ${loginInfo.memberName }</span></a>
+                </h1>
+                <!-- Uncomment below if you prefer to use an image logo -->
+                <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+            </div>
+            <c:url var="nlist" value="nlist.do" />
+            <c:url var="flist" value="flist.do" />
+            <nav class="nav-menu float-right d-none d-lg-block">
+                <ul>
+                    <li class="active"><a href="/">홈</a></li>
+                    <c:if test="${!empty sessionScope.loginInfo}">
+                        <li class="drop-down"><a href="productMain.do">낚시용품</a>
+                    </c:if>
+                    <c:if test="${empty sessionScope.loginInfo}">
+                        <li class="drop-down"><a onclick="failed();">낚시용품</a>
+                    </c:if>
+                    <c:if test="${empty sessionScope.loginInfo}">
+					<li><a onclick="failed();">커뮤니티</a></li>
+					</c:if>
+					<c:if test="${!empty sessionScope.loginInfo}">
+					<li><a onclick="#">커뮤니티</a></li>
+					</c:if>
+					<c:if test="${empty sessionScope.loginInfo}">
+					<li><a onclick="failed();">자유게시판</a></li>
+					</c:if>
+					<c:if test="${!empty sessionScope.loginInfo}">					
+					<li><a href="${flist }">자유게시판</a></li>
+					</c:if>
+                    <c:if test="${empty sessionScope.loginInfo}">
+					<li><a onclick="failed();">고객센터</a></li>
+					</c:if>
+					<c:if test="${!empty sessionScope.loginInfo}">					
 					<li><a href="${nlist }">고객센터</a></li>
-					
-					<c:if test="${ !empty sessionScope.loginInfo }">
-						<li class="drop-down"><a href="/">마이페이지</a>
-							<ul>
-								<li><a href="myWriteList.do">내가 쓴 게시물</a></li>
-								<li><a href="myOrderList.do">구매내역</a></li>
-								<li><a href="myCartList.do">장바구니</a></li>
-								<li><a href="myFavoriteList.do">관심상품</a></li>
-								<li><a href="myPage.me">내 정보</a>
-							</ul>
-						</li>
-					</c:if>
-					<c:if test="${ empty sessionScope.loginInfo }">
-						<li><a href="#" onclick="open_pop();">로그인/회원가입</a></li>
-					</c:if>
-					<c:url var="logout" value="logout.me"></c:url>
-					<c:if test="${ !empty sessionScope.loginInfo }">
-						<li><a href=${logout }>${loginInfo.memberName }님/로그아웃</a></li>
-					</c:if>
+					</c:if>	
+                    <c:if test="${ !empty sessionScope.loginInfo }">
+                        <li class="drop-down"><a href="/">마이페이지</a>
+                            <ul>
+                                <li><a href="myWriteList.do">내가 쓴 게시물</a></li>
+                                <li><a href="myOrderList.do">구매내역</a></li>
+                                <li><a href="myCartList.do">장바구니</a></li>
+                                <li><a href="myFavoriteList.do">관심상품</a></li>
+                                <li><a href="myPage.me">내 정보</a>
+                            </ul>
+                        </li>
+                    </c:if>
+                    <c:if test="${ empty sessionScope.loginInfo }">
+                        <li><a href="#" onclick="open_pop();">로그인/회원가입</a></li>
+                    </c:if>
+                    <c:url var="logout" value="logout.me"></c:url>
+                    <c:if test="${ !empty sessionScope.loginInfo }">
+                        <li><a href=${logout }>${loginInfo.memberName }님/로그아웃</a></li>
+                    </c:if>
 
-				</ul>
-			</nav>
-			<!-- .nav-menu -->
+                </ul>
+            </nav>
+            <script type="text/javascript">
+                function open_pop() {
+                    var width = 350,
+                        height = 600;
+                    var popupX = (document.body.offsetWidth / 2) - (width / 2);
+                    //&nbsp;만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
 
-			<script type="text/javascript">
-      function open_pop() {
-           var width = 350, height = 600;
-           var popupX = (document.body.offsetWidth / 2) - (width / 2);
-           //&nbsp;만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+                    var popupY = (window.screen.height / 2) - (height / 2);
+                    //&nbsp;만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
 
-           var popupY= (window.screen.height / 2) - (height / 2);
-           //&nbsp;만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
-              
-           var url = "loginMain.me";
-           var option = "width = " + width + ", height = " + height +", "
-                       + "top = "+ popupY + ", left = " + popupX + ", location = no, resizable=no";
-           var title = "login";
-           console.log(url);
-           window.open(url, title, option);
-      }
-      </script>
+                    var url = "loginMain.me";
+                    var option = "width = " + width + ", height = " + height + ", " +
+                        "top = " + popupY + ", left = " + popupX + ", location = no, resizable=no";
+                    var title = "login";
+                    console.log(url);
+                    window.open(url, title, option);
+                }
 
-
-		</div>
-	</header>
-	<!-- End Header -->
+                function failed() {
+                    alert('로그인 후 사용가능합니다.!');
+                    return false;
+                }
+            </script>
+        </div>
+    </header>
+    <!-- End Header -->
+</body>

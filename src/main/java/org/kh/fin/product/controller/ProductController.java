@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.kh.fin.member.domain.Member;
+import org.kh.fin.mypage.domain.Bucket;
 import org.kh.fin.order.domain.OrderDetail;
 import org.kh.fin.product.domain.Product;
 import org.kh.fin.product.domain.ProductSearch;
@@ -22,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -284,5 +286,25 @@ public class ProductController {
 		}
 		return mv;
 	}
-
+	
+	@ResponseBody
+	@RequestMapping(value="insertCart.do", method=RequestMethod.GET)
+	public String insertCart(HttpServletResponse response, HttpServletRequest request, 
+			@RequestParam(value="pNum") int pNum, @RequestParam(value="cnt") int cnt) {
+		HttpSession session = request.getSession();
+		ArrayList<Bucket> cart = (ArrayList<Bucket>) session.getAttribute("cart");
+		if(cart == null) {
+			cart = new ArrayList<Bucket>();
+		}
+		
+		for (Bucket bucket : cart) {
+			if(bucket.getProductNum() == pNum) {
+				return "fail";
+			}
+		}
+		
+		cart.add(new Bucket(pNum, cnt));
+		session.setAttribute("cart", cart);
+		return "success";
+	}
 }

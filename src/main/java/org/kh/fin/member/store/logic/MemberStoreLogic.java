@@ -48,14 +48,16 @@ public class MemberStoreLogic implements MemberStore{
 		String result = "";
 		String findType = params.get("findType");
 		String key = params.get("key");
+		String name = params.get("name");
 		System.out.println("findType : " + findType);
 		System.out.println("key : " + key);
+		System.out.println("name : " + name);
 		if("phone".equals(findType)) {
-			result = sqlSession.selectOne("memberMapper.findId_phone", key);
+			result = sqlSession.selectOne("memberMapper.findId_phone", params);
 		} else if ("email".equals(findType)) {
-			result = sqlSession.selectOne("memberMapper.findId_email", key);
+			result = sqlSession.selectOne("memberMapper.findId_email", params);
 		} else if ("birth".equals(findType)) {
-			result = sqlSession.selectOne("memberMapper.findId_birth", key);
+			result = sqlSession.selectOne("memberMapper.findId_birth", params);
 		}
 		System.out.println("result : " + result);
 		
@@ -81,5 +83,29 @@ public class MemberStoreLogic implements MemberStore{
 		
 		return sqlSession.selectOne("memberMapper.checkNick",nick);
 	}
+
+	@Override
+	public String findPwView(Map<String, String> params) {
+		return sqlSession.selectOne("memberMapper.findPwView",params);
+	}
+
+	@Override
+	public int changePw(Map<String, String> params) {
+		return sqlSession.update("memberMapper.changePw",params);
+	}
+
+	@Override
+	public String find_passCheck(Member mem) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int passchange(Map<String, String> params) {
+		System.out.println("store params : " + params.toString());
+		return sqlSession.update("memberMapper.changePw",params);
+	}
+
+
 
 }
