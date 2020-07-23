@@ -3,7 +3,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<jsp:include page="../include/include.jsp" />
+<jsp:include page="/WEB-INF/views/member/include/include.jsp" />
 
 <head>
     <meta charset="utf-8">
