@@ -36,6 +36,7 @@ public ModelAndView orderFinish(OrderDetail orderDetail, Order order, ModelAndVi
 	
 	System.out.println("오더디테일"+orderDetail);
 	System.out.println("오더"+order);
+	
 	int resultOrder = oService.insertOrder(order);
 	int resultOrderDetail = oService.insertOrderDetail(orderDetail);
 	int resultProductCnt = oService.updateProductCnt(orderDetail);

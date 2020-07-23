@@ -11,4 +11,5 @@ public interface OrderService {
 	public int insertOrderDetail(OrderDetail orderDetail);
 	public int insertOrder(Order order);
 	public int updateProductCnt(OrderDetail orderDetail);
+
 }
