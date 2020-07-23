@@ -493,6 +493,7 @@
 
 					//<!-- 입력값 유효성체크 -->
 					function validationInfo() {
+						alert($("input[name=Price]").val());
 						var name = document.getElementById("name");
 						var phone = document.getElementById("phone");
 						var address = document.getElementById("detailAddress");
@@ -527,7 +528,8 @@
 				</script>
 
 				<script>
-					function Kakao() {
+
+				function Kakao() {
 		
 						var IMP = window.IMP;
 						IMP.init('imp83138778');
@@ -536,7 +538,7 @@
 							pay_method : 'vbank',
 							merchant_uid : 'merchant_' + new Date().getTime(),
 							name : "${product.productName }",
-							amount : "${product.productPrice}",
+							amount : "$("input[name=Price]").val()",
 							buyer_email : "12312",
 							buyer_name : "12312",
 							buyer_tel : "123",
@@ -566,7 +568,7 @@
 							pay_method : 'vbank',
 							merchant_uid : 'merchant_' + new Date().getTime(),
 							name : "${product.productName }",
-							amount : "${product.productPrice}",
+							amount : "$("input[name=Price]").val()",
 							buyer_email : "12312",
 							buyer_name : "12312",
 							buyer_tel : "123",
