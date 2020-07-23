@@ -47,19 +47,11 @@
 		SELECT *
 		FROM ORDER_DETAIL
 		WHERE ORDER_NUM='#{orderNum}'
-	</select>
-<<<<<<< HEAD
+	</select>	
 	<update id="updateProductCnt" parameterType="_int">
 		UPDATE PRODUCT
 		SET PRODUCT_STOCK=PRODUCT_STOCK-#{orderQty}
 		WHERE PRODUCT_NUM=#{productNum}
-=======
-	
-	<update id="updateProductCnt" parameterType="_int">
-	UPDATE PRODUCT
-	SET PRODUCT_STOCK=PRODUCT_STOCK-#{orderQty}
-	WHERE PRODUCT_NUM=#{productNum}
->>>>>>> refs/remotes/origin/daehong
 	</update>
 
 </mapper>
