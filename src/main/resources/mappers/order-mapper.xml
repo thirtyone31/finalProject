@@ -26,7 +26,9 @@
 		
 	<insert id="insertOrderDetail" parameterType="OrderDetail">
 		INSERT INTO ORDER_DETAIL
-		VALUES(#{productNum},#{orderNum},#{orderQty},#{productPrice})
+		SELECT	PRODUCT_NUM, #{orderNum}, #{orderQty}, PRODUCT_PRICE 
+		FROM	PRODUCT
+		WHERE	PRODUCT_NUM = #{productNum}
 	</insert>
 
 	<insert id="insertOrder" parameterType="Order">

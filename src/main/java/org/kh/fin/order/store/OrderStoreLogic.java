@@ -15,24 +15,14 @@ public class OrderStoreLogic {
 
 	public int insertOrderDetail(OrderDetail orderDetail) {
 		return sqlSession.insert("orderMapper.insertOrderDetail",orderDetail);
-	
-		
 	}
 	public int insertOrder(Order order) {
 		return sqlSession.insert("orderMapper.insertOrder",order);
 	}
-	
 	public String getOrderNum() {
 		return sqlSession.selectOne("orderMapper.getOrderNum");
 	}
 	public int updateProductCnt(OrderDetail orderDetail) {
-		
 		return sqlSession.update("orderMapper.updateProductCnt",orderDetail);
 	}
-
-	
-
-	
-
-
 }

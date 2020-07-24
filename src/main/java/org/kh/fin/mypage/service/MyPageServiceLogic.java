@@ -65,5 +65,4 @@ public class MyPageServiceLogic implements MyPageService{
 		// TODO Auto-generated method stub
 		return mypageStore.getdcRate(memberId);
 	}
-
 }
