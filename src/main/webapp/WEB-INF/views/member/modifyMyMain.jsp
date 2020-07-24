@@ -46,7 +46,7 @@
 
           <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up">
             <span>01</span>
-            <a href=""><h4>프로필 수정</h4></a>
+            <a href="memberIdModifyView.me"><h4>프로필 수정</h4></a>
             <table>
                 <tr>
                     <td style="width:38px;">이름</td><td>${loginInfo.memberName }</td>
@@ -60,7 +60,7 @@
 
           <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="100">
             <span>02</span>
-            <a href=""><h4>연락처 수정</h4></a>
+            <a href="phoneModifyView.me"><h4>연락처 수정</h4></a>
             <table>
                 <tr>
                     <td style="width:70px;">이메일</td><td>${loginInfo.email}</td>
@@ -73,20 +73,20 @@
 
           <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="200">
             <span>03</span>
-            <a href=""><h4>배송지 수정</h4></a>
+            <a href="addressModifyView.me"><h4>배송지 수정</h4></a>
             <p>어부바에서 쇼핑 하실려면 최근 거주하시는 배송지를 입력하세요.
               </p>
           </div>
 
           <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="300">
             <span>04</span>
-            <a href=""><h4>보안 설정</h4></a>
+            <a href="passwordModifyView.me"><h4>보안 설정</h4></a>
             <p>어부바 로그인시 사용하는 비밀번호를 변경하세요. 주기적인 비밀번호 변경을 통해 개인정보를 안전하게 보호하세요</p>
           </div>
 
           <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="400">
             <span>05</span>
-           <a href=""><h4>회원 탈퇴</h4></a>
+           <a href="deleteMember.me?memberId=${loginInfo.memberId }"><h4>회원 탈퇴</h4></a>
             <p>어부바를 더이상 이용하지 않는다면...</p>
           </div>
 

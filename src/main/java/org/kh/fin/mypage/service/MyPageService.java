@@ -3,6 +3,7 @@ package org.kh.fin.mypage.service;
 import java.util.ArrayList;
 
 import org.kh.fin.common.PageInfo;
+import org.kh.fin.member.domain.Member;
 import org.kh.fin.mypage.domain.Favorite;
 import org.kh.fin.mypage.domain.OrderInfo;
 import org.kh.fin.mypage.domain.WriteBoard;
@@ -18,4 +19,9 @@ public interface MyPageService {
 	public ArrayList<Integer> deleteFavorite(Favorite favorite);
 	public ProductInCart selectOneProduct(int productNum);
 	public int getdcRate(String memberId);
+	public int memberIdModify(Member mem);
+	public int phoneModify(Member mem);
+	public int addressModify(Member mem);
+	public int passwordModify(Member mem);
+	public int deleteMember(String memberId);
 }

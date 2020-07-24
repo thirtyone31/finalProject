@@ -21,10 +21,13 @@ import org.kh.fin.product.domain.Product;
 import org.kh.fin.product.domain.ProductInCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import sun.net.www.content.text.plain;
@@ -199,5 +202,94 @@ public class MyPageController {
 		
 		session.setAttribute("pList", pList);
 		session.setAttribute("cart", cart);
+	}
+
+//아이디 변경 화면 연결
+@RequestMapping("memberIdModifyView.me")
+public String memberIdModifyView(Member mem,Model model) {
+	return "/memberModify/memberIdModify";
+}
+//아이디 변경
+	@RequestMapping(value="memberIdModify.me")
+	public ModelAndView memberIdModify(Member mem,ModelAndView mv) {
+		//ModelAndView로 처리한다음 처리된 내용을 화면단에 뿌려줄때 사용한다 굿
+		System.out.println("mem : " + mem.toString());
+		int result= mypageService.memberIdModify(mem);
+		if(result>0) {
+			mv.addObject("loginInfo", mem);
+			mv.setViewName("modifyMyMain");
+		}else {
+			mv.setViewName("../../common/errorPage");
+		}
+		return mv;
+	}
+	
+	//연락처 화면 연결
+	@RequestMapping("phoneModifyView.me")
+	public String phoneModifyView(Member mem,Model model) {
+		return "/memberModify/phoneModify";
+	}
+	
+	//연락처 변경
+	@RequestMapping("phoneModify.me")
+	public ModelAndView phoneModify(Member mem,ModelAndView mv) {
+		System.out.println("mem : " + mem.toString());
+		int result = mypageService.phoneModify(mem);
+		if(result>0) {
+			mv.addObject("loginInfo", mem);
+			mv.setViewName("modifyMyMain");
+		}else {
+			mv.setViewName("../../common/errorPage");
+		}
+		return mv;
+		
+			
+	}
+	//주소변경 화면 연결
+			@RequestMapping("addressModifyView.me")
+			public String addressModifyView(Member mem,Model model) {
+				return "/memberModify/addressModify";
+			}
+	//주소변경
+	@RequestMapping("addressModify.me")
+	public ModelAndView addressModify(Member mem,ModelAndView mv) {
+		int result = mypageService.addressModify(mem);
+		if(result>0) {
+			mv.addObject("loginInfo", mem);
+			mv.setViewName("modifyMyMain");
+		}else {
+			mv.setViewName("../../common/errorPage");
+		}
+		return mv;
+			
+	}
+	//비밀번호 화면 연결
+	@RequestMapping("passwordModifyView.me")
+	public String passwordModifyView(Member mem,Model model) {
+		return "/memberModify/passwordModify";
+	}
+	//비밀번호 변경
+	@RequestMapping(value="passwordModify.me", method = RequestMethod.POST)
+	public ModelAndView passwordModify(Member mem,ModelAndView mv) {
+		int result=mypageService.passwordModify(mem);
+		if(result>0) {
+			mv.addObject("loginInfo", mem);
+			mv.setViewName("modifyMyMain");
+		}else {
+			mv.setViewName("../../common/errorPage");
+		}
+		return mv;
+	}
+	//회원탈퇴
+	@RequestMapping("deleteMember.me")
+	public String deleteMember(String memberId,Model model,SessionStatus status) {
+		System.out.println("memberId : "+memberId);
+		int result = mypageService.deleteMember(memberId);
+		if(result>0) {
+			status.setComplete();
+			return "redirect:/";
+		}else {
+			return "../../common/errorPage";
+		}
 	}
 }

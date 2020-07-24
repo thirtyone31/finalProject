@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.kh.fin.common.PageInfo;
 import org.kh.fin.common.Pagination;
+import org.kh.fin.member.domain.Member;
 import org.kh.fin.notice.domain.NoticeBoard;
 import org.kh.fin.notice.domain.NoticeCategory;
 import org.kh.fin.notice.domain.Search;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.JsonObject;
 
@@ -340,5 +342,68 @@ public class NoticeController {
 			return "common/errorPage";
 		}
 	}*/
+	
+	@RequestMapping("black.do")
+	public String memberBlack(String memberId,Model model,
+			RedirectAttributes rd) {
+		System.out.println(memberId);
+		int result= nService.blackMember(memberId);
+		System.out.println(result);
+		if(result>0) {
+			rd.addFlashAttribute("msg","등록성공");
+			return "redirect:mlistView.do";
+		}else {
+			model.addAttribute("msg","등록 실패");
+			return "common/errorPage";
+		}
+	}
+	@RequestMapping("out.do")
+	public String outMember(String memberId,Model model,
+			RedirectAttributes rd) {
+		int result=nService.outMember(memberId);
+		if(result>0) {
+			rd.addFlashAttribute("msg","등록성공");
+			return "redirect:mlistView.do";
+		}else {
+			model.addAttribute("msg","등록실패");
+			return "common/errorPage";
+		}
+	
+	}
+	@RequestMapping("msearch.do")
+	public String memberSearch(Search search,Model model,Integer page) {
+		ArrayList<Member> searchList= nService.searchList(search);
+		model.addAttribute("list", searchList);
+		System.out.println(searchList);
+		model.addAttribute("search", search);
+		System.out.println(search);
+		return "notice/blackList";
+	}
+	
+	@RequestMapping("mlistView.do")
+	public ModelAndView memberList(ModelAndView mv,Integer page) {
+		int currentPage = (page != null) ? page : 1;
+		System.out.println(currentPage);
+		int listCount = nService.getListCountblack();
+		System.out.println(listCount);
+		int pageLimit = 10; // 한 페이지에서 보여질 페이징 수
+		int boardLimit = 5; // 한 페이지에 보여질 게시글 갯수
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, pageLimit, boardLimit);
+		System.out.println("pi : "+pi);
+		ArrayList<Member> list =nService.selectListblack(pi);
+		
+		
+		if(!list.isEmpty()) {
+			mv.addObject("list",list );
+			mv.addObject("pi",pi);
+			mv.setViewName("notice/blackList");
+		}else {
+			mv.addObject("msg","게시글 전체조회 실패");
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
 
 }

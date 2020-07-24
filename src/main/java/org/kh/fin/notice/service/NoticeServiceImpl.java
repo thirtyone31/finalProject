@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.kh.fin.common.PageInfo;
+import org.kh.fin.member.domain.Member;
 import org.kh.fin.notice.domain.NoticeBoard;
 import org.kh.fin.notice.domain.NoticeCategory;
 import org.kh.fin.notice.domain.Search;
@@ -56,6 +57,25 @@ public class NoticeServiceImpl {
 	//검색후 페이징 처리 
 	public int getListSearchCount(Search search) {
 		return nStore.getListSearchCount(search);
+	}
+	
+	public int blackMember(String memberId) {
+		return nStore.blackMember(memberId);
+	}
+
+	public int outMember(String memberId) {
+		return nStore.outMember(memberId);
+	}
+
+	public ArrayList<Member> searchList(Search search) {
+		return nStore.searchList(search);
+	}
+
+	public ArrayList<Member> selectListblack(PageInfo pi) {
+		return nStore.selectListblack(pi);
+	}
+	public int getListCountblack() {
+		return nStore.getListCountblack();
 	}
 		
 

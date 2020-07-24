@@ -87,4 +87,77 @@
 		SET		MEMBER_PWD = FN_ENCRYPT_MD5(#{password})
 		WHERE 	MEMBER_EMAIL = #{email}
 	</update>
+	<!-- 아이디 변경 -->
+	<update id="updateId" parameterType="Member">
+		UPDATE MEMBER
+		SET MEMBER_NAME=#{memberName}, MEMBER_NICKNAME=#{nickName}
+		WHERE MEMBER_ID=#{memberId}
+	</update>
+	<!-- 연락처변경 -->
+	<update id="updatePhone" parameterType="Member">
+		UPDATE MEMBER
+		SET MEMBER_EMAIL=#{email}, MEMBER_PHONE=#{phone}
+		WHERE MEMBER_ID=#{memberId}
+	</update>
+	<!-- 주소변경 -->
+	<update id="updateAddress" parameterType="Member">
+		UPDATE MEMBER
+		SET MEMBER_POST=#{post}, MEMBER_ADDRESS=#{address},
+		MEMBER_ADDRESS_DETAIL=#{addressDetail}
+		WHERE MEMBER_ID=#{memberId}
+	</update>
+	<!-- 비밀번호 변경 -->		
+	<update id="updatePassword" parameterType="Member">
+		UPDATE MEMBER
+		SET MEMBER_PWD=#{memberPwd}
+		WHERE MEMBER_ID=#{memberId}  
+	</update>
+	<!-- 회원탈퇴 -->
+	<update id="updateDelete" parameterType="Member">
+		UPDATE MEMBER
+		SET STATUS='0'
+		WHERE MEMBER_ID =#{memberId} 
+	</update>
+	<!-- 블랙리스트걸기 -->
+	<update id="blackMember" parameterType="Member">
+		UPDATE MEMBER
+		SET STATUS= '3',MDT=SYSDATE
+		WHERE MEMBER_ID =#{memberId}
+	</update>
+	<!-- 블랙리스트 취소 -->
+	<update id="outMember" parameterType="Member">
+		UPDATE MEMBER
+		SET STATUS= '1',MDT=SYSDATE
+		WHERE MEMBER_ID =#{memberId}
+	</update>
+	<!-- 블랙리스트 검색 -->
+	<select id="searchList" parameterType="mSearch" resultMap="resultMemberSet">
+		SELECT * FROM MEMBER
+		<where>
+			<choose>
+				<when test="searchCondition == 'memberId'">
+					MEMBER_ID LIKE '%' || #{searchValue } || '%'
+				</when>
+				<when test="searchCondition == 'status'">
+					AND STATUS LIKE '%' || #{searchValue } || '%'
+				</when>
+				<when test="searchCondition == 'all'">
+					AND MEMBER_ID LIKE '%' || #{searchValue } || '%'
+					OR STATUS LIKE '%' || #{searchValue } || '%'
+				</when>
+			</choose>
+		</where>
+		ORDER BY MDT DESC
+	</select>
+		<!-- 페이징처리관련 -->
+	<select id="selectListblack" resultMap="resultMemberSet">
+		SELECT *
+		FROM MEMBER
+		ORDER BY MEMBER_ID DESC
+	</select>
+	<select id="getListCountblack" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE STATUS='1'
+	</select> 
 </mapper>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.apache.ibatis.session.RowBounds;
 import org.kh.fin.common.PageInfo;
+import org.kh.fin.member.domain.Member;
 import org.kh.fin.notice.domain.NoticeBoard;
 import org.kh.fin.notice.domain.NoticeCategory;
 import org.kh.fin.notice.domain.Search;
@@ -71,6 +72,24 @@ public class NoticeStoreLogic {
 	public int getListSearchCount(Search search) {
 		System.out.println(search.getSearchValue());
 		return sqlSession.selectOne("noticeMapper.getListSearchCount",search);
+	}
+	public int blackMember(String memberId) {
+		return sqlSession.update("memberMapper.blackMember",memberId);
+	}
+	public int outMember(String memberId) {
+		return sqlSession.update("memberMapper.outMember",memberId);
+	}
+	public ArrayList<Member> searchList(Search search){
+		return (ArrayList)sqlSession.selectList("memberMapper.searchList",search);
+	}
+	
+	public ArrayList<Member> selectListblack(PageInfo pi){
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectListblack",null,rowBounds);
+	}
+	public int getListCountblack() {
+		return sqlSession.selectOne("memberMapper.getListCountblack");
 	}
 	
 }
