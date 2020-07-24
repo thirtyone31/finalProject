@@ -25,6 +25,7 @@
 		<typeAlias type="org.kh.fin.order.domain.Order" alias="Order"/>
 		<typeAlias type="org.kh.fin.order.domain.OrderDetail" alias="OrderDetail"/>
 		<typeAlias type="org.kh.fin.product.domain.ProductSearch" alias="ProductSearch"/>
+		<typeAlias type="org.kh.fin.member.domain.Search" alias="mSearch"/>
 		<!-- *********************************************** typeAliases 각자 지정한 
 			model클래스 지정하여 작성 *********************************************** -->
 

@@ -3,6 +3,7 @@ package org.kh.fin.mypage.service;
 import java.util.ArrayList;
 
 import org.kh.fin.common.PageInfo;
+import org.kh.fin.member.domain.Member;
 import org.kh.fin.mypage.domain.Favorite;
 import org.kh.fin.mypage.domain.OrderInfo;
 import org.kh.fin.mypage.domain.WriteBoard;
@@ -64,5 +65,31 @@ public class MyPageServiceLogic implements MyPageService{
 	public int getdcRate(String memberId) {
 		// TODO Auto-generated method stub
 		return mypageStore.getdcRate(memberId);
+	}
+	@Override
+	public int memberIdModify(Member mem) {
+		return mypageStore.memberIdModify(mem);
+	}
+		
+
+	@Override
+	public int phoneModify(Member mem) {
+		return mypageStore.phoneModify(mem);
+	}
+		
+
+	@Override
+	public int addressModify(Member mem) {
+		return mypageStore.addressModify(mem);
+	}
+		
+
+	@Override
+	public int passwordModify(Member mem) {
+		return mypageStore.passwordModify(mem);
+	}
+	@Override
+	public int deleteMember(String memberId) {
+		return mypageStore.deleteMember(memberId);
 	}
 }

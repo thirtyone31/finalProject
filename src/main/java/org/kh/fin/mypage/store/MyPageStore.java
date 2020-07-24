@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.session.RowBounds;
 import org.kh.fin.common.PageInfo;
+import org.kh.fin.member.domain.Member;
 import org.kh.fin.mypage.domain.Favorite;
 import org.kh.fin.mypage.domain.OrderInfo;
 import org.kh.fin.mypage.domain.WriteBoard;
@@ -100,5 +101,20 @@ public class MyPageStore {
 	public int getdcRate(String memberId) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mypageMapper.getdcRate", memberId);
+	}
+	public int memberIdModify(Member mem) {
+		return sqlSession.update("memberMapper.updateId",mem);
+	}
+	public int phoneModify(Member mem) {
+		return sqlSession.update("memberMapper.updatePhone",mem);
+	}
+	public int addressModify(Member mem) {
+		return sqlSession.update("memberMapper.updateAddress",mem);
+	}
+	public int passwordModify(Member mem) {
+		return sqlSession.update("memberMapper.updatePassword",mem);
+	}
+	public int deleteMember(String memberId) {
+		return sqlSession.update("memberMapper.updateDelete",memberId);
 	}
 }

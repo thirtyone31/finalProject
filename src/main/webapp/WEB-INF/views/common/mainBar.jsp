@@ -85,7 +85,10 @@
                                 <li><a href="myOrderList.do">구매내역</a></li>
                                 <li><a href="myCartList.do">장바구니</a></li>
                                 <li><a href="myFavoriteList.do">관심상품</a></li>
-                                <li><a href="myPage.me">내 정보</a>
+                                <li><a href="myPage.me">내 정보</a></li>
+                                <c:if test="${loginInfo.memberId eq 'admin' }">
+                                <li><a href="mlistView.do">회원관리</a></li>
+                                </c:if>
                             </ul>
                         </li>
                     </c:if>
