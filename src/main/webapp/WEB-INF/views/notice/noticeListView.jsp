@@ -17,6 +17,25 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<style type="text/css">
+.btn-custom {
+  background-color: #52768D !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#768FA6", endColorstr="#768FA6");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#768FA6), to(#768FA6));
+  background-image: -moz-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -ms-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #768FA6), color-stop(100%, #768FA6));
+  background-image: -webkit-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -o-linear-gradient(top, #768FA6, #768FA6);
+  background-image: linear-gradient(#768FA6, #768FA6);
+  border-color: #768FA6 #768FA6 #52768D;
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.16);
+  -webkit-font-smoothing: antialiased;
+}
+</style>
+
 </head>
 
 <body id="page-top">
@@ -183,7 +202,7 @@
 												<c:if test="${search.searchCondition == 'content' }">selected</c:if>>내용</option>
 										</select> <input type="search" name="searchValue"
 											value="${search.searchValue }">
-										<button>검색</button>
+										<button class="btn btn-custom btn-sm">검색</button>
 										<br>
 									</form>
 								</div>
