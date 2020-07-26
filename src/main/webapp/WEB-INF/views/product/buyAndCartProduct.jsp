@@ -163,6 +163,24 @@
 	margin-left: 40%;
 }
 </style>
+<style type="text/css">
+.btn-custom {
+  background-color: #52768D !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#768FA6", endColorstr="#768FA6");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#768FA6), to(#768FA6));
+  background-image: -moz-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -ms-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #768FA6), color-stop(100%, #768FA6));
+  background-image: -webkit-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -o-linear-gradient(top, #768FA6, #768FA6);
+  background-image: linear-gradient(#768FA6, #768FA6);
+  border-color: #768FA6 #768FA6 #52768D;
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.16);
+  -webkit-font-smoothing: antialiased;
+}
+</style>
 
 <!-- 부트스트랩  4.5.0 -->
 <link rel="stylesheet"
@@ -590,7 +608,7 @@
 
 
 
-				<input id="btn" type="button" class="btn btn-outline-secondary btn-lg submitBtn"
+				<input id="btn" type="button" class="btn btn-custom btn-sm" 
 					onclick="validationInfo();" value="결제하기">
 
 
