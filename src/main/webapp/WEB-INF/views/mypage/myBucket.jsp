@@ -453,6 +453,7 @@
 				receiverData.postcode = postcode.value;
 				receiverData.address = address.value;
 				receiverData.detailAddress = detailAddress.value;
+				receiverData.dcRate = "${dcRate}";
 				
 				var productName;
 				if($("input[name^='productName']").length > 1){

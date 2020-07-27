@@ -9,6 +9,9 @@ import org.kh.fin.member.domain.Member;
 import org.kh.fin.mypage.domain.Favorite;
 import org.kh.fin.mypage.domain.OrderInfo;
 import org.kh.fin.mypage.domain.WriteBoard;
+import org.kh.fin.order.domain.Order;
+import org.kh.fin.order.domain.OrderProduct;
+import org.kh.fin.order.domain.Status;
 import org.kh.fin.product.domain.Product;
 import org.kh.fin.product.domain.ProductInCart;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -116,5 +119,20 @@ public class MyPageStore {
 	}
 	public int deleteMember(String memberId) {
 		return sqlSession.update("memberMapper.updateDelete",memberId);
+	}
+
+	public Order selectOrderOne(String orderNum) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("mypageMapper.selectOrderOne", orderNum);
+	}
+
+	public ArrayList<Status> selectStatus() {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectStatus");
+	}
+
+	public ArrayList<OrderProduct> selectProductInfo(String orderNum) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("mypageMapper.selectProductInfo", orderNum);
 	}
 }

@@ -19,6 +19,9 @@ import org.kh.fin.mypage.domain.OrderInfo;
 import org.kh.fin.mypage.domain.WriteBoard;
 import org.kh.fin.mypage.service.MyPageService;
 import org.kh.fin.order.domain.Order;
+import org.kh.fin.order.domain.OrderProduct;
+import org.kh.fin.order.domain.Status;
+import org.kh.fin.order.service.OrderService;
 import org.kh.fin.product.domain.Product;
 import org.kh.fin.product.domain.ProductInCart;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +44,7 @@ public class MyPageController {
 
 	@Autowired
 	private MyPageService mypageService;
+
 
 	@RequestMapping(value = "myWriteList.do")
 	public ModelAndView writeList(ModelAndView mv, @RequestParam(value = "page", required = false) Integer page,
@@ -73,7 +77,17 @@ public class MyPageController {
 		mv.setViewName("mypage/myOrderList");
 		return mv;
 	}
-
+	@RequestMapping(value="myOrderDetail.do")
+	public ModelAndView myOrderDetail(ModelAndView mv, @RequestParam(value="orderNum") String orderNum) {
+		Order order = mypageService.selectOrderOne(orderNum);
+		ArrayList<Status> sList = mypageService.selectStatus();
+		ArrayList<OrderProduct> pList = mypageService.selectProductInfo(orderNum);
+		mv.addObject("order", order);
+		mv.addObject("sList", sList);
+		mv.addObject("pList", pList);
+		mv.setViewName("mypage/myOrderDetail");
+		return mv;
+	}
 	@RequestMapping(value = "myFavoriteList.do")
 	public ModelAndView favoriteList(ModelAndView mv, @RequestParam(value = "page", required = false) Integer page,
 			HttpSession session) {
@@ -83,7 +97,7 @@ public class MyPageController {
 		int pageLimit = 5; // 한 페이지에서 보여질 페이징 수
 		int boardLimit = 5; // 한 페이지에 보여질 게시글 갯수
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, pageLimit, boardLimit);
-		ArrayList<Product> pList = mypageService.selectFavoriteList(member.getMemberId(), pi);
+		ArrayList<Product> pList = mypageService.selectFavoriteList(member.getMemberId(), pi)	;
 		mv.addObject("pList", pList);
 		mv.addObject("pi", pi);
 		mv.setViewName("mypage/myFavorite");

@@ -22,6 +22,7 @@
 	<result property="purchaseType" column="PURCHASE_TYPE"></result>
 	<result property="purchaseNum" column="PURCHASE_NUM"></result>
 	<result property="cdt" column="CDT"></result>
+	<result property="dcRate" column="DC_RATE"></result>
 	</resultMap>
 	
 	<resultMap type="OrderReview" id="orderReviewSet">
@@ -47,7 +48,7 @@
 	<insert id="insertOrder" parameterType="Order">
     	INSERT INTO ORDER_TB
     	VALUES(#{orderNum},#{memberId},#{orderName},#{orderPhone},#{orderPost},#{orderAddress},
-    	#{orderAddressDetail},#{statusNum},#{purchaseType},#{purchaseNum},SYSDATE)
+    	#{orderAddressDetail},#{statusNum},#{purchaseType},#{purchaseNum},SYSDATE, #{dcRate})
 	</insert>
 	
 	

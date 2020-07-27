@@ -8,6 +8,9 @@ import org.kh.fin.mypage.domain.Favorite;
 import org.kh.fin.mypage.domain.OrderInfo;
 import org.kh.fin.mypage.domain.WriteBoard;
 import org.kh.fin.mypage.store.MyPageStore;
+import org.kh.fin.order.domain.Order;
+import org.kh.fin.order.domain.OrderProduct;
+import org.kh.fin.order.domain.Status;
 import org.kh.fin.product.domain.Product;
 import org.kh.fin.product.domain.ProductInCart;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,5 +94,23 @@ public class MyPageServiceLogic implements MyPageService{
 	@Override
 	public int deleteMember(String memberId) {
 		return mypageStore.deleteMember(memberId);
+	}
+
+	@Override
+	public Order selectOrderOne(String orderNum) {
+		// TODO Auto-generated method stub
+		return mypageStore.selectOrderOne(orderNum);
+	}
+
+	@Override
+	public ArrayList<Status> selectStatus() {
+		// TODO Auto-generated method stub
+		return mypageStore.selectStatus();
+	}
+
+	@Override
+	public ArrayList<OrderProduct> selectProductInfo(String orderNum) {
+		// TODO Auto-generated method stub
+		return mypageStore.selectProductInfo(orderNum);
 	}
 }

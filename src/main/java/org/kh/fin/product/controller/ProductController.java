@@ -14,6 +14,7 @@ import org.kh.fin.common.PageInfo;
 import org.kh.fin.common.Pagination;
 import org.kh.fin.member.domain.Member;
 import org.kh.fin.mypage.domain.Bucket;
+import org.kh.fin.mypage.service.MyPageService;
 import org.kh.fin.order.domain.OrderDetail;
 import org.kh.fin.order.domain.OrderReview;
 import org.kh.fin.order.service.OrderService;
@@ -37,6 +38,10 @@ import com.google.gson.JsonArray;
 public class ProductController {
 	@Autowired
 	ProductService pService;
+	
+	@Autowired
+	private MyPageService mypageService;
+	
 	
 	@Autowired
 	OrderService oService;
@@ -261,11 +266,14 @@ public class ProductController {
 
 	// 주문버튼누르면 저장해주는 메소드
 	@RequestMapping(value = "buyInfoProduct.do", method = RequestMethod.POST)
-	public ModelAndView buyAndCartProduct(int productNum, int orderQty, ModelAndView mv) {
+	public ModelAndView buyAndCartProduct(int productNum, int orderQty, ModelAndView mv, HttpSession session) {
 		Product product = pService.productSelectOne(productNum);
+		Member mem = (Member) session.getAttribute("loginInfo");
+		int dcRate = mypageService.getdcRate(mem.getMemberId());
 		if (product != null && orderQty != 0) {
 			mv.addObject("product", product);
 			mv.addObject("orderQty", orderQty);
+			mv.addObject("dcRate", dcRate);
 			mv.setViewName("product/buyAndCartProduct");
 		} else {
 			mv.setViewName("common/errorPage");

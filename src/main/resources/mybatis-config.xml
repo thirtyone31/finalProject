@@ -30,6 +30,8 @@
 		<typeAlias type="org.kh.fin.order.domain.OrderReview" alias="OrderReview"/>
 		<typeAlias type="org.kh.fin.order.domain.OrderValidate" alias="OrderValidate"/>
 		<typeAlias type="org.kh.fin.order.domain.OrderReviewFile" alias="OrderReviewFile"/>
+		<typeAlias type="org.kh.fin.order.domain.OrderProduct" alias="OrderProduct"/>
+		<typeAlias type="org.kh.fin.order.domain.Status" alias="Status"/>
 		
 		<!-- *********************************************** typeAliases 각자 지정한 
 			model클래스 지정하여 작성 *********************************************** -->

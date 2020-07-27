@@ -224,9 +224,10 @@ public class NoticeController {
 							uploadFile.mkdirs();
 						}
 						fileName = UUID.randomUUID().toString();
+						//디비에 저장할때 그림 이름을 암호화 해서 디비에 저장함
 						uploadPath = uploadPath + "/" + fileName;
 						out = new FileOutputStream(new File(uploadPath));
-						out.write(bytes);
+					out.write(bytes);
 
 						printWriter = response.getWriter();
 						response.setContentType("text/html");

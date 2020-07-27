@@ -90,7 +90,7 @@ public class OrderController {
 			String memberId = orderInfo.get("memberId").toString();
 			order.setMemberId(memberId);
 			String orderName = orderInfo.get("name").toString();
-			order.setorderName(orderName);
+			order.setOrderName(orderName);
 			String orderPhone = orderInfo.get("phone").toString();
 			order.setOrderPhone(orderPhone);
 			String orderPost = orderInfo.get("postcode").toString();
@@ -101,7 +101,11 @@ public class OrderController {
 			order.setOrderAddressDetail(detailAddress);
 			String purchaseType = orderInfo.get("type").toString();
 			order.setPurchaseType(purchaseType);
+			String dcRate = orderInfo.get("dcRate").toString();
+			order.setDcRate(Integer.parseInt(dcRate));
+			order.setStatusNum(1);
 			System.out.println(order.toString());
+			
 					
 			oService.insertOrder(order);
 			ArrayList<Object> list = (ArrayList)map.get("multiParam");

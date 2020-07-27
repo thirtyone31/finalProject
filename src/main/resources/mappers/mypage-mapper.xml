@@ -14,6 +14,21 @@
 		<result property="cdt" column="CDT" />
 		<result property="mdt" column="MDT" />
 	</resultMap>
+	<resultMap type="Order" id="orderResultSet">
+		<id property="orderNum" column="ORDER_NUM"></id>
+		<result property="memberId" column="MEMBER_ID"></result>
+		<result property="orderName" column="ORDER_NAME"></result>
+		<result property="orderPhone" column="ORDER_PHONE"></result>
+		<result property="orderPost" column="ORDER_POST"></result>
+		<result property="orderAddress" column="ORDER_ADDRESS"></result>
+		<result property="orderAddressDetail" column="ORDER_ADDRESS_DETAIL"></result>
+		<result property="statusNum" column="STATUS_NUM"></result>
+		<result property="purchaseType" column="PURCHASE_TYPE"></result>
+		<result property="purchaseNum" column="PURCHASE_NUM"></result>
+		<result property="cdt" column="CDT"></result>
+		<result property="dcRate" column="DC_RATE"></result>
+	</resultMap>
+	
 	<resultMap type="OrderInfo" id="orderInfoResultSet">
 		<result property="orderNum" column="ORDER_NUM"/>
 		<result property="statusNum" column="STATUS_NUM"/>
@@ -50,6 +65,17 @@
 		<result property="productPrice" column="PRODUCT_PRICE"></result>
 		<result property="productSize" column="PRODUCT_SIZE"></result>
 		<result property="productColor" column="PRODUCT_COLOR"></result>
+	</resultMap>
+	
+	<resultMap type="Status" id="StatusMap">
+		<id property="statusNum" column="STATUS_NUM"/>
+		<result property="statusName" column="STATUS_NAME"/>
+	</resultMap>
+	<resultMap type="OrderProduct" id="ProductInfoMap">
+		<result property="productMainName" column="PRODUCT_MAIN_NAME"/>
+		<result property="productName" column="PRODUCT_NAME"/>
+		<result property="orderQty" column="PRODUCT_QTY"/>
+		<result property="productPrice" column="PRODUCT_PRICE"/>
 	</resultMap>
 	
 	<select id="selectWriteList" parameterType="String" resultMap="writeBoardResultSet">
@@ -123,5 +149,20 @@
 		FROM    MEMBER A
 		LEFT JOIN   GRADE B ON A.GRADE_NUM = B.GRADE_NUM
 		WHERE   MEMBER_ID = #{memberId}
+	</select>
+	<select id="selectOrderOne" resultMap="orderResultSet" parameterType="String">
+		SELECT	*
+		FROM	ORDER_TB
+		WHERE	ORDER_NUM = #{orderNum}
+	</select>
+	<select id="selectStatus" resultMap="StatusMap">
+		SELECT  *
+		FROM    STATUS_TB
+	</select>
+	<select id="selectProductInfo" resultMap="ProductInfoMap" parameterType="String">
+		SELECT	B.PRODUCT_MAIN_NAME, B.PRODUCT_NAME, A.PRODUCT_QTY, A.PRODUCT_PRICE
+		FROM	ORDER_DETAIL A
+		LEFT JOIN    PRODUCT B ON A.PRODUCT_NUM = B.PRODUCT_NUM
+		WHERE	A.ORDER_NUM = #{orderNum}
 	</select>
 </mapper>
