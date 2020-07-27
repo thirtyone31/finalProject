@@ -1,6 +1,9 @@
 package org.kh.fin.order.controller;
 
 import java.io.PrintWriter;
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -9,10 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
+import org.kh.fin.common.PageInfo;
+import org.kh.fin.common.Pagination;
 import org.kh.fin.member.domain.Member;
 import org.kh.fin.mypage.domain.Bucket;
 import org.kh.fin.order.domain.Order;
 import org.kh.fin.order.domain.OrderDetail;
+import org.kh.fin.order.domain.OrderReview;
+import org.kh.fin.order.domain.OrderReviewFile;
+import org.kh.fin.order.domain.OrderValidate;
 import org.kh.fin.order.service.OrderService;
 import org.kh.fin.product.domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +30,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 
 @Controller
 public class OrderController {
@@ -111,4 +124,197 @@ public class OrderController {
 		}
 	}
 
+	//상세 상품 조회시 상품리뷰 리스트
+	@RequestMapping("orderReview.do")
+	public ModelAndView orderReviewPage(ModelAndView mv, @RequestParam(value = "page", required = false) Integer page) {
+		int currentPage = (page != null) ? page : 1;
+		int listCount = oService.getListCount();
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount,10,5);
+
+		ArrayList<OrderReview> list = oService.selectAllOrderReview(pi);
+
+		if (!list.isEmpty()) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("order/orderReviewPage");
+			return mv;
+		} else {
+			mv.setViewName("common/error");
+			return mv;
+		}
+	}
+	// 리뷰 삭제
+	@RequestMapping("deleteReview.do")
+	public String orderReviewDelete(@RequestParam(value="pNum") int pNum,@RequestParam(value="oNum") String oNum) {
+		
+		System.out.println(pNum);
+		System.out.println(oNum);
+		OrderReview review = new OrderReview();
+		review.setProductNum(pNum);
+		review.setOrderNum(oNum);
+		int result = oService.deleteReview(review);
+		 if(result>0) {
+			return "redirect:ProductDetailView.do?pNum="+pNum;
+		 }
+		 else {
+			 return "common/error";
+		 }
+		
+	}
+	//페이징 ajax
+	@RequestMapping("reviewpaging.do")
+	public void reviewPaging(@RequestParam(value="page") Integer page,HttpServletResponse response) {
+		System.out.println(page);
+		
+		int currentPage = (page != null) ? page : 1;
+		int listCount = oService.getListCount();
+		
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount,10,5);
+
+		ArrayList<OrderReview> list = oService.selectAllOrderReview(pi);
+		try {
+		for (OrderReview review : list) {
+			review.setOrderNum(URLEncoder.encode(review.getOrderNum(), "utf-8"));
+			review.setContent(URLEncoder.encode(review.getContent(), "utf-8"));
+		}
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(list, response.getWriter());
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+
+}
+	
+	@RequestMapping(value="insertOrderReview.do" ,method=RequestMethod.POST)
+	public String insertReview(HttpServletRequest request,OrderReview oReview,@RequestParam("pNum") int pNum,HttpSession session,@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile) {
+		Member member=(Member)session.getAttribute("loginInfo");
+		
+		System.out.println(uploadFile);
+		System.out.println("제목:"+oReview.getTitle());
+		System.out.println("내용:"+oReview.getContent());
+		
+		OrderValidate orderVali= new OrderValidate();
+		orderVali.setMemberId(member.getMemberId());
+		orderVali.setProductNum(pNum);
+		
+		
+		int result = 0;
+		
+		
+		OrderDetail detail = oService.insertValidate(orderVali);
+		System.out.println(detail.getOrderNum());
+		
+		if(detail != null) {
+			OrderReview review = new OrderReview();
+			review.setProductNum(pNum);
+			review.setOrderNum(detail.getOrderNum());
+			review.setTitle(oReview.getTitle());
+			review.setContent(oReview.getContent());
+			
+			result = oService.insertReview(review);
+			
+			
+		}
+		if(result>0) {
+			OrderReviewFile orFile= new OrderReviewFile();
+			//사진 파일저장
+			if (!uploadFile.getOriginalFilename().equals("") && !uploadFile.getOriginalFilename().equals("")) {
+				
+				String filePath = saveFile(uploadFile, request);
+				
+				if (filePath != null ) {
+					orFile.setFileName(uploadFile.getOriginalFilename());
+					orFile.setFilePath("\\resources\\images\\orderRviewImg\\");
+					orFile.setProductNum(pNum);
+					orFile.setOrderNum(detail.getOrderNum());
+					
+					int fileResult = oService.insertReviewFile(orFile);
+				}
+				else {
+					return "common/errorPage";
+				}
+				
+			}else {
+				return "common/errorPage";
+			}
+			
+		}
+		return "redirect:ProductDetailView.do?pNum="+pNum;
+		
+		
+		
+	}
+
+	private String saveFile(MultipartFile file, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+
+		String savePath = root + "\\images\\orderRviewImg";
+		// 저장 폴더 선택
+		File folder = new File(savePath);
+
+		// 만약 폴더가 없을 경우 자동 생성
+		if (!folder.exists()) {
+			folder.mkdir();
+		}
+
+		String filePath = folder + "\\" + file.getOriginalFilename();
+
+		try {
+			file.transferTo(new File(filePath));
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return filePath;
+
+	}
+	
+	@RequestMapping(value="updateReview",method=RequestMethod.POST)
+	public String updateReview(HttpServletRequest request,OrderReview oReview,@RequestParam("pNum") int pNum,HttpSession session,
+			@RequestParam(value = "updateFile", required = false) MultipartFile updateFile) {
+		
+		OrderReview review = new OrderReview();
+		
+		review.setOrderNum(oReview.getOrderNum());
+		review.setContent(oReview.getContent());
+		review.setTitle(oReview.getTitle());
+		review.setProductNum(pNum);
+		
+		int result = oService.updateReview(review);
+		
+		if(result>0) {
+			OrderReviewFile orFile= new OrderReviewFile();
+				if (!updateFile.getOriginalFilename().equals("") && !updateFile.getOriginalFilename().equals("")) {
+				
+				String filePath = saveFile(updateFile, request);
+				
+				if (filePath != null ) {
+					orFile.setFileName(updateFile.getOriginalFilename());
+					orFile.setFilePath("\\resources\\images\\orderRviewImg\\");
+					orFile.setProductNum(pNum);
+					orFile.setOrderNum(oReview.getOrderNum());
+					
+					int fileResult = oService.updateReviewFile(orFile);
+					if(fileResult>0) {
+						return "redirect:ProductDetailView.do?pNum="+pNum;
+					}
+				}
+				else {
+					return "common/errorPage";
+				}
+				
+			}else {
+				return "common/errorPage";
+			}
+		}else {
+			return "common/errorPage";
+		}
+		return "redirect:ProductDetailView.do?pNum="+pNum;
+	}
 }

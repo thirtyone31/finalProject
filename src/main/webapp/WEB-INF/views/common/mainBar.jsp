@@ -34,6 +34,73 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  
+  
+  <!--채팅창 style  -->
+  <style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+/* Button used to open the chat form - fixed at the bottom of the page */
+.open-button {
+  
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.7;
+  position: fixed;
+  bottom: 3px;
+  right: 28px;
+  width: 80px;
+}
+
+/* The popup chat - hidden by default */
+.chat-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  height: 600px;
+  width: 800px;
+  padding: 10px;
+  background-color: white;
+}
+
+
+
+/* Set a style for the submit/send button */
+.form-container .btn {
+  float:right;	
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  bottm:23px;
+  right:15px;
+  width: 80px;
+  opacity: 0.7;
+  
+ 
+  
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: none;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+</style>
 </head>
 
 <body>
@@ -65,6 +132,12 @@
 					</c:if>
 					<c:if test="${!empty sessionScope.loginInfo}">
 					<li><a onclick="#">커뮤니티</a></li>
+					</c:if>
+					<c:if test="${empty sessionScope.loginInfo}">
+					<li><a onclick="failed();">구매후기</a></li>
+					</c:if>
+					<c:if test="${!empty sessionScope.loginInfo}">
+					<li><a href="orderReview.do">구매후기</a></li>
 					</c:if>
 					<c:if test="${empty sessionScope.loginInfo}">
 					<li><a onclick="failed();">자유게시판</a></li>
@@ -128,4 +201,56 @@
         </div>
     </header>
     <!-- End Header -->
+    <a class="link"href="" target="site">
+			<img class="open-button" src="resources/images/chat.png" onclick="openForm()"/>
+			</a>
+			<!-- <button class="open-button" onclick="openForm()">Chat</button> -->
+
+<div class="chat-popup" id="myForm">
+  <div class="form-container">
+	<iframe id="_chatbox" name="site" style="width:100%; height:100%;" ></iframe>
+	<a class="link"href="" target="site">
+    <img class="btn cancel" src="resources/images/chathide.png" onclick="closeForm()"/>
+    </a>
+  </div>
+</div>
+
+<script>
+function openForm() {
+	
+		$("#myForm").css("display", "block");
+		$(".open-button").css("display", "none");
+		$(".link").attr("href", "chat2.jsp?id="+'${loginInfo.memberId }');
+		
+		
+	}
+
+	function closeForm() {
+		$("#myForm").css("display", "none");
+		$(".open-button").css("display", "block");
+		$(".link").attr("href", "");
+		$('#_chatbox').get(0).contentWindow.webSocket.onClose;
+
+	}
+	
+	 $(".chat").on({
+	        "click" : function() {
+	        		
+	            if ($(this).attr("src") == "resources/images/chat.png") {
+	            	$(".link").attr("href","chat2.jsp");
+	                $(".chat").attr("src", "resources/images/chathide.png");
+	                $("#_chatbox").css("display", "block");
+	            } else if ($(this).attr("src") == "resources/images/chathide.png") {
+	                $(".chat").attr("src", "resources/images/chat.png");
+	                $("#_chatbox").css("display", "none");
+	                $(".link").attr("href","");
+	                $('#_chatbox').get(0).contentWindow.webSocket.onClose;
+					//iframe의 내부에 있는 메소드 사용하여 연결해제
+	              	
+	            }
+	        }
+	    
+	    });
+	
+</script>
 </body>
