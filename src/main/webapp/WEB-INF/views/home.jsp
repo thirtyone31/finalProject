@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +13,9 @@
 <meta content="" name="descriptison">
 <meta content="낚시, 구매, 상품" name="keywords">
 
-
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+	integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+	crossorigin="anonymous"></script>
 <!-- Google Fonts -->
 <link
 	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i,900"
@@ -123,191 +127,101 @@
 	<main id="main"> <!-- ======= Our Portfolio Section ======= -->
 	<section id="portfolio" class="portfolio section-bg">
 		<div class="container" data-aos="fade-up" data-aos-delay="100">
-
 			<div class="section-title">
 				<h2>낚시용품</h2>
 				<p>빠르게 만나보는 낚시용품</p>
 			</div>
-
 			<div class="row">
 				<div class="col-lg-12">
 					<ul id="portfolio-flters">
-						<li data-filter="*" class="filter-active">전체보기</li>
-						<li data-filter=".filter-fishingRod">낚시대</li>
-						<li data-filter=".filter-card">가방/아이스박스</li>
-						<li data-filter=".filter-web">의류</li>
-						<li data-filter=".filter-web">채비</li>
-						<li data-filter=".filter-line">라인</li>
+						<li data-filter="*" class="filter-active">전체보기</li> 
+						<li data-filter=".filter-favorite">좋아요</li>
+						<li data-filter=".filter-sold">판매량</li>
+						<li data-filter=".filter-views">조회순</li>
 					</ul>
 				</div>
 			</div>
-
 			<div class="row portfolio-container">
-
-				<div class="col-lg-4 col-md-6 portfolio-item filter-app">
-					<div class="portfolio-wrap">
-						<img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid"
-							alt="">
-						<div class="portfolio-info">
-							<h4>App 1</h4>
-							<p>App</p>
-							<div class="portfolio-links">
-								<a href="assets/img/portfolio/portfolio-1.jpg"
-									data-gall="portfolioGallery" class="venobox" title="App 1"><i
-									class="icofont-eye"></i></a> <a href="portfolio-details.html"
-									title="More Details"><i class="icofont-external-link"></i></a>
+				<c:forEach var="Product" items="${favoriteList}" varStatus="i">
+					<div class="col-lg-4 col-md-6 portfolio-item filter-favorite">
+						<div class="portfolio-wrap" style="height: 350px;width: 350px;">
+							<img src="/resources/images/productImg/${Product.productMainName}"
+								 class="img-fluid" style="height:100%; width:100%;">
+							<c:url var="detailView" value="ProductDetailView.do">
+                            	<c:param name="pNum" value="${Product.productNum }" />
+							</c:url>
+							<div class="portfolio-info">
+								<h4>상품명 : ${Product.productName }</h4>
+								<p>가격 : ${Product.productPrice }원</p>
+                                <p>좋아요 : ${Product.cnt}</p>
+								<div class="portfolio-links">
+									<a
+										href="/resources/images/productImg/${Product.productMainName}"
+										data-gall="portfolioGallery" class="venobox"> <i
+										class="icofont-eye"></i></a>
+                                	<a href="${detailView}" title="More Details">
+                                	<i class="icofont-external-link"></i></a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-lg-4 col-md-6 portfolio-item filter-web">
-					<div class="portfolio-wrap">
-						<img src="assets/img/portfolio/portfolio-2.jpg" class="img-fluid"
-							alt="">
-						<div class="portfolio-info">
-							<h4>Web 3</h4>
-							<p>Web</p>
-							<div class="portfolio-links">
-								<a href="assets/img/portfolio/portfolio-2.jpg"
-									data-gall="portfolioGallery" class="venobox" title="Web 3"><i
-									class="icofont-eye"></i></a> <a href="portfolio-details.html"
-									title="More Details"><i class="icofont-external-link"></i></a>
+				</c:forEach>
+				<c:forEach var="Product" items="${soldList}" varStatus="i">
+					<div class="col-lg-4 col-md-6 portfolio-item filter-sold">
+						<div class="portfolio-wrap" style="height: 350px;width: 350px;">
+							<img src="/resources/images/productImg/${Product.productMainName}"
+								 class="img-fluid" style="height:100%; width:100%;">
+							<c:url var="detailView" value="ProductDetailView.do">
+                            	<c:param name="pNum" value="${Product.productNum }" />
+							</c:url>
+							<div class="portfolio-info">
+								<h4>상품명 : ${Product.productName }</h4>
+								<p>가격 : ${Product.productPrice }원</p>
+                                <p>판매량 : ${Product.cnt}</p>
+								<div class="portfolio-links">
+									<a
+										href="/resources/images/productImg/${Product.productMainName}"
+										data-gall="portfolioGallery" class="venobox"> <i
+										class="icofont-eye"></i></a>
+                                	<a href="${detailView}" title="More Details">
+                                	<i class="icofont-external-link"></i></a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-lg-4 col-md-6 portfolio-item filter-app">
-					<div class="portfolio-wrap">
-						<img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid"
-							alt="">
-						<div class="portfolio-info">
-							<h4>App 2</h4>
-							<p>App</p>
-							<div class="portfolio-links">
-								<a href="assets/img/portfolio/portfolio-3.jpg"
-									data-gall="portfolioGallery" class="venobox" title="App 2"><i
-									class="icofont-eye"></i></a> <a href="portfolio-details.html"
-									title="More Details"><i class="icofont-external-link"></i></a>
+				</c:forEach>
+				<c:forEach var="Product" items="${showList}" varStatus="i">
+					<div class="col-lg-4 col-md-6 portfolio-item filter-views">
+						<div class="portfolio-wrap" style="height: 350px;width: 350px;">
+							<img src="/resources/images/productImg/${Product.productMainName}"
+								 class="img-fluid" style="height:100%; width:100%;">
+							<c:url var="detailView" value="ProductDetailView.do">
+                            	<c:param name="pNum" value="${Product.productNum }" />
+							</c:url>
+							<div class="portfolio-info">
+								<h4>상품명 : ${Product.productName }</h4>
+								<p>가격 : ${Product.productPrice }원</p>
+                                <p>조회수 : ${Product.cnt}</p>
+								<div class="portfolio-links">
+									<a
+										href="/resources/images/productImg/${Product.productMainName}"
+										data-gall="portfolioGallery" class="venobox"> <i
+										class="icofont-eye"></i></a>
+                                	<a href="${detailView}" title="More Details">
+                                	<i class="icofont-external-link"></i></a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-lg-4 col-md-6 portfolio-item filter-card">
-					<div class="portfolio-wrap">
-						<img src="assets/img/portfolio/portfolio-4.jpg" class="img-fluid"
-							alt="">
-						<div class="portfolio-info">
-							<h4>Card 2</h4>
-							<p>Card</p>
-							<div class="portfolio-links">
-								<a href="assets/img/portfolio/portfolio-4.jpg"
-									data-gall="portfolioGallery" class="venobox" title="Card 2"><i
-									class="icofont-eye"></i></a> <a href="portfolio-details.html"
-									title="More Details"><i class="icofont-external-link"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-lg-4 col-md-6 portfolio-item filter-web">
-					<div class="portfolio-wrap">
-						<img src="assets/img/portfolio/portfolio-5.jpg" class="img-fluid"
-							alt="">
-						<div class="portfolio-info">
-							<h4>Web 2</h4>
-							<p>Web</p>
-							<div class="portfolio-links">
-								<a href="assets/img/portfolio/portfolio-5.jpg"
-									data-gall="portfolioGallery" class="venobox" title="Web 2"><i
-									class="icofont-eye"></i></a> <a href="portfolio-details.html"
-									title="More Details"><i class="icofont-external-link"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-lg-4 col-md-6 portfolio-item filter-app">
-					<div class="portfolio-wrap">
-						<img src="assets/img/portfolio/portfolio-6.jpg" class="img-fluid"
-							alt="">
-						<div class="portfolio-info">
-							<h4>App 3</h4>
-							<p>App</p>
-							<div class="portfolio-links">
-								<a href="assets/img/portfolio/portfolio-6.jpg"
-									data-gall="portfolioGallery" class="venobox" title="App 3"><i
-									class="icofont-eye"></i></a> <a href="portfolio-details.html"
-									title="More Details"><i class="icofont-external-link"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-lg-4 col-md-6 portfolio-item filter-card">
-					<div class="portfolio-wrap">
-						<img src="assets/img/portfolio/portfolio-7.jpg" class="img-fluid"
-							alt="">
-						<div class="portfolio-info">
-							<h4>Card 1</h4>
-							<p>Card</p>
-							<div class="portfolio-links">
-								<a href="assets/img/portfolio/portfolio-7.jpg"
-									data-gall="portfolioGallery" class="venobox" title="Card 1"><i
-									class="icofont-eye"></i></a> <a href="portfolio-details.html"
-									title="More Details"><i class="icofont-external-link"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-lg-4 col-md-6 portfolio-item filter-card">
-					<div class="portfolio-wrap">
-						<img src="assets/img/portfolio/portfolio-8.jpg" class="img-fluid"
-							alt="">
-						<div class="portfolio-info">
-							<h4>Card 3</h4>
-							<p>Card</p>
-							<div class="portfolio-links">
-								<a href="assets/img/portfolio/portfolio-8.jpg"
-									data-gall="portfolioGallery" class="venobox" title="Card 3"><i
-									class="icofont-eye"></i></a> <a href="portfolio-details.html"
-									title="More Details"><i class="icofont-external-link"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-lg-4 col-md-6 portfolio-item filter-web">
-					<div class="portfolio-wrap">
-						<img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid"
-							alt="">
-						<div class="portfolio-info">
-							<h4>Web 3</h4>
-							<p>Web</p>
-							<div class="portfolio-links">
-								<a href="assets/img/portfolio/portfolio-9.jpg"
-									data-gall="portfolioGallery" class="venobox" title="Web 3"><i
-									class="icofont-eye"></i></a> <a href="portfolio-details.html"
-									title="More Details"><i class="icofont-external-link"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-
+				</c:forEach>
 			</div>
-
 		</div>
 	</section>
 	<!-- End Our Portfolio Section -->
 	<!-- ======= Counts Section ======= -->
 	<section class="counts section-bg">
 		<div class="container">
-
 			<div class="row">
-
 				<div class="col-lg-3 col-md-6 text-center" data-aos="fade-up">
 					<div class="count-box">
 						<i class="icofont-simple-smile" style="color: #20b38e;"></i> <span
@@ -354,6 +268,5 @@
 	<!-- End #main -->
 
 	<jsp:include page="common/footer.jsp"></jsp:include>
-
 </body>
 </html>

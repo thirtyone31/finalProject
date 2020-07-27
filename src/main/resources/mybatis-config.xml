@@ -26,6 +26,7 @@
 		<typeAlias type="org.kh.fin.order.domain.OrderDetail" alias="OrderDetail"/>
 		<typeAlias type="org.kh.fin.product.domain.ProductSearch" alias="ProductSearch"/>
 		<typeAlias type="org.kh.fin.member.domain.Search" alias="mSearch"/>
+		<typeAlias type="org.kh.fin.common.domain.MainItem" alias="MainItem"/>
 		<!-- *********************************************** typeAliases 각자 지정한 
 			model클래스 지정하여 작성 *********************************************** -->
 
@@ -38,6 +39,7 @@
 		<mapper resource="mappers/notice-mapper.xml" />
 		<mapper resource="mappers/product-mapper.xml"/>
 		<mapper resource="mappers/order-mapper.xml"/>
+		<mapper resource="mappers/common-mapper.xml"/>
 		<!-- <mapper resource="mappers/orderReview-mapper.xml"/>  -->
 
 		<!-- 쿼리문 저장할곳 설정 -->
