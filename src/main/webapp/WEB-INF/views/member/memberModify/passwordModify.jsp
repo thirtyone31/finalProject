@@ -8,7 +8,7 @@
 <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-<title>프로필 수정</title>
+<title>보안 설정</title>
 <!-- Google Fonts -->
     <!-- Google fonts-->
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -25,12 +25,12 @@
 	<!-- 제목 콘텐츠-->
 	<section class="page-section bg-light" id="portfolio">
 		<div class="container">
-		 <h2>프로필 수정</h2>
+		 <h2>보안 설정</h2>
 			<div class="row">
 			
 			<!--콘텐츠 페이지 내용 위치-->
 			<div class="col-lg-12" data-aos="fade-up" data-aos-delay="300">
-				<form action="passwordModify.me" method="get" class="php-email-form">
+				<form action="passwordModify.me" method="get" >
 			
 				<table>
 						<tr>
@@ -44,7 +44,7 @@
 							<td><input type="text" class="form-control" id="id"
 								size="30" name="" placeholder="다시한번 입력하세요"  "
 								style="margin: 10px"></td>
-						<input type="hidden" name="memberId" value="${loginInfo.memberId }"/>
+						<input type="hidden" name="" value=""/>
 						<tr>
 							<td>
 								<button type="reset" class="btn btn-secondary">취소하기</button>
@@ -63,6 +63,6 @@
 		</div>
 	</section>
 
-	<%-- <jsp:include page="../../common/footer.jsp"/>  --%>
+	<jsp:include page="../../common/footer.jsp"/>
 </body>
 </html>

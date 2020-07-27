@@ -40,7 +40,24 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
+<style type="text/css">
+.btn-custom {
+  background-color: #52768D !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#768FA6", endColorstr="#768FA6");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#768FA6), to(#768FA6));
+  background-image: -moz-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -ms-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #768FA6), color-stop(100%, #768FA6));
+  background-image: -webkit-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -o-linear-gradient(top, #768FA6, #768FA6);
+  background-image: linear-gradient(#768FA6, #768FA6);
+  border-color: #768FA6 #768FA6 #52768D;
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.16);
+  -webkit-font-smoothing: antialiased;
+}
+</style>
 
 
 </head>
@@ -77,7 +94,7 @@
                             <li data-filter=".filter-fishingLine">라인</li><br><br>
                             <form action="searchProduct.do">
                                 <input type="text" name="productName" placeholder="검색">
-                                <button click="submit">검색</button>
+                                <button click="submit" class="btn btn-custom btn-sm">검색</button>
                             </form>
                         </ul>
                     </div>
