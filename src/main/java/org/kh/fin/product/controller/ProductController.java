@@ -10,9 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.kh.fin.common.PageInfo;
+import org.kh.fin.common.Pagination;
 import org.kh.fin.member.domain.Member;
 import org.kh.fin.mypage.domain.Bucket;
 import org.kh.fin.order.domain.OrderDetail;
+import org.kh.fin.order.domain.OrderReview;
+import org.kh.fin.order.service.OrderService;
 import org.kh.fin.product.domain.Product;
 import org.kh.fin.product.domain.ProductSearch;
 import org.kh.fin.product.service.ProductService;
@@ -34,6 +38,8 @@ public class ProductController {
 	@Autowired
 	ProductService pService;
 	
+	@Autowired
+	OrderService oService;
 	// 상품 등록 페이지
 	@RequestMapping("insertShowProduct.do")
 	public String insertShowProduct() {
@@ -136,13 +142,10 @@ public class ProductController {
 		
 		ArrayList<Product> list = pService.productSelectList(memberId);
 		if (!list.isEmpty()) {
-
 			mv.addObject("list", list);
 			mv.setViewName("product/showAdminProduct");
 		} else {
-			
 			mv.setViewName("common/errorPage");
-
 		}
 		return mv;
 	}
@@ -234,13 +237,21 @@ public class ProductController {
 	}
 
 	@RequestMapping("ProductDetailView.do")
-	public String productDetailView(int pNum, Model model) {
+	public String productDetailView(int pNum, Model model,@RequestParam(value="page",required=false)Integer page) {
 
+		int currentPage = (page != null) ? page : 1;
+		int listCount = oService.getPnumList(pNum);
+		
 		int result = pService.updateViewCnt(pNum);
 		Product product = pService.productSelectOne(pNum);
 
-		if (product != null && result > 0) {
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount,10,5);
+		ArrayList<OrderReview> list =oService.selectProductReview(pi,pNum);
+		
+		if (product != null && result > 0 && list != null) {
 			model.addAttribute("p", product);
+			model.addAttribute("list",list);
+			model.addAttribute("pi",pi);
 			return "product/selectDetailProduct";
 		} else {
 			return "common/errorPage";
@@ -286,25 +297,24 @@ public class ProductController {
 		}
 		return mv;
 	}
-	
 	@ResponseBody
-	@RequestMapping(value="insertCart.do", method=RequestMethod.GET)
-	public String insertCart(HttpServletResponse response, HttpServletRequest request, 
-			@RequestParam(value="pNum") int pNum, @RequestParam(value="cnt") int cnt) {
-		HttpSession session = request.getSession();
-		ArrayList<Bucket> cart = (ArrayList<Bucket>) session.getAttribute("cart");
-		if(cart == null) {
-			cart = new ArrayList<Bucket>();
-		}
-		
-		for (Bucket bucket : cart) {
-			if(bucket.getProductNum() == pNum) {
-				return "fail";
-			}
-		}
-		
-		cart.add(new Bucket(pNum, cnt));
-		session.setAttribute("cart", cart);
-		return "success";
-	}
+	   @RequestMapping(value="insertCart.do", method=RequestMethod.GET)
+	   public String insertCart(HttpServletResponse response, HttpServletRequest request, 
+	         @RequestParam(value="pNum") int pNum, @RequestParam(value="cnt") int cnt) {
+	      HttpSession session = request.getSession();
+	      ArrayList<Bucket> cart = (ArrayList<Bucket>) session.getAttribute("cart");
+	      if(cart == null) {
+	         cart = new ArrayList<Bucket>();
+	      }
+	      
+	      for (Bucket bucket : cart) {
+	         if(bucket.getProductNum() == pNum) {
+	            return "fail";
+	         }
+	      }
+	      
+	      cart.add(new Bucket(pNum, cnt));
+	      session.setAttribute("cart", cart);
+	      return "success";
+	   }
 }

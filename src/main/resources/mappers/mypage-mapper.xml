@@ -124,5 +124,4 @@
 		LEFT JOIN   GRADE B ON A.GRADE_NUM = B.GRADE_NUM
 		WHERE   MEMBER_ID = #{memberId}
 	</select>
-	
 </mapper>

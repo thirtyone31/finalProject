@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -143,9 +144,8 @@ input {
 			</div>
 		<form action="insertProduct.do" id="myForm" method="post"
 			enctype="Multipart/form-data">
-  <div width="1200px" align="center" class="container">
-   <table align="center" border="0" cellspacing="0" class="table table-bordered">
-
+  	<div width="1200px" align="center" class="container">
+   	<table align="center" border="0" cellspacing="0" class="table table-bordered">
 				<tr>
 					<td>카테고리</td>
 					<td><select class="custom-select custom-select-lg mb-3" name="categoryNum" >

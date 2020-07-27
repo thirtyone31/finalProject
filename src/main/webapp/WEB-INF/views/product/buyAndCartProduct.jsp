@@ -163,6 +163,24 @@
 	margin-left: 40%;
 }
 </style>
+<style type="text/css">
+.btn-custom {
+  background-color: #52768D !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#768FA6", endColorstr="#768FA6");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#768FA6), to(#768FA6));
+  background-image: -moz-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -ms-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #768FA6), color-stop(100%, #768FA6));
+  background-image: -webkit-linear-gradient(top, #768FA6, #768FA6);
+  background-image: -o-linear-gradient(top, #768FA6, #768FA6);
+  background-image: linear-gradient(#768FA6, #768FA6);
+  border-color: #768FA6 #768FA6 #52768D;
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.16);
+  -webkit-font-smoothing: antialiased;
+}
+</style>
 
 <!-- 부트스트랩  4.5.0 -->
 <link rel="stylesheet"
@@ -493,6 +511,7 @@
 
 					//<!-- 입력값 유효성체크 -->
 					function validationInfo() {
+						alert($("input[name=Price]").val());
 						var name = document.getElementById("name");
 						var phone = document.getElementById("phone");
 						var address = document.getElementById("detailAddress");
@@ -527,7 +546,8 @@
 				</script>
 
 				<script>
-					function Kakao() {
+
+				function Kakao() {
 		
 						var IMP = window.IMP;
 						IMP.init('imp83138778');
@@ -536,7 +556,7 @@
 							pay_method : 'vbank',
 							merchant_uid : 'merchant_' + new Date().getTime(),
 							name : "${product.productName }",
-							amount : "${product.productPrice}",
+							amount : "$("input[name=Price]").val()",
 							buyer_email : "12312",
 							buyer_name : "12312",
 							buyer_tel : "123",
@@ -566,7 +586,7 @@
 							pay_method : 'vbank',
 							merchant_uid : 'merchant_' + new Date().getTime(),
 							name : "${product.productName }",
-							amount : "${product.productPrice}",
+							amount : "$("input[name=Price]").val()",
 							buyer_email : "12312",
 							buyer_name : "12312",
 							buyer_tel : "123",
@@ -590,7 +610,7 @@
 
 
 
-				<input id="btn" type="button" class="btn btn-outline-secondary btn-lg submitBtn"
+				<input id="btn" type="button" class="btn btn-custom btn-sm" 
 					onclick="validationInfo();" value="결제하기">
 
 
@@ -606,98 +626,7 @@
 		<br> <br> <br>
 
 	</section>
-
-
-
-
-
-
-	<br>
-	<br>
-	<br>
-
-
-	<!-- End Our Portfolio Section -->
-	</main>
-	<!-- End #main -->
-
-	<!-- ======= Footer ======= -->
-	<footer id="footer">
-		<div class="footer-top">
-			<div class="container">
-				<div class="row">
-
-					<div class="col-lg-3 col-md-6 footer-info">
-						<h3>어부바</h3>
-						<p>
-							서울시 영등포구 당산동 <br> <br> <br> <strong>Phone:</strong>
-							+82 010-6666-8888<br> <strong>Email:</strong>
-							fisherbarKH@gmail.com<br>
-						</p>
-						<div class="social-links mt-3">
-							<a href="#" class="twitter"><i class="bx bxl-twitter"></i></a> <a
-								href="#" class="facebook"><i class="bx bxl-facebook"></i></a> <a
-								href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-							<a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-							<a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-						</div>
-					</div>
-
-					<div class="col-lg-2 col-md-6 footer-links">
-						<h4>Useful Links</h4>
-						<ul>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">About
-									us</a></li>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">Terms
-									of service</a></li>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">Privacy
-									policy</a></li>
-						</ul>
-					</div>
-
-					<div class="col-lg-3 col-md-6 footer-links">
-						<h4>Our Services</h4>
-						<ul>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">Web
-									Design</a></li>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">Web
-									Development</a></li>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">Product
-									Management</a></li>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">Graphic
-									Design</a></li>
-						</ul>
-					</div>
-
-					<div class="col-lg-4 col-md-6 footer-newsletter">
-						<h4>Our Newsletter</h4>
-						<p>Tamen quem nulla quae legam multos aute sint culpa legam
-							noster magna</p>
-
-
-					</div>
-
-				</div>
-			</div>
-		</div>
-
-		<div class="container">
-			<div class="copyright">
-				&copy; Copyright <strong><span>Mamba</span></strong>. All Rights
-				Reserved
-			</div>
-			<div class="credits">
-				<!-- All the links in the footer should remain intact. -->
-				<!-- You can delete the links only if you purchased the pro version. -->
-				<!-- Licensing information: https://bootstrapmade.com/license/ -->
-				<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/mamba-one-page-bootstrap-template-free/ -->
-				Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-			</div>
-		</div>
-	</footer>
+	<jsp:include page="../common/footer.jsp"/>
 	<!-- End Footer -->
 
 	<a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>

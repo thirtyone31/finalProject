@@ -25,9 +25,9 @@
 	<insert id="insertProduct" parameterType="Product">
 		INSERT INTO PRODUCT
 		VALUES(PRODUCT_NUM.NEXTVAL,#{categoryNum},#{productMainName},#{productMainPath},
-		#{productName},#{productStock},#{productPrice},
-		#{productInfo},#{productSize},#{productColor},
-		#{productShowCnt},DEFAULT,SYSDATE,SYSDATE)
+				#{productName},#{productStock},#{productPrice},
+				#{productInfo},#{productSize},#{productColor},
+				#{productShowCnt},DEFAULT,SYSDATE,SYSDATE)
 	</insert>
 	
 	<select id="selectList" parameterType="string" resultMap="productResultSet">
@@ -61,23 +61,23 @@
 	</update>
 	
  	<update id="insertUpdate" parameterType="Product">
-		UPDATE PRODUCT
-    	SET CATEGORY_NUM=#{categoryNum},
-        PRODUCT_MAIN_NAME=#{productMainName},
-        PRODUCT_MAIN_PATH=#{productMainPath},
-        PRODUCT_NAME=#{productName},
-        PRODUCT_STOCK=#{productStock},
-        PRODUCT_PRICE=#{productPrice},
-        PRODUCT_INFO=#{productInfo},
-        PRODUCT_SIZE=#{productSize},
-        PRODUCT_COLOR=#{productColor},
-        PRODUCT_SHOW_CNT=#{productShowCnt},
-        PRODUCT_STATUS=DEFAULT,
-        CDT=SYSDATE,
-        MDT=SYSDATE
-    WHERE PRODUCT_NUM=#{productNum}
+		UPDATE 	PRODUCT
+    	SET 	CATEGORY_NUM=#{categoryNum},
+        		PRODUCT_MAIN_NAME=#{productMainName},
+		        PRODUCT_MAIN_PATH=#{productMainPath},
+		        PRODUCT_NAME=#{productName},
+		        PRODUCT_STOCK=#{productStock},
+		        PRODUCT_PRICE=#{productPrice},
+		        PRODUCT_INFO=#{productInfo},
+		        PRODUCT_SIZE=#{productSize},
+		        PRODUCT_COLOR=#{productColor},
+		        PRODUCT_SHOW_CNT=#{productShowCnt},
+		        PRODUCT_STATUS=DEFAULT,
+		        CDT=SYSDATE,
+		        MDT=SYSDATE
+    	WHERE 	PRODUCT_NUM=#{productNum}
 	</update>
-<!-- 새로한것 -->
+	<!-- 새로한것 -->
 
 	<select id="searchProduct" resultMap="productResultSet">
 		SELECT 	A.PRODUCT_NUM, A.CATEGORY_NUM, A.PRODUCT_MAIN_NAME, A.PRODUCT_MAIN_PATH, A.PRODUCT_NAME, A.PRODUCT_STOCK, A.PRODUCT_PRICE, A.PRODUCT_INFO, A.PRODUCT_SIZE, A.PRODUCT_COLOR, A.PRODUCT_SHOW_CNT, A.PRODUCT_STATUS,
