@@ -258,25 +258,158 @@ function check(){
 								</div>
 							</div>
 
-							<div data-brackets-id='1354' class="fh5co-tab-content tab-content" data-tab-content="2">
-								<div data-brackets-id='1355' class="col-md-10 col-md-offset-1">
-								
-									
-									<h3 data-brackets-id='1356'>Product Specification</h3>
-									<ul data-brackets-id='1357'>
-										<li data-brackets-id='1358'>Paragraph placeat quis fugiat provident veritatis quia iure a debitis adipisci dignissimos consectetur magni quas eius</li>
-										<li data-brackets-id='1359'>adipisci dignissimos consectetur magni quas eius nobis reprehenderit soluta eligendi</li>
-										<li data-brackets-id='1360'>Veritatis tenetur odio delectus quibusdam officiis est.</li>
-										<li data-brackets-id='1361'>Magni quas eius nobis reprehenderit soluta eligendi quo reiciendis fugit? Veritatis tenetur odio delectus quibusdam officiis est.</li>
-									</ul>
-									<ul data-brackets-id='1362'>
-										<li data-brackets-id='1363'>Paragraph placeat quis fugiat provident veritatis quia iure a debitis adipisci dignissimos consectetur magni quas eius</li>
-										<li data-brackets-id='1364'>adipisci dignissimos consectetur magni quas eius nobis reprehenderit soluta eligendi</li>
-										<li data-brackets-id='1365'>Veritatis tenetur odio delectus quibusdam officiis est.</li>
-										<li data-brackets-id='1366'>Magni quas eius nobis reprehenderit soluta eligendi quo reiciendis fugit? Veritatis tenetur odio delectus quibusdam officiis est.</li>
-									</ul>
-								</div>
-							</div>
+						  <div data-brackets-id='1354' class="fh5co-tab-content tab-content" data-tab-content="2">
+                        <div data-brackets-id='1355' class="col-md-10 col-md-offset-1">
+                        
+                           <table id="reviewList"class="table table-hover ">
+                           
+                           <tr><td colspan="5" >
+                           <form action="insertOrderReview.do" method="post"enctype="multipart/form-data">
+                           <input type="hidden" name="pNum" value="${p.productNum }">
+                           <input type="text" name ="title" placeholder="제목 입력">
+                           <br><br>
+                           <input type="file" name="uploadFile" id="imgView" accept=".jpg,.jpeg,.png,.gif">
+							<img id="viewer" width="150px" height="100px" style="display:none" required><br>
+                           <textarea rows="5" name="content"cols="120px"></textarea><br>
+                           <input type="submit" value="작성">
+                           </form></td>
+    					   <tr>
+    					   <td>상품사진</td><td>내용</td><td>작성자</td><td>날짜</td><td>기타</td>
+    					   </tr>
+                           </tr>
+                           
+								<c:forEach items="${list }" var="item" varStatus="stat">
+								<tr style="text-align:center;">
+									<td><div class="portfolio-wrap">
+                            <div class="portfolio-info">
+                                <div class="portfolio-links">
+                                    <a href="/resources/images/orderRviewImg/${item.fileName}" data-gall="portfolioGallery" class="venobox"><img style="height:50px; width:50px;" src="/resources/images/orderRviewImg/${item.fileName}" class="img-fluid" alt=""></a>
+                                </div>
+                            </div>
+                        </div></td><td>${item.content}</td>
+                        <td>${item.member }</td><td>${item.cdt}</td>
+                        
+                          <c:if test="${item.member == loginInfo.memberId }">  
+                        
+                        <td>
+                        <c:url var="delete" value="deleteReview.do">
+                        	<c:param name="pNum" value="${item.productNum }"/>
+                        	<c:param name="oNum" value="${item.orderNum }"/>
+                        </c:url>
+                        <a href="${delete}"><button>X</button></a>&nbsp;
+                        <button onclick="updateBtn(${item.orderNum })">수정</button>&nbsp;
+                        </td>
+                        
+							 </c:if>  
+								</tr>
+								 <tr id="updateShow${item.orderNum }" style="display:none;"><td colspan="5" >
+                           <form action="updateReview.do" method="post" enctype="multipart/form-data">
+                           <input type="hidden" name="pNum" value="${item.productNum }">
+                           <input type="hidden" name="orderNum" value="${item.orderNum }">
+                           <input type="text" name ="title" placeholder="제목 입력">
+                           <br><br>
+                           <input type="file" name="updateFile" id="imgView" accept=".jpg,.jpeg,.png,.gif">
+							<img id="viewer" width="150px" height="100px" style="display:none" required><br>
+                           <textarea rows="5" name="content"cols="120px"></textarea><br>
+                           <input type="submit" value="수정완료">
+                           
+                           </form></td></tr>
+								</c:forEach>
+							
+						</table>
+						<center>		
+						<button id="more">더보기</button>
+						</center>
+                        </div>
+                        
+                     </div>
+                      <!--수정보이기 -->
+                     <script>
+                     
+                     function updateBtn(idx){
+                    	 if($("#updateShow"+idx).css("display")=="none"){
+                  			$("#updateShow"+idx).css("display","");
+                  		}
+                  		else{
+                  			$("#updateShow"+idx).css("display","none");
+                  		}
+                     }
+                     	                    
+                     </script>
+                     
+                     
+   
+                     <!--첨부파일 미리보기-->
+                     <script>
+								function readURL(input) {
+									if (input.files && input.files[0]) {
+										var reader = new FileReader();
+										reader.onload = function(e) {
+											$('#viewer').attr('src',e.target.result);
+											$('#viewer').css("display","");
+										}
+										reader.readAsDataURL(input.files[0]); 
+									}
+									else{
+										$('#viewer').css("display","none");
+									}
+								}
+								$("#imgView").change(function() {
+									readURL(this);
+								});
+							
+							</script>
+                     <script>
+                     	$("#writeBtn").click(function(){
+                     		location.href="writeOrderReview.do";
+                     	})
+                     
+                     </script>
+                      <!--리뷰 리스트 페이징  -->
+                     <script>
+                    
+                     	var page=2;
+                     	$("#more").click(function(){
+                     	
+                     		$.ajax({
+            					url : "reviewpaging.do?page="+page,
+            					type : "POST",
+            					dataType:"json",
+            					data:page,
+            					success : function(data) {
+            						
+            						if( data.length > 0 ) {
+            							for ( var i in data ) {
+            								
+            							
+            								/* $("#reviewList tbody").append("<tr style='text-align:center;'><td><div class='portfolio-wrap'><div class='portfolio-info'><div class='portfolio-links'><a href='/resources/images/orderRviewImg/"+decodeURIComponent(data[i].fileName)+"' data-gall='portfolioGallery' class='venobox'><img style='height:50px; width:50px;' src='/resources/images/orderRviewImg/"+decodeURIComponent(data[i].fileName)+"' class='img-fluid' alt=''></a></div></div></div></td><td>"+decodeURIComponent(data[i].content)+"</td><td>"+data[i].member+"</td><td>"+data[i].cdt+"</td><c:if test="+${data[i].member == loginInfo.memberId }+"><td><a href=deleteReview.do?pNum="+data[i].productNum+"&oNum="+data[i].orderNum+"><button>X</button></a>&nbsp;</td></c:if></tr>"); */
+            		         
+            								
+            								if('${loginInfo.memberId}' == data[i].member){
+            									$("#reviewList tbody").append("<tr style='text-align:center;'><td><div class='portfolio-wrap'><div class='portfolio-info'><div class='portfolio-links'><a href='/resources/images/orderRviewImg/"+decodeURIComponent(data[i].fileName)+"' data-gall='portfolioGallery' class='venobox'><img style='height:50px; width:50px;' src='/resources/images/orderRviewImg/"+decodeURIComponent(data[i].fileName)+"' class='img-fluid' alt=''></a></div></div></div></td><td>"+decodeURIComponent(data[i].content)+"</td><td>"+data[i].member+"</td><td>"+data[i].cdt+"</td><td><a href=deleteReview.do?pNum="+data[i].productNum+"&oNum="+data[i].orderNum+"><button>X</button></a>&nbsp;<button onclick=updateBtn("+decodeURIComponent(data[i].orderNum)+")>수정</button>&nbsp;</td></tr><tr id='updateShow"+decodeURIComponent(data[i].orderNum)+"' style='display:none;'><td colspan='5' ><form action='updateReview.do' method='post'enctype='multipart/form-data'><input type='hidden' name='pNum' value="+data[i].productNum+"><input type='hidden'name='orderNum' value="+data[i].orderNum+"><input type='text' name ='title' placeholder='제목 입력'><br><br><input type='file' name='updateFile' id='imgView' accept='.jpg,.jpeg,.png,.gif'><img id='viewer' width='150px' height='100px' style='display:none' required><br><textarea rows='5' name='content'cols='120px'></textarea><br><input type='submit' value='수정완료'></form></td></tr>");
+            									/* $tr=$("<tr style='text-align:center;'><td><div class='portfolio-wrap'><div class='portfolio-info'><div class='portfolio-links'><a href='/resources/images/orderRviewImg/"+decodeURIComponent(data[i].fileName)+"' data-gall='portfolioGallery' class='venobox'><img style='height:50px; width:50px;' src='/resources/images/orderRviewImg/"+decodeURIComponent(data[i].fileName)+"' class='img-fluid' alt=''></a></div></div></div></td><td>"+decodeURIComponent(data[i].content)+"</td><td>"+data[i].member+"</td><td>"+data[i].cdt+"<td><a href=deleteReview.do?pNum="+data[i].productNum+"&oNum="+data[i].orderNum+"><button>X</button></a>&nbsp;</td>") */
+            								}
+            								else{
+            									$("#reviewList tbody").append("<tr style='text-align:center;'><td><div class='portfolio-wrap'><div class='portfolio-info'><div class='portfolio-links'><a href='/resources/images/orderRviewImg/"+decodeURIComponent(data[i].fileName)+"' data-gall='portfolioGallery' class='venobox'><img style='height:50px; width:50px;' src='/resources/images/orderRviewImg/"+decodeURIComponent(data[i].fileName)+"' class='img-fluid' alt=''></a></div></div></div></td><td>"+decodeURIComponent(data[i].content)+"</td><td>"+data[i].member+"</td><td>"+data[i].cdt+"</td></tr>");
+            								}
+            								
+            							}
+            							
+            					}else{
+            						alert("리뷰가 더이상  없습니다");
+            						
+            					}
+            						},
+            					error : function() {
+            						console.log("실패");
+            					}
+            				}); 
+                     		
+                     		page=page+1;
+                     		
+                     	})
+                     	
+                     </script>
 
 							<div data-brackets-id='1367' class="fh5co-tab-content tab-content" data-tab-content="3">
 								<div data-brackets-id='1368' class="col-md-10 col-md-offset-1">
