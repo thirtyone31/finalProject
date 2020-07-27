@@ -46,7 +46,7 @@
 				</div>
 				
    <br><br>
-   <table align="center" width="450" border="1" cellspacing="0" class="table">
+   <table align="center" width="450" border="1" cellspacing="0" class="table table-bordered">
    <tr >
       <td width="80">번호</td>
       <td>${notice.boardNo }</td>

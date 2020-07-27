@@ -55,10 +55,10 @@
                 <ul>
                     <li class="active"><a href="/">홈</a></li>
                     <c:if test="${!empty sessionScope.loginInfo}">
-                        <li class="drop-down"><a href="productMain.do">낚시용품</a>
+                        <li><a href="productMain.do">낚시용품</a>
                     </c:if>
                     <c:if test="${empty sessionScope.loginInfo}">
-                        <li class="drop-down"><a onclick="failed();">낚시용품</a>
+                        <li><a onclick="failed();">낚시용품</a>
                     </c:if>
                     <c:if test="${empty sessionScope.loginInfo}">
 					<li><a onclick="failed();">커뮤니티</a></li>
