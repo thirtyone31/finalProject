@@ -67,7 +67,7 @@
 
 					<!-- Slide 1 -->
 					<div class="carousel-item active"
-						style="background-image: url('assets/img/slide/slide-1.jpg');">
+						style="background-image: url('assets/img/slide/fisherman1.png');">
 						<div class="carousel-container">
 							<div class="carousel-content container">
 								<h2 class="animate__animated animate__fadeInDown">
@@ -83,7 +83,7 @@
 
 					<!-- Slide 2 -->
 					<div class="carousel-item"
-						style="background-image: url('assets/img/slide/slide-2.jpg');">
+						style="background-image: url('assets/img/slide/fisherman2.png');">
 						<div class="carousel-container">
 							<div class="carousel-content container">
 								<h2 class="animate__animated animate__fadeInDown">제목제목제목제목제목</h2>
@@ -96,7 +96,7 @@
 
 					<!-- Slide 3 -->
 					<div class="carousel-item"
-						style="background-image: url('assets/img/slide/slide-3.jpg');">
+						style="background-image: url('assets/img/slide/fisherman3.png');">
 						<div class="carousel-container">
 							<div class="carousel-content container">
 								<h2 class="animate__animated animate__fadeInDown">제목제목제목제목제목</h2>
