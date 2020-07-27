@@ -62,7 +62,7 @@
 		SELECT 	MEMBER_ID 
 		FROM 	MEMBER
 		WHERE 	MEMBER_NAME = #{name}
-		AND 	BIRTHDAY = #{key}
+		AND 	MEMBER_BIRTHDAY = #{key}
 	</select>
 
 	<!-- 닉네임 중복확인 -->
