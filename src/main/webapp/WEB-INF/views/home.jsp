@@ -147,9 +147,6 @@
 						<div class="portfolio-wrap" style="height: 350px;width: 350px;">
 							<img src="/resources/images/productImg/${Product.productMainName}"
 								 class="img-fluid" style="height:100%; width:100%;">
-							<c:url var="detailView" value="ProductDetailView.do">
-                            	<c:param name="pNum" value="${Product.productNum }" />
-							</c:url>
 							<div class="portfolio-info">
 								<h4>상품명 : ${Product.productName }</h4>
 								<p>가격 : ${Product.productPrice }원</p>
@@ -159,7 +156,7 @@
 										href="/resources/images/productImg/${Product.productMainName}"
 										data-gall="portfolioGallery" class="venobox"> <i
 										class="icofont-eye"></i></a>
-                                	<a href="${detailView}" title="More Details">
+                                	<a href="javascript:showItem(${Product.productNum})" title="More Details">
                                 	<i class="icofont-external-link"></i></a>
 								</div>
 							</div>
@@ -171,9 +168,6 @@
 						<div class="portfolio-wrap" style="height: 350px;width: 350px;">
 							<img src="/resources/images/productImg/${Product.productMainName}"
 								 class="img-fluid" style="height:100%; width:100%;">
-							<c:url var="detailView" value="ProductDetailView.do">
-                            	<c:param name="pNum" value="${Product.productNum }" />
-							</c:url>
 							<div class="portfolio-info">
 								<h4>상품명 : ${Product.productName }</h4>
 								<p>가격 : ${Product.productPrice }원</p>
@@ -183,7 +177,7 @@
 										href="/resources/images/productImg/${Product.productMainName}"
 										data-gall="portfolioGallery" class="venobox"> <i
 										class="icofont-eye"></i></a>
-                                	<a href="${detailView}" title="More Details">
+                                	<a href="javascript:showItem(${Product.productNum})" title="More Details">
                                 	<i class="icofont-external-link"></i></a>
 								</div>
 							</div>
@@ -195,9 +189,6 @@
 						<div class="portfolio-wrap" style="height: 350px;width: 350px;">
 							<img src="/resources/images/productImg/${Product.productMainName}"
 								 class="img-fluid" style="height:100%; width:100%;">
-							<c:url var="detailView" value="ProductDetailView.do">
-                            	<c:param name="pNum" value="${Product.productNum }" />
-							</c:url>
 							<div class="portfolio-info">
 								<h4>상품명 : ${Product.productName }</h4>
 								<p>가격 : ${Product.productPrice }원</p>
@@ -207,7 +198,8 @@
 										href="/resources/images/productImg/${Product.productMainName}"
 										data-gall="portfolioGallery" class="venobox"> <i
 										class="icofont-eye"></i></a>
-                                	<a href="${detailView}" title="More Details">
+									<a href="javascript:showItem(${Product.productNum})" title="More Details">
+                                	<%-- <a href="${detailView}" title="More Details"> --%>
                                 	<i class="icofont-external-link"></i></a>
 								</div>
 							</div>
@@ -266,7 +258,15 @@
 	<!-- End Counts Section -->
 	</main>
 	<!-- End #main -->
-
+	<script type="text/javascript">
+		function showItem(num) {
+			if(${not empty sessionScope.loginInfo}){
+				location.href = "ProductDetailView.do?pNum="+num;				
+			}else{
+				alert("로그인후 사용이 가능합니다.");
+			}
+		}
+	</script>
 	<jsp:include page="common/footer.jsp"></jsp:include>
 </body>
 </html>

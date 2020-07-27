@@ -58,7 +58,7 @@
   -webkit-font-smoothing: antialiased;
 }
 </style>
-
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
 </head>
 
@@ -116,8 +116,12 @@
                                         <h4>상품명 : ${p.productName }</h4>
                                         <p>가격 : ${p.productPrice }원</p>
                                         <p>조회수 : ${p.productShowCnt}</p>
+                                        <p id="fCnt${p.productNum}">좋아요 : ${p.fCnt}</p>
                                         <div class="portfolio-links">
                                             <a href="ProductDetailView.do?pNum=${p.productNum }" title="More Details" value="${p.productNum }"><i class="icofont-external-link"></i></a>
+                                            <a href="javascript:chg(${p.productNum})">
+                                            <i class='<c:if test="${p.fStat eq 'T'}">fas</c:if><c:if test="${p.fStat eq 'F'}">far</c:if> fa-star' style='font-size: 20px' id="icon${p.productNum}"></i>
+                                           	</a>
                                         </div>
                                     </div>
                                 </div>
@@ -137,8 +141,12 @@
                                         <h4>상품명 : ${p.productName }</h4>
                                         <p>가격 : ${p.productPrice }원</p>
                                         <p>조회수 : ${p.productShowCnt}</p>
+                                        <p id="fCnt${p.productNum}">좋아요 : ${p.fCnt}</p>
                                         <div class="portfolio-links">
                                             <a href="ProductDetailView.do?pNum=${p.productNum }" title="More Details" value="${p.productNum }"><i class="icofont-external-link"></i></a>
+                                            <a href="javascript:chg(${p.productNum})">
+                                            <i class='<c:if test="${p.fStat eq 'T'}">fas</c:if><c:if test="${p.fStat eq 'F'}">far</c:if> fa-star' style='font-size: 20px' id="icon${p.productNum}"></i>
+                                           	</a>
                                         </div>
                                     </div>
                                 </div>
@@ -159,8 +167,12 @@
                                         <h4>상품명 : ${p.productName }</h4>
                                         <p>가격 : ${p.productPrice }원</p>
                                         <p>조회수 : ${p.productShowCnt}</p>
+                                        <p id="fCnt${p.productNum}">좋아요 : ${p.fCnt}</p>
                                         <div class="portfolio-links">
                                             <a href="ProductDetailView.do?pNum=${p.productNum }" title="More Details" value="${p.productNum }"><i class="icofont-external-link"></i></a>
+                                            <a href="javascript:chg(${p.productNum})">
+                                            <i class='<c:if test="${p.fStat eq 'T'}">fas</c:if><c:if test="${p.fStat eq 'F'}">far</c:if> fa-star' style='font-size: 20px' id="icon${p.productNum}"></i>
+                                           	</a>
                                         </div>
                                     </div>
                                 </div>
@@ -179,8 +191,12 @@
                                         <h4>상품명 : ${p.productName }</h4>
                                         <p>가격 : ${p.productPrice }원</p>
                                         <p>조회수 : ${p.productShowCnt}</p>
+                                        <p id="fCnt${p.productNum}">좋아요 : ${p.fCnt}</p>
                                         <div class="portfolio-links">
                                             <a href="ProductDetailView.do?pNum=${p.productNum }" title="More Details" value="${p.productNum }"><i class="icofont-external-link"></i></a>
+                                            <a href="javascript:chg(${p.productNum})">
+                                            <i class='<c:if test="${p.fStat eq 'T'}">fas</c:if><c:if test="${p.fStat eq 'F'}">far</c:if> fa-star' style='font-size: 20px' id="icon${p.productNum}"></i>
+                                           	</a>
                                         </div>
                                     </div>
                                 </div>
@@ -200,8 +216,12 @@
                                         <h4>상품명 : ${p.productName }</h4>
                                         <p>가격 : ${p.productPrice }원</p>
                                         <p>조회수 : ${p.productShowCnt}</p>
+                                        <p id="fCnt${p.productNum}">좋아요 : ${p.fCnt}</p>
                                         <div class="portfolio-links">
                                             <a href="ProductDetailView.do?pNum=${p.productNum }" title="More Details" value="${p.productNum }"><i class="icofont-external-link"></i></a>
+                                            <a href="javascript:chg(${p.productNum})">
+                                            <i class='<c:if test="${p.fStat eq 'T'}">fas</c:if><c:if test="${p.fStat eq 'F'}">far</c:if> fa-star' style='font-size: 20px' id="icon${p.productNum}"></i>
+                                           	</a>
                                         </div>
                                     </div>
                                 </div>
@@ -239,7 +259,28 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
-
+	<script type="text/javascript">
+		function chg(num) {			
+			var url = "";
+			if($("#icon"+num)[0].className == "fas fa-star"){
+				url = "/deleteFavorite.do?page=${pi.currentPage}&pNum="+num;
+			}else if($("#icon"+num)[0].className == "far fa-star"){
+				url = "/insertFavorite.do?page=${pi.currentPage}&pNum="+num;
+			}
+			
+			$.ajax({
+				url : url,
+				type : "get",
+				success : function(data) {
+					$("#icon"+num)[0].className = data.src;
+					$("#fCnt"+num)[0].innerHTML = "좋아요 : " + data.cnt;
+				},
+				error : function() {
+					console.log("실패");
+				}
+			}); 
+		}
+	</script>
 </body>
 
 </html>
