@@ -85,7 +85,6 @@
 	        	if(data.hasOwnProperty("placeData")){
 	        		displayMarker(place, data, pagination, num);
 	        	}
-	        		//console.log(data);
 	        });
 	
 	    } 
@@ -136,7 +135,6 @@
 		            	load_data(data[i], data[i].place_url, pagination, i);
 			            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));	
 		            }
-		            
 		        }       
 		
 		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
@@ -151,10 +149,9 @@
 		    } 
 		}
 		
-		var overlays = new Map();	//오버레이 배열
+		var overlays = new Map();	//오버레이 Map
 		var overlay;
-		var titles = new Map();	//제목 베열
-		var overlays = new Map();	//오버레이 배열
+		var titles = new Map();	//제목 Map
 		
 		//팝업 Open 기능
 		function open_pop(i) {
@@ -175,7 +172,6 @@
         	console.log(url);
         	window.open(url, title, option);
 		}
-		
 		
 		// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
 		function closeOverlay(i) {
@@ -216,8 +212,6 @@
 					"outline" : "0"});
 		       	$("#weatherList"+i).css({"display":"block"});
 			}
-			
-	       	
 		}
 		
 		// 지도에 마커를 표시하는 함수입니다

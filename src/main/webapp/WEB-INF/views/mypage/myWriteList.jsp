@@ -6,36 +6,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>내가 쓴 게시물</title>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-	integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-	crossorigin="anonymous"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-	integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-	crossorigin="anonymous"></script>
-<style type="text/css">
-td {
-	vertical-align: middle;
-}
-</style>
-<!-- Vendor CSS Files -->
-<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-<link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
-<link href="assets/vendor/boxicons/css/boxicons.min.css"
-	rel="stylesheet">
-<link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-<link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
-<link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css"
-	rel="stylesheet">
-<link href="assets/vendor/aos/aos.css" rel="stylesheet">
-
-<!-- Template Main CSS File -->
-<link href="assets/css/style.css" rel="stylesheet">
+	<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+   	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	<style type="text/css">
+		td {
+			vertical-align: middle;
+		}
+	</style>
 </head>
 <body>
 	<jsp:include page="../common/mainBar.jsp"></jsp:include>
@@ -84,8 +66,6 @@ td {
 							<td align="center">${wBoard.cdt}</td>
 						</tr>
 					</c:forEach>
-				</tbody>
-				<tfoot>
 					<!-- 페이징 처리 -->
 					<nav aria-label="Page navigation example">
 						<ul class="pagination justify-content-center">
@@ -95,7 +75,7 @@ td {
 										href="#" tabindex="-1"><span aria-hidden="true">&laquo;</span><span
 											class="sr-only">Previous</span></a></li>
 								</c:if> <c:if test="${pi. currentPage > 1 }">
-									<c:url var="before" value="nlist.do">
+									<c:url var="before" value="myWriteList.do">
 										<c:param name="page" value="${pi.currentPage - 1 }" />
 									</c:url>
 									<a class="page-link" href="${before }" aria-label="Previous">
@@ -109,7 +89,7 @@ td {
 										href="${pagination }">${p }<span class="sr-only">(current)</span></a></li>
 								</c:if>
 								<c:if test="${p ne pi.currentPage }">
-									<c:url var="pagination" value="nlist.do">
+									<c:url var="pagination" value="myWriteList.do">
 										<c:param name="page" value="${p }" />
 									</c:url>
 									<li class="page-item"><a class="page-link"
@@ -122,7 +102,7 @@ td {
 										href="#" tabindex="-1"><span aria-hidden="true">&raquo;</span><span
 											class="sr-only">Next</span></a></li>
 								</c:if> <c:if test="${pi. currentPage < pi.maxPage }">
-									<c:url var="after" value="nlist.do">
+									<c:url var="after" value="myWriteList.do">
 										<c:param name="page" value="${pi.currentPage + 1 }" />
 									</c:url>
 									<a class="page-link" href="${after }" aria-label="Next"> <span
@@ -132,11 +112,11 @@ td {
 							</li>
 						</ul>
 					</nav>
-				</tfoot>
+				</tbody>
+					
 			</table>
 		</div>
 	</section>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
-
 </body>
 </html>

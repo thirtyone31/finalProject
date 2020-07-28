@@ -32,6 +32,25 @@
 	
 	<!-- Template Main CSS File -->
 	<link href="assets/css/style.css" rel="stylesheet">
+	<style type="text/css">
+		.btn-custom {
+			background-color: #52768D !important;
+			background-repeat: repeat-x;
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#768FA6", endColorstr="#768FA6");
+			background-image: -khtml-gradient(linear, left top, left bottom, from(#768FA6), to(#768FA6));
+			background-image: -moz-linear-gradient(top, #768FA6, #768FA6);
+			background-image: -ms-linear-gradient(top, #768FA6, #768FA6);
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #768FA6), color-stop(100%, #768FA6));
+			background-image: -webkit-linear-gradient(top, #768FA6, #768FA6);
+			background-image: -o-linear-gradient(top, #768FA6, #768FA6);
+			background-image: linear-gradient(#768FA6, #768FA6);
+			border-color: #768FA6 #768FA6 #52768D;
+			color: #fff !important;
+			text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.16);
+			-webkit-font-smoothing: antialiased;
+		}
+	</style>
+	
 </head>
 <body>
 	<jsp:include page="../common/mainBar.jsp"></jsp:include>
@@ -55,6 +74,10 @@
 										class="icofont-eye"></i></a> <a href="${myOrderDetail}"
 										title="More Details"><i class="icofont-external-link"></i></a>
 								</div>
+								<div class="portfolio-links">
+									<button class="btn btn-custom btn-sm">구매확정</button>
+									<button class="btn btn-custom btn-sm">구매취소요청</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -69,7 +92,7 @@
 								tabindex="-1"><span aria-hidden="true">&laquo;</span><span
 									class="sr-only">Previous</span></a></li>
 						</c:if> <c:if test="${pi. currentPage > 1 }">
-							<c:url var="before" value="nlist.do">
+							<c:url var="before" value="myOrderList.do">
 								<c:param name="page" value="${pi.currentPage - 1 }" />
 							</c:url>
 							<a class="page-link" href="${before }" aria-label="Previous">
@@ -83,7 +106,7 @@
 								href="${pagination }">${p }<span class="sr-only">(current)</span></a></li>
 						</c:if>
 						<c:if test="${p ne pi.currentPage }">
-							<c:url var="pagination" value="nlist.do">
+							<c:url var="pagination" value="myOrderList.do">
 								<c:param name="page" value="${p }" />
 							</c:url>
 							<li class="page-item"><a class="page-link"
@@ -96,7 +119,7 @@
 								tabindex="-1"><span aria-hidden="true">&raquo;</span><span
 									class="sr-only">Next</span></a></li>
 						</c:if> <c:if test="${pi. currentPage < pi.maxPage }">
-							<c:url var="after" value="nlist.do">
+							<c:url var="after" value="myOrderList.do">
 								<c:param name="page" value="${pi.currentPage + 1 }" />
 							</c:url>
 							<a class="page-link" href="${after }" aria-label="Next"> <span

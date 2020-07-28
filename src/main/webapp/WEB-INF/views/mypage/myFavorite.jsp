@@ -86,7 +86,7 @@
 								tabindex="-1"><span aria-hidden="true">&laquo;</span><span
 									class="sr-only">Previous</span></a></li>
 						</c:if> <c:if test="${pi. currentPage > 1 }">
-							<c:url var="before" value="nlist.do">
+							<c:url var="before" value="myFavoriteList.do">
 								<c:param name="page" value="${pi.currentPage - 1 }" />
 							</c:url>
 							<a class="page-link" href="${before }" aria-label="Previous">
@@ -100,7 +100,7 @@
 								href="${pagination }">${p }<span class="sr-only">(current)</span></a></li>
 						</c:if>
 						<c:if test="${p ne pi.currentPage }">
-							<c:url var="pagination" value="nlist.do">
+							<c:url var="pagination" value="myFavoriteList.do">
 								<c:param name="page" value="${p }" />
 							</c:url>
 							<li class="page-item"><a class="page-link"
@@ -113,7 +113,7 @@
 								tabindex="-1"><span aria-hidden="true">&raquo;</span><span
 									class="sr-only">Next</span></a></li>
 						</c:if> <c:if test="${pi. currentPage < pi.maxPage }">
-							<c:url var="after" value="nlist.do">
+							<c:url var="after" value="myFavoriteList.do">
 								<c:param name="page" value="${pi.currentPage + 1 }" />
 							</c:url>
 							<a class="page-link" href="${after }" aria-label="Next"> <span
