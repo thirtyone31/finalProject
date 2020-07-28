@@ -34,10 +34,9 @@
         <br>
         <!-- 네이버아이디로로그인 버튼 노출 영역 -->
         <div id="naverIdLogin"></div>
-        <div class="bottom-text">
+        <br>
             계정이 없으신가요? <a href="resister.me" onclick="closeWindows();">가입하기</a>
 
-        </div>
     </form>
 
 

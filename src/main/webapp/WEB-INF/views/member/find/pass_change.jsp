@@ -101,7 +101,7 @@
                 },
                 error: function(err) {
                     console.log(err);
-                    alert('오류');
+                    alert('회원정보와 이메일이 일치하지 않습니다.');
                     history.go(0);
                 }
             });

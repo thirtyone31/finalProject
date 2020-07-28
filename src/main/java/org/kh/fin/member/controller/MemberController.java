@@ -2,6 +2,7 @@ package org.kh.fin.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -178,13 +179,25 @@ public class MemberController {
 		params.put("email", email);
 		params.put("password", password);
 
-		int result = mService.passchange(params);
+		int result = 0;
 
-		if (result > 0) {
-			return "find/changePassResult";
-		} else {
-			return "redirect:loginSuccess";
+		String resultUrl = "";
+		try {
+			result = mService.passchange(params);
+			if (result > 0) {
+				resultUrl = "find/changePassResult";
+						
+			} else {
+				resultUrl = "../common.errorPage";
+			}	
+			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+			resultUrl = "../common.errorPage";
 		}
+		
+		return resultUrl;
+		
 
 	}
 
@@ -311,12 +324,22 @@ public class MemberController {
 		params.put("memberId", memberId);
 		params.put("password", password);
 		System.out.println("params.toString()" + params.toString());
-		result = this.mService.changePw(params);
-		if (result > 0) {
-			return "redirect:index.jsp";
-		} else {
-			return "common.errorPage";
-		}
+		String resultUrl = "";
+			try {
+				result = this.mService.changePw(params);
+				if (result > 0) {
+					resultUrl = "redirect:index.jsp";
+							
+				} else {
+					resultUrl = "common.errorPage";
+				}	
+				
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+				resultUrl = "common.errorPage";
+			}
+			
+			return resultUrl;
 	}
 
 	

@@ -29,9 +29,13 @@
 		AND STATUS = '1'
 	</select>
 
+	<!-- 회원가입 -->
 	<insert id="insertMem" parameterType="Member">
-		INSERT INTO MEMBER
+		INSERT All
+		INTO MEMBER
 		VALUES(#{memberId},FN_ENCRYPT_MD5(#{memberPwd}),#{memberName},#{nickName},#{gender},#{email},#{birthDay},#{phone},#{post},#{address},#{addressDetail},DEFAULT,DEFAULT,SYSDATE,SYSDATE)
+		into pwd_history values(1,#{memberId},FN_ENCRYPT_MD5(#{memberPwd}),SYSDATE)
+		SELECT * FROM DUAL
 	</insert>
 
 <!-- 아이디 중복체크 -->	
@@ -109,7 +113,7 @@
 	<!-- 비밀번호 변경 -->		
 	<update id="updatePassword" parameterType="Member">
 		UPDATE MEMBER
-		SET MEMBER_PWD=#{memberPwd}
+		SET MEMBER_PWD=FN_ENCRYPT_MD5(#{password})
 		WHERE MEMBER_ID=#{memberId}  
 	</update>
 	<!-- 회원탈퇴 -->

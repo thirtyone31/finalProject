@@ -96,12 +96,12 @@
 
 					<!-- Slide 3 -->
 					<div class="carousel-item"
-						style="background-image: url('assets/img/slide/fisherman3.png');">
+						style="background-image: url('assets/img/slide/fisherman4.png');">
 						<div class="carousel-container">
 							<div class="carousel-content container">
-								<h2 class="animate__animated animate__fadeInDown">제목제목제목제목제목</h2>
-								<p class="animate__animated animate__fadeInUp">소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글소개글</p>
-								<a href="#about"
+								<h2 class="animate__animated animate__fadeInDown">낚시 용품을 한눈에</h2>
+								<p class="animate__animated animate__fadeInUp"></p>
+								<a href="productMain.do"
 									class="btn-get-started animate__animated animate__fadeInUp scrollto">쇼핑하러가기</a>
 							</div>
 						</div>
