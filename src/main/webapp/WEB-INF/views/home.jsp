@@ -36,10 +36,7 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
     <style type="text/css">
-        /* .fixed-area {
-	position: fixed;
-	z-index: 1000;
-} */
+
 
     </style>
 </head>
@@ -134,7 +131,7 @@
                                     <p>좋아요 : ${Product.cnt}</p>
                                     <div class="portfolio-links">
                                         <a href="/resources/images/productImg/${Product.productMainName}" data-gall="portfolioGallery" class="venobox"> <i class="icofont-eye"></i></a>
-                                        <a href="javascript:showItem(${Product.productNum})" title="More Details">
+                                        <a href="javascript:showItem(${Product.productNum}, '${loginInfo.memberId}')" title="More Details">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 3 24 24" width="30">
                                                 <path d="M0 0h24v24H0V0z" fill="none" />
                                                 <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
@@ -194,36 +191,9 @@
         <!-- ======= Counts Section ======= -->
         <section class="counts section-bg">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up">
-                        <div class="count-box">
-                            <i class="icofont-simple-smile" style="color: #20b38e;"></i> <span data-toggle="counter-up">232</span>
-                            <p>어부바인</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="200">
-                        <div class="count-box">
-                            <i class="icofont-document-folder" style="color: #c042ff;"></i> <span data-toggle="counter-up">521</span>
-                            <p>전국 낚시터</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="400">
-                        <div class="count-box">
-                            <i class="icofont-live-support" style="color: #46d1ff;"></i> <span data-toggle="counter-up">1,463</span>
-                            <p>낚시용품점</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" data-aos-delay="600">
-                        <div class="count-box">
-                            <i class="icofont-users-alt-5" style="color: #ffb459;"></i> <span data-toggle="counter-up">88,484</span>
-                            <p>낚시인</p>
-                        </div>
-                    </div>
-
-                </div>
+            	<div class="section-title">
+            		<h2>낚시터 현황</h2>
+            	</div>                
                 <div class="row">
 					<iframe class="fixed-area" src="map.do" width="100%" height="500px"></iframe>
 				</div>
@@ -233,10 +203,8 @@
     </main>
     <!-- End #main -->
     <script type="text/javascript">
-        function showItem(num) {
-            if ($ {
-                    not empty sessionScope.loginInfo
-                }) {
+        function showItem(num, id) {
+            if (id != "") {
                 location.href = "ProductDetailView.do?pNum=" + num;
             } else {
                 alert("로그인후 사용이 가능합니다.");
