@@ -62,8 +62,11 @@ public class FreeBoardController {
 			mv.addObject("pi", pi);
 			mv.setViewName("freeboard/freeboardListViews");
 		} else {
-			mv.addObject("msg", "자유게시판 전체조회 실패");
-			mv.setViewName("common/errorPage");
+			/*mv.addObject("msg", "자유게시판 전체조회 실패");
+			mv.setViewName("common/errorPage");*/
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("freeboard/freeboardListViews");
 		}
 		return mv;
 	}
