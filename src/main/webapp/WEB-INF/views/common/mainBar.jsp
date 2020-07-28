@@ -111,7 +111,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
             <div class="logo float-left">
                 <h1 class="text-light">
-                    <a href="/"><span>어부바 ${loginInfo.memberName }</span></a>
+                    <a href="/"><span>어부바</span></a>
                 </h1>
                 <!-- Uncomment below if you prefer to use an image logo -->
                 <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
@@ -166,7 +166,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                         </li>
                     </c:if>
                     <c:if test="${ empty sessionScope.loginInfo }">
-                        <li><a href="#" onclick="open_pop();">로그인/회원가입</a></li>
+                        <li><a href="" onclick="open_pop();">로그인/회원가입</a></li>
                     </c:if>
                     <c:url var="logout" value="logout.me"></c:url>
                     <c:if test="${ !empty sessionScope.loginInfo }">
@@ -181,7 +181,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
                         height = 600;
                     var popupX = (document.body.offsetWidth / 2) - (width / 2);
                     //&nbsp;만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
-
                     var popupY = (window.screen.height / 2) - (height / 2);
                     //&nbsp;만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
 

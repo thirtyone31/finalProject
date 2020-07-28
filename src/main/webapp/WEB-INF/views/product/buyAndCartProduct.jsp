@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -181,7 +182,7 @@
             <br><br>
 
 
-            <form action="orderDetailInsertInfo.do" id="myForm" method="post">
+            <form action="orderDetailInsertInfo.do" id="myFormPay" method="post">
 
 
                 <div class="orderList table-responsive" style="text-align: center">
@@ -209,11 +210,13 @@
                                 <td>${product.productSize }</td>
                                 <td>${product.productColor }</td>
                                 <td><input type="hidden" name="orderQty" value="${orderQty}">${orderQty}</td>
-                                <td><input type="hidden" name="productPrice" value="${product.productPrice}">${product.productPrice}원</td>
+                                <td><input type="hidden" name="productPrice" value="${product.productPrice}">
+                                    <fmt:formatNumber value="${product.productPrice}" type="number" />원</td>
                                 <td><input type="hidden" name="dcRate" value="${dcRate}">${dcRate}%</td>
                                 <td>2500원</td>
                                 <!-- 이부분 토탈이라서 확인해야됨 -->
-                                <td><input type="hidden" name="Price" value="${product.productPrice*((100-dcRate)/100)*orderQty+2500}">${product.productPrice*((100-dcRate)/100)*orderQty+2500}원</td>
+                                <td><input type="hidden" name="Price" value="${product.productPrice*((100-dcRate)/100)*orderQty+2500}">
+                                    <fmt:formatNumber value="${product.productPrice*((100-dcRate)/100)*orderQty+2500}" type="number" />원</td>
                                 <td></td>
 
                             </tr>
@@ -469,7 +472,7 @@
 
                     //<!-- 입력값 유효성체크 -->
                     function validationInfo() {
-                        alert($("input[name=Price]").val());
+                        /* alert($("input[name=Price]").val()); */
                         var name = document.getElementById("name");
                         var phone = document.getElementById("phone");
                         var address = document.getElementById("detailAddress");
@@ -490,7 +493,7 @@
                             if (payCheak[i].checked == true) {
                                 if (i == 0) {
 
-                                    document.getElementById('myForm').submit();
+                                    document.getElementById('myFormPay').submit();
                                 } else if (i == 1) {
 
                                     Kakao();
@@ -514,9 +517,7 @@
                             pay_method: 'vbank',
                             merchant_uid: 'merchant_' + new Date().getTime(),
                             name: "${product.productName }",
-                            amount: "$("
-                            input[name = Price]
-                            ").val()",
+                            amount:  $("input[name='Price']").val(),
                             buyer_email: "12312",
                             buyer_name: "12312",
                             buyer_tel: "123",
@@ -525,7 +526,7 @@
                         }, function(rsp) {
                             if (rsp.success) {
                                 var msg = '결제가 완료되었습니다.';
-                                document.getElementById('myForm').submit();
+                                document.getElementById('myFormPay').submit();
 
 
                             } else {
@@ -546,9 +547,7 @@
                             pay_method: 'vbank',
                             merchant_uid: 'merchant_' + new Date().getTime(),
                             name: "${product.productName }",
-                            amount: "$("
-                            input[name = Price]
-                            ").val()",
+                            amount:  $("input[name='Price']").val(),
                             buyer_email: "12312",
                             buyer_name: "12312",
                             buyer_tel: "123",
@@ -557,7 +556,7 @@
                         }, function(rsp) {
                             if (rsp.success) {
                                 var msg = '결제가 완료되었습니다.';
-                                document.getElementById('myForm').submit();
+                                document.getElementById('myFormPay').submit();
 
 
                             } else {

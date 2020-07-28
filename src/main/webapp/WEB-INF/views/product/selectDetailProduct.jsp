@@ -105,7 +105,7 @@ border-top:0px;
 		<div data-brackets-id='1291' class="container">
 			<div data-brackets-id='1292' class="row">
 									<c:set var="name" value="${loginInfo.memberName }"></c:set>
-							<c:if test="${name eq '김대홍'}">
+							<c:if test="${loginInfo.memberId eq 'admin'}">
 								<c:url var="deleteProduct" value="deleteProduct.do">
 									<c:param name="pNum" value="${p.productNum }" />
 								</c:url>

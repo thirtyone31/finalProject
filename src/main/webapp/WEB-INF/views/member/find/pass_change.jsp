@@ -89,19 +89,19 @@
                 data: {
                     'email': email,
                     'password': password
-                }, //보낼 데이터
+                },
+                //보낼 데이터
                 //dataType:"json",
                 //contentType: "application/json; charset=utf-8",
-                success: function(data) {
-                    console.log(data);
-                    if (data != '') {
-                        alert('비밀번호가 변경되었습니다.');
-                        window.close();
-                    }
-                },
-                error: function(err) {
-                    console.log(err);
-                    alert('회원정보와 이메일이 일치하지 않습니다.');
+            }).done(function(data){
+            	if (data == 'success') {
+                    alert('비밀번호가 변경되었습니다.');
+                    window.close();
+                }else if(data=="20000"){
+                	alert('최근 90일 이내에 사용된 암호입니다.');
+                	history.go(0);
+                }else{
+                	alert('회원정보와 이메일이 일치하지 않습니다.');
                     history.go(0);
                 }
             });

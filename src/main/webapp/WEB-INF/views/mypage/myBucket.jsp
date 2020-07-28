@@ -12,7 +12,7 @@
 		<meta content="" name="descriptison">
 		<meta content="낚시, 구매, 상품" name="keywords">
 
-		
+		<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 		
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
 			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -467,27 +467,27 @@
 				 for (var i = 0; i < payCheak.length; i++) {
 					if (payCheak[i].checked == true) {
 						var list = new Array();
-						for(var i=0; i<$("input[name^='productNum']").length; i++){
-							list.push({"productNum" : $($("input[name^='productNum']")[i]).val().toString(),
-								"cnt" : $($("input[name^='orderQty"+$("input[name^='productNum']")[i].name.replace("productNum", "")+"']")).val().toString()});
+						for(var j=0; j<$("input[name^='productNum']").length; j++){
+							list.push({"productNum" : $($("input[name^='productNum']")[j]).val().toString(),
+								"cnt" : $($("input[name^='orderQty"+$("input[name^='productNum']")[j].name.replace("productNum", "")+"']")).val().toString()});
 						}
 						receiverData.type = i.toString();
-						calc(list, receiverData);
-						break;
-						
 						if (i == 0) {
 							calc(list, receiverData);
+							break;
 						} else if (i == 1) {
 							Kakao(productName, totalPrice, list, receiverData);
+							break;
 						} else if (i == 2) {
 							phonePay(productName, totalPrice, list, receiverData);
+							break;
 						}
 					}
 				}
 			}
 			
 			function Kakao(productName, totalPrice, list, receiverData) {
-				
+				var result = "";
 				var IMP = window.IMP;
 				IMP.init('imp83138778');
 				IMP.request_pay({
@@ -504,17 +504,21 @@
 				}, function(rsp) {
 					if (rsp.success) {
 						var msg = '결제가 완료되었습니다.';
-						calc(list, receiverData);
+						result = calc(list, receiverData);
 					} else {
+						result = "fail";
 						var msg = '결제에 실패하였습니다.';
 						msg += '에러내용 : ' + rsp.error_msg;
 					}
-					alert(msg);
+					if(result!=""){
+						alert(msg);	
+					}
 				});
 	
 			}
 	
 			function phonePay(productName, totalPrice, list, receiverData) {
+				var result = "";
 				var IMP = window.IMP;
 				IMP.init('imp37897171');
 				IMP.request_pay({
@@ -531,12 +535,15 @@
 				}, function(rsp) {
 					if (rsp.success) {
 						var msg = '결제가 완료되었습니다.';
-						calc(list, receiverData);
+						result = calc(list, receiverData);
 					} else {
+						result = "fail";
 						var msg = '결제에 실패하였습니다.';
 						msg += '에러내용 : ' + rsp.error_msg;
 					}
-					alert(msg);
+					if(result != ""){
+						alert(msg);	
+					}
 				});
 			}
 			
@@ -559,9 +566,11 @@
 						}else{
 							alert("구매실패");
 						}
+						return data.result;
 					},
 					error : function() {
 						alert("구매실패");
+						return "fail";
 					}
 				});	
 			}

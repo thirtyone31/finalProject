@@ -159,6 +159,7 @@ public class MemberController {
 	}
 
 	// 변경할 비밀번호를 입력한 후에 확인 버튼을 누르면 넘어오는 컨트롤러
+	@ResponseBody
 	@RequestMapping(value = "passChange.me", method = RequestMethod.POST)
 	public String pass_change(HttpServletRequest request, Member mem, String password, String email,
 			HttpServletResponse response) throws Exception {
@@ -185,15 +186,18 @@ public class MemberController {
 		try {
 			result = mService.passchange(params);
 			if (result > 0) {
-				resultUrl = "find/changePassResult";
+				resultUrl = "success";
 						
 			} else {
-				resultUrl = "../common.errorPage";
+				resultUrl = "fail";
 			}	
 			
 		}catch(Exception e) {
-			System.out.println(e.getMessage());
-			resultUrl = "../common.errorPage";
+			if(e.getCause() instanceof SQLException) {
+				return ((SQLException)e.getCause()).getErrorCode() + "";
+			}else {
+				return "fail";
+			}
 		}
 		
 		return resultUrl;
