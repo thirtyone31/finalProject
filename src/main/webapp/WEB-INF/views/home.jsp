@@ -224,9 +224,9 @@
                     </div>
 
                 </div>
-                <!-- <div class="row">
-				<iframe class="fixed-area" src="map.do" width="100%" height="500px"></iframe>
-			</div> -->
+                <div class="row">
+					<iframe class="fixed-area" src="map.do" width="100%" height="500px"></iframe>
+				</div>
             </div>
         </section>
         <!-- End Counts Section -->

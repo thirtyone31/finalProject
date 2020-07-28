@@ -63,7 +63,7 @@
 							<img src="/resources/images/productImg/${orderInfo.thumbNailFile}" class="img-fluid"	style="height:100%; width:100%;">
 							<div class="portfolio-info">
 								<h4>${orderInfo.productName}</h4>
-								<p>${orderInfo.statusName}</p>
+								<p id = "status${orderInfo.orderNum}">${orderInfo.statusName}</p>
 								<p><fmt:setLocale value="ko_KR"/><fmt:formatNumber type="currency" value="${orderInfo.totalPrice}"/></p>
 								<c:url var="myOrderDetail" value="myOrderDetail.do">
 									<c:param name="orderNum" value="${orderInfo.orderNum}" />
@@ -144,8 +144,10 @@
 			}).done(function(data) {
 				console.log(data);
 				if(data.result == 2){
-					console.log(1);
-					debugger;
+					$("#fix"+num)[0].disabled = "true";
+					$("#cancel"+num)[0].disabled = "true";
+					$("#status"+num)[0].innerHTML = "구매확정";
+					
 				}
 			}); 
 		}
@@ -157,8 +159,8 @@
 			}).done(function(data) {
 				console.log(data);
 				if(data.result == 3){
-					console.log(1);
-					debugger;
+					$("#cancel"+num)[0].disabled = "true";
+					$("#status"+num)[0].innerHTML = "구매취소 요청";
 				}
 			});  
 		}
