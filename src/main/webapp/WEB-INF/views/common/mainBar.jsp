@@ -122,10 +122,10 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 <ul>
                     <li class="active"><a href="/">홈</a></li>
                     <c:if test="${!empty sessionScope.loginInfo}">
-                        <li><a href="productMain.do">낚시용품</a>
+                        <li><a href="productMain.do">낚시용품</a></li>
                     </c:if>
                     <c:if test="${empty sessionScope.loginInfo}">
-                        <li><a onclick="failed();">낚시용품</a>
+                        <li><a onclick="failed();">낚시용품</a></li>
                     </c:if>
                     <c:if test="${empty sessionScope.loginInfo}">
 					<li><a onclick="failed();">커뮤니티</a></li>

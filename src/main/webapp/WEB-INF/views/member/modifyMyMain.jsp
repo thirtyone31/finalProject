@@ -86,7 +86,7 @@
 
           <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="400">
             <span>05</span>
-           <a href="deleteMember.me?memberId=${loginInfo.memberId }"><h4>회원 탈퇴</h4></a>
+           <a href="deleteMember.me?memberId=${loginInfo.memberId }" onclick="return confirm('정말 탈퇴 하시겠습니까? 되돌 릴 수 없습니다.')"><h4>회원 탈퇴</h4></a>
             <p>어부바를 더이상 이용하지 않는다면...</p>
           </div>
 

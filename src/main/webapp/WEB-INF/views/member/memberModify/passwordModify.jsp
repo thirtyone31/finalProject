@@ -34,13 +34,13 @@
 			
 				<table>
 						<tr>
-							<td>아이디</td>
+							<td>비밀번호</td>
 							<td><input type="text" class="form-control" id="id"
 								size="30" name="password" placeholder="변경할 비밀번호를 입력해 주세요" "
 								style="margin: 10px"></td>
 						</tr>
 						<tr>
-							<td>이름</td>
+							<td>비밀번호 확인</td>
 							<td><input type="text" class="form-control" id="id"
 								size="30" name="" placeholder="다시한번 입력하세요"  "
 								style="margin: 10px"></td>
