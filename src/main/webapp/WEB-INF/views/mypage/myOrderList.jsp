@@ -73,10 +73,13 @@
 										data-gall="portfolioGallery" class="venobox" title="App 1"><i
 										class="icofont-eye"></i></a> <a href="${myOrderDetail}"
 										title="More Details"><i class="icofont-external-link"></i></a>
-								</div>
-								<div class="portfolio-links">
-									<button class="btn btn-custom btn-sm">구매확정</button>
-									<button class="btn btn-custom btn-sm">구매취소요청</button>
+										<br><br>
+									<button class="btn btn-custom btn-sm" 
+											id="fix${orderInfo.orderNum}" onclick="fix(${orderInfo.orderNum});"
+											<c:if test="${orderInfo.statusNum == 2}">disabled="disabled"</c:if>>구매확정</button>
+									<button class="btn btn-custom btn-sm" 
+											id="cancel${orderInfo.orderNum}" onclick="cancel(${orderInfo.orderNum});"
+											<c:if test="${orderInfo.statusNum == 2 || orderInfo.statusNum == 3}">disabled="disabled"</c:if>>구매취소요청</button>
 								</div>
 							</div>
 						</div>
@@ -132,5 +135,34 @@
 		</div>
 	</section>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<script type="text/javascript">
+		function fix(num) {		
+			$.ajax({
+				url : "fixOrder.do",
+				type : "get",
+				data : {"orderNum" : num}
+			}).done(function(data) {
+				console.log(data);
+				if(data.result == 2){
+					console.log(1);
+					debugger;
+				}
+			}); 
+		}
+		function cancel(num){
+			$.ajax({
+				url : "cancelOrder.do",
+				type : "get",
+				data : {"orderNum" : num}
+			}).done(function(data) {
+				console.log(data);
+				if(data.result == 3){
+					console.log(1);
+					debugger;
+				}
+			});  
+		}
+		
+	</script>
 </body>
 </html>

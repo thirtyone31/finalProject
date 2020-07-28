@@ -30,4 +30,6 @@ public interface MyPageService {
 	public Order selectOrderOne(String orderNum);
 	public ArrayList<Status> selectStatus();
 	public ArrayList<OrderProduct> selectProductInfo(String orderNum);
+	public int fixOrder(String orderNum);
+	public int cancelOrder(String orderNum);
 }

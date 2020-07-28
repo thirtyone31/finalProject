@@ -135,4 +135,11 @@ public class MyPageStore {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("mypageMapper.selectProductInfo", orderNum);
 	}
+	
+	public int fixOrder(String orderNum) {
+		return sqlSession.update("mypageMapper.fixOrder", orderNum);
+	}
+	public int cancelOrder(String orderNum) {
+		return sqlSession.update("mypageMapper.cancelOrder", orderNum);
+	}
 }

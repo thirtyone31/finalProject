@@ -113,4 +113,16 @@ public class MyPageServiceLogic implements MyPageService{
 		// TODO Auto-generated method stub
 		return mypageStore.selectProductInfo(orderNum);
 	}
+
+	@Override
+	public int fixOrder(String orderNum) {
+		// TODO Auto-generated method stub
+		return mypageStore.fixOrder(orderNum);
+	}
+
+	@Override
+	public int cancelOrder(String orderNum) {
+		// TODO Auto-generated method stub
+		return mypageStore.cancelOrder(orderNum);
+	}
 }

@@ -165,4 +165,15 @@
 		LEFT JOIN    PRODUCT B ON A.PRODUCT_NUM = B.PRODUCT_NUM
 		WHERE	A.ORDER_NUM = #{orderNum}
 	</select>
+	
+	<update id="fixOrder" parameterType="String">
+		UPDATE	ORDER_TB
+		SET		STATUS_NUM = 2
+		WHERE	ORDER_NUM = #{orderNum}
+	</update>
+	<update id="cancelOrder" parameterType="String">
+		UPDATE	ORDER_TB
+		SET		STATUS_NUM = 3
+		WHERE	ORDER_NUM = #{orderNum}
+	</update>
 </mapper>

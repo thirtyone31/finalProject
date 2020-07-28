@@ -88,6 +88,58 @@ public class MyPageController {
 		mv.setViewName("mypage/myOrderDetail");
 		return mv;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "fixOrder.do")
+	public void fixOrder(HttpServletRequest request, HttpServletResponse response, 
+			@RequestParam(value ="orderNum") String orderNum) {
+		int result = mypageService.fixOrder(orderNum);
+		try {
+			if (result > 0) {
+				PrintWriter out;
+				out = response.getWriter();
+				JSONObject jResult = new JSONObject();
+
+				jResult.put("result", 2);
+				response.setContentType("application/json"); // 핵중요
+
+				out.print(jResult);
+
+				out.flush();// 버퍼링되어서 아직 기록되지않은 데이터를 출력스트림에 모두 출력
+				out.close();// 출력되지않은데이터가 있으면 먼저 출력하고 스트림 종료
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "cancelOrder.do")
+	public void cancelOrder(HttpServletRequest request, HttpServletResponse response, 
+			@RequestParam(value ="orderNum") String orderNum) {
+		int result = mypageService.cancelOrder(orderNum);
+		try {
+			if (result > 0) {
+				PrintWriter out;
+				out = response.getWriter();
+				JSONObject jResult = new JSONObject();
+
+				jResult.put("result", 3);
+				response.setContentType("application/json"); // 핵중요
+
+				out.print(jResult);
+
+				out.flush();// 버퍼링되어서 아직 기록되지않은 데이터를 출력스트림에 모두 출력
+				out.close();// 출력되지않은데이터가 있으면 먼저 출력하고 스트림 종료
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@RequestMapping(value = "myFavoriteList.do")
 	public ModelAndView favoriteList(ModelAndView mv, @RequestParam(value = "page", required = false) Integer page,
 			HttpSession session) {
@@ -104,6 +156,7 @@ public class MyPageController {
 		return mv;
 	}
 
+	
 	@RequestMapping(value = "myCartList.do")
 	public ModelAndView cartList(ModelAndView mv, HttpSession session) {
 		ArrayList<Bucket> cart = (ArrayList<Bucket>) session.getAttribute("cart");
