@@ -1,5 +1,5 @@
 create or replace TRIGGER password_check_trigger
-AFTER
+BEFORE
 UPDATE OR INSERT ON MEMBER
 FOR EACH ROW
     WHEN (OLD.MEMBER_PWD <> NEW.MEMBER_PWD)
@@ -27,5 +27,4 @@ FOR EACH ROW
                 VALUES((SELECT  NVL(MAX(HISTORY_NUM),0)
                 FROM    PWD_HISTORY
                 WHERE   MEMBER_ID = :NEW.MEMBER_ID) + 1, :NEW.MEMBER_ID, :NEW.MEMBER_PWD, SYSDATE);
-    END; 
-/
+    END;
